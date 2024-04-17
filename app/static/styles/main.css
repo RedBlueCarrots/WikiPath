@@ -1,0 +1,27 @@
+:root {
+  --primary: #879d95;
+  --secondary: #d2c9ba;
+  --deep: #1b5862;
+  --light: #f8d3ba;
+  --focus: #f76f6c;
+}
+
+.primary-text {
+  color: var(--primary);
+}
+
+.secondary-text {
+  color: var(--secondary);
+}
+
+.deep-text {
+  color: var(--deep);
+}
+
+.light-text {
+  color: var(--light);
+}
+
+.focus-text {
+  color: var(--focus);
+}
