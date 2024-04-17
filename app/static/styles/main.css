@@ -25,3 +25,21 @@
 .focus-text {
   color: var(--focus);
 }
+
+.primary-bg {
+  background-color: var(--primary);
+}
+
+.secondary-bg {
+  background-color: var(--secondary);
+}
+
+.deep-bg {
+  background-color: var(--deep);
+}
+.light-bg {
+  background-color: var(--light);
+}
+.focus-bg {
+  background-color: var(--focus);
+}
