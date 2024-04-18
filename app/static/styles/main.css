@@ -43,3 +43,7 @@
 .focus-bg {
   background-color: var(--focus);
 }
+
+.btn:hover {
+  background-color: var(--secondary);
+}
