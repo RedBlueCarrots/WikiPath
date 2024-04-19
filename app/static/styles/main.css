@@ -47,3 +47,10 @@
 .btn:hover {
   background-color: var(--secondary);
 }
+
+.deep-border {
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--deep);
+  border-radius: 15px;
+}
