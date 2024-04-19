@@ -21,5 +21,5 @@ class Submission:
         self.userid = userid
         self.postid = postid
         self.path = path
-        self.datetime_submit = satetime_submit
+        self.datetime_submit = datetime_submit
         self.articleno = articleno
