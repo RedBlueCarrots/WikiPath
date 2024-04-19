@@ -43,3 +43,7 @@
 .focus-bg {
   background-color: var(--focus);
 }
+
+.table-row:hover {
+  background-color: var(--secondary);
+}
