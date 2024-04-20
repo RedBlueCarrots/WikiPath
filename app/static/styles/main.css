@@ -1,6 +1,6 @@
 :root {
   --primary: #879d95;
-  --secondary: #d2c9ba;
+  --secondary: #a2799a;
   --deep: #1b5862;
   --light: #f8d3ba;
   --focus: #f76f6c;
@@ -42,4 +42,31 @@
 }
 .focus-bg {
   background-color: var(--focus);
+}
+
+.table-row:hover {
+  background-color: var(--secondary);
+}
+
+#override .nav-link.active {
+  background-color: var(--primary);
+  color: white;
+}
+
+#override .nav-link {
+  color: var(--primary);
+}
+
+#override .btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+#override .btn-outline-success {
+  border-color: var(--secondary);
+  color: var(--secondary);
+}
+#override .btn-outline-success:hover {
+  background-color: var(--secondary);
+  color: white;
 }
