@@ -1,7 +1,7 @@
-from classes import *
+from app.classes import *
 import sqlite3
 
-db_path = './back-end/wikipath.db'
+db_path = './app/back-end/wikipath.db'
 
 
 # receives a user object and inserts it into database

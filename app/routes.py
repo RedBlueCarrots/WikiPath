@@ -1,6 +1,7 @@
 from flask import render_template, request, flash, redirect
 from app import app
 from app.forms import LoginForm
+from app.database import checkUsernameExists
 
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
@@ -24,7 +25,7 @@ def index():
     }]
 
     form = LoginForm()
-
+    # Should pass "is logged in" here, which will change a conditional in base.html
     return render_template("index.html", challenges=challenges, form=form)
 
 @app.route('/create', methods=['GET', 'PUT'])
@@ -57,7 +58,9 @@ def login():
     #TODO - unsure of implementation/parameters currently, because of security concerns
     form = LoginForm()
     if form.validate_on_submit():
-        flash('Login requested for user {}, remember_me={}'.format(
-            form.username.data, form.remember_me.data))
-        return redirect('/index')
+        if checkUsernameExists(form.username.data):
+            flash("ThisGuyExists!")
+            return redirect("\index")
+        flash("no exist")
+        return ('', 204)
     pass
