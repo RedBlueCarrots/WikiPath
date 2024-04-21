@@ -8,7 +8,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-content">
-				<form action="" method="post" class="container-fluid my-1">
+				<form action="{{ url_for('login') }}" method="post" class="container-fluid my-1">
 					{{ form.hidden_tag() }}
 					<div class="row my-3 gy-2">
 
