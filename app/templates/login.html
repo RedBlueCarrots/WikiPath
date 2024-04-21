@@ -13,29 +13,24 @@
 					<div class="row my-3 gy-2">
 
 						{{form.username.label(class="col-form-label col-2")}}
-						<!-- <label for="inputUsername" class="col-form-label col-2">Username: </label> -->
 						<div class="col-10">
-							{{form.username(size=16, class="form-control")}}
-							<!-- <input type="test" class="form-control" id="inputUsername" aria-describedby="emailHelp"> -->
+							{{form.username(class="form-control")}}
 						</div>
 					</div>
 					<div class="row my-3 gy-2">
 						{{form.password.label(class="form-label col-2")}}
-						<!-- <label for="inputPassword" class="form-label col-2">Password: </label> -->
 						<div class="col-10">
-							{{form.password(size=16, class="form-control")}}
-							<!-- <input type="password" class="form-control" id="inputPassword"> -->
+							{{form.password(class="form-control")}}
 						</div>
-						<!-- Unsure if i can put this outside of form, look into -->
 						<p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-						<p>{{ form.submit() }}</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						{{ form.submit(class="btn btn-primary") }}
 					</div>
 				</form>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Login</button>
-			</div>
+
 		</div>
 	</div>
 </div>
