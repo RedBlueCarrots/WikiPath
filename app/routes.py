@@ -29,7 +29,7 @@ def create():
     if request.method == "PUT":
         pass
     else:
-        pass
+        return render_template('create.html') #Extend with parameters as needed
 
 #Submit should always include an id parameter
 @app.route('/submit', methods=['GET', 'PUT'])
@@ -39,26 +39,14 @@ def submit():
     if request.method == "PUT":
         pass
     else:
-        pass
-    pass
+        return render_template('submit.html') #Extend with parameters as needed
 
 #View should always include an id parameter
 @app.route('/view', methods=['GET'])
-def submit():
-    #TODO
+def view():
     #TODO - View should have server-side protection from being viewed by wrong account while challenge is active (not MVP)
     submission_id = request.args.get("id", default=-1, type=int)
-    print(submission_id)
-    pass
-
-#View should always include an id parameter
-@app.route('/view', methods=['GET'])
-def submit():
-    #TODO
-    #TODO - View should have server-side protection from being viewed by wrong account while challenge is active (not MVP)
-    submission_id = request.args.get("id", default=-1, type=int)
-    print(submission_id)
-    pass
+    return render_template('view.html') #Extend with parameters as needed
 
 @app.route('/login', methods=["POST"])
 def login():
