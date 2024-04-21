@@ -9,17 +9,26 @@
 			</div>
 			<div class="modal-content">
 				<form action="" method="post" class="container-fluid my-1">
+					{{ form.hidden_tag() }}
 					<div class="row my-3 gy-2">
-						<label for="inputUsername" class="col-form-label col-2">Username: </label>
+
+						{{form.username.label(class="col-form-label col-2")}}
+						<!-- <label for="inputUsername" class="col-form-label col-2">Username: </label> -->
 						<div class="col-10">
-							<input type="test" class="form-control" id="inputUsername" aria-describedby="emailHelp">
+							{{form.username(size=16, class="form-control")}}
+							<!-- <input type="test" class="form-control" id="inputUsername" aria-describedby="emailHelp"> -->
 						</div>
 					</div>
 					<div class="row my-3 gy-2">
-						<label for="inputPassword" class="form-label col-2">Password: </label>
+						{{form.password.label(class="form-label col-2")}}
+						<!-- <label for="inputPassword" class="form-label col-2">Password: </label> -->
 						<div class="col-10">
-							<input type="password" class="form-control" id="inputPassword">
+							{{form.password(size=16, class="form-control")}}
+							<!-- <input type="password" class="form-control" id="inputPassword"> -->
 						</div>
+						<!-- Unsure if i can put this outside of form, look into -->
+						<p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+						<p>{{ form.submit() }}</p>
 					</div>
 				</form>
 			</div>
