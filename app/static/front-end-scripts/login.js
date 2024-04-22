@@ -7,9 +7,13 @@ $("document").ready(function() {
 			url: "/login",
 			type: "POST",
 			data: Object.fromEntries(formData),
+			dataType: "json",
 		});
 		request.done(function(msg) {
 			console.log(msg);
+		});
+		request.fail(function(msg) {
+			console.log(JSON.parse(msg.responseText).reason);
 		});
 	});
 });
