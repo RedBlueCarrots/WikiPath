@@ -1,5 +1,8 @@
+from flask_login import UserMixin
+
+
 # creates a user object
-class User:
+class User(UserMixin):
     def __init__(self, id, name, points):
         self.id = id
         self.name = name
