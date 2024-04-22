@@ -8,25 +8,30 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-content">
-				<form class="container-fluid my-1">
-				  <div class="row my-3 gy-2">
-				    <label for="inputUsername" class="col-form-label col-2">Username: </label>
-				    <div class="col-10">
-				    	<input type="test" class="form-control" id="inputUsername" aria-describedby="emailHelp">
-				    </div>
-				  </div>
-				  <div class="row my-3 gy-2">
-				    <label for="inputPassword" class="form-label col-2">Password: </label>
-				    <div class="col-10">
-				    	<input type="password" class="form-control" id="inputPassword">
-				    </div>
-				  </div>
+				<form action="{{ url_for('login') }}" method="post" class="container-fluid my-1">
+					{{ form.hidden_tag() }}
+					<div class="row my-3 gy-2">
+
+						{{form.username.label(class="col-form-label col-2")}}
+						<div class="col-10">
+							{{form.username(class="form-control")}}
+						</div>
+					</div>
+					<div class="row my-3 gy-2">
+						{{form.password.label(class="form-label col-2")}}
+						<div class="col-10">
+							{{form.password(class="form-control")}}
+						</div>
+						<p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						{{ form.submit(class="btn btn-primary") }}
+					</div>
+
 				</form>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Login</button>
-			</div>
+
 		</div>
 	</div>
 </div>

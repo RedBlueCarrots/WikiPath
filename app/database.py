@@ -1,8 +1,12 @@
-from classes import *
+from app.classes import *
 import sqlite3
+from app import login
 
-db_path = './back-end/wikipath.db'
+db_path = './app/back-end/wikipath.db'
 
+@login.user_loader
+def load_user(id):
+    return getUser(id)
 
 # receives a user object and inserts it into database
 def insertUser(user):

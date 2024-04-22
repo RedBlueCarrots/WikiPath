@@ -29,6 +29,8 @@ Pip installs:
 ```
 pip install flask
 pip install python-dotenv
+pip install flask-wtf
+pip install flask-login
 ```
 
 Please edit this file as we make more progress if you need to install more files
