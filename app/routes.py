@@ -61,7 +61,8 @@ def login():
         if checkUsernameExists(form.username.data):
             login_user(getUserViaName(form.username.data), remember=form.remember_me.data)
             return redirect(url_for('index'))
-        flash("no exist")
+        #TODO - display error message if username not found
+        flash("Invalid Username")
         return ('', 204)
     pass
 
