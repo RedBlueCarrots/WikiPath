@@ -10,10 +10,12 @@ $("document").ready(function() {
 			dataType: "json",
 		});
 		request.done(function(msg) {
-			console.log(msg);
+			
 		});
 		request.fail(function(msg) {
-			console.log(JSON.parse(msg.responseText).reason);
+			if (msg.status >= 300) {
+				$("#loginErrorMsg").text(JSON.parse(msg.responseText).reason);
+			}
 		});
 	});
 });
