@@ -1,5 +1,7 @@
-from app.classes import *
+from .classes import *
+from .utilities import *
 import sqlite3
+import time
 from app import login
 
 db_path = './app/back-end/wikipath.db'
@@ -62,6 +64,22 @@ def getChallenge(id):
     post = Challenge(details[0], details[1],details[2],details[3],details[4],details[5],details[6],details[7])
     con.close()
     return post
+
+def getAllChallenges():
+    con = sqlite3.connect(db_path, uri=True)
+    cur = con.cursor()
+    cur.execute("""SELECT challenges.*,COUNT(submissions.id), users.name
+                 FROM challenges LEFT JOIN submissions ON challenges.id=submissions.postid
+                 JOIN users ON challenges.userid = users.id 
+                 GROUP BY challenges.id""")
+    allChallenges = []
+    details = cur.fetchone()
+    while details:
+        timeLeft = secondsToTime(details[5]-int(time.time()))
+        allChallenges.append(Challenge(*details, timeLeft))
+        details = cur.fetchone()
+    con.close()
+    return allChallenges
 
 # recieves submission id and retrieves and returns a submission object
 def getSubmission(id):

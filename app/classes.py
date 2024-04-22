@@ -10,7 +10,7 @@ class User(UserMixin):
 
 # creates a challenge object, datetime_submit and datetime_finish are in Unix timestamps
 class Challenge:
-    def __init__(self, id, userid, title, path, datetime_submit, datetime_finish, finished, winpostid):
+    def __init__(self, id, userid, title, path, datetime_submit, datetime_finish, finished, winpostid, guesses=None, creator=None, time_left=None):
         self.id = id
         self.userid = userid
         self.title = title
@@ -19,6 +19,23 @@ class Challenge:
         self.datetime_finish = datetime_finish
         self.finished = finished
         self.winpostid = winpostid
+        self.guesses=guesses
+        self.creator=creator
+        self.time_left=time_left
+
+    def toDict(self):
+        pathArticles = self.path.split("|")
+        challengeDict = {
+            "id": self.id,
+            "userid": self.userid,
+            "title": self.title,
+            "startArticle": pathArticles[0],
+            "endArticle": pathArticles[-1],
+            "guesses": self.guesses,
+            "creator": self.creator,
+            "timeLeft": self.time_left
+        }
+        return challengeDict
 
 # creates a submission object, datetime_submit is in Unix timestamp
 class Submission:

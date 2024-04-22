@@ -1,32 +1,18 @@
 from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user
 from app import app
-from app.forms import LoginForm
-from app.database import checkUsernameExists, getUserViaName
+from .database import *
+from .forms import LoginForm
 
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
 def index():
     #example challenge below:
-    challenges = [
-    {
-        'title': 'My Test Challenge',
-        'startArticle': 'University',
-        'endArticle': 'Bottled Water',
-        'guesses': 6,
-        'creator': 'Joseph',
-        'timeLeft': '2 hours 13 minutes'
-    },{
-        'title': 'My Test Challenge Again!',
-        'startArticle': 'Library',
-        'endArticle': 'Wisdom Teeth',
-        'guesses': 1,
-        'creator': 'Not Joseph',
-        'timeLeft': '13 minutes'
-    }]
-
+    challenges = []
+    for chal in getAllChallenges():
+        challenges.append(chal.toDict())
     form = LoginForm()
-    return render_template("index.html", challenges=challenges, form=form)
+    return render_template('index.html', challenges=challenges, form=form)
 
 @app.route('/create', methods=['GET', 'PUT'])
 def create():
