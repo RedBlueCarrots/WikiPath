@@ -1,5 +1,5 @@
-from flask import render_template, request, flash, redirect
-from flask_login import current_user, login_user
+from flask import render_template, request, flash, redirect, url_for
+from flask_login import current_user, login_user, logout_user
 from app import app
 from app.forms import LoginForm
 from app.database import checkUsernameExists, getUserViaName
@@ -55,12 +55,17 @@ def view():
 
 @app.route('/login', methods=["POST"])
 def login():
-    #TODO - unsure of implementation/parameters currently, because of security concerns
+    #TODO - implement password and password checking
     form = LoginForm()
     if form.validate_on_submit():
         if checkUsernameExists(form.username.data):
             login_user(getUserViaName(form.username.data), remember=form.remember_me.data)
-            return redirect("\index")
+            return redirect(url_for('index'))
         flash("no exist")
         return ('', 204)
     pass
+
+@app.route('/logout', methods=["GET"])
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
