@@ -3,11 +3,12 @@ $("document").ready(function() {
 		$("#loginErrorMsg").text("");
 		e.preventDefault();
 		let form = document.getElementById("loginForm");
-		let formData = new FormData(form);
+		//gets data entered in the form and converts it to json
+		let formData = Object.fromEntries(new FormData(form));
 		let request = $.ajax({
-			url: "/login",
+			url: form.dataset.link,
 			type: "POST",
-			data: Object.fromEntries(formData),
+			data: formData,
 			dataType: "text",
 		}).done(function(msg) {
 			location.reload(true)
@@ -18,3 +19,7 @@ $("document").ready(function() {
 		});
 	});
 });
+
+function logout(url) {
+	window.location = url;
+}

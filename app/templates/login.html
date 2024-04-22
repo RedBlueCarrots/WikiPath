@@ -1,6 +1,5 @@
 {% block login %}
 <!-- Create the popup for logging in using a Bootstrap modal -->
-<script src="{{ url_for('static',filename='front-end-scripts/login.js') }}"></script>
 <div class="modal fade" id="loginPopup" data-bs-keyboard="false" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -9,7 +8,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-content">
-				<form class="container-fluid my-1" id="loginForm">
+				<form class="container-fluid my-1" id="loginForm" data-link="{{ url_for('login') }}">
 					{{ form.hidden_tag() }}
 					<div class="row my-3 gy-2">
 
