@@ -60,7 +60,9 @@ def login():
     if form.validate_on_submit():
         if checkUsernameExists(form.username.data):
             login_user(getUserViaName(form.username.data), remember=form.remember_me.data)
-            return redirect(url_for('index'))
+            response = jsonify({"reason": "Login Successful"})
+            response.status_code = 200
+            return response
         #TODO - display error message if username not found
         flash("Invalid Username")
         response = jsonify({"reason": "Invalid Username or Password"})

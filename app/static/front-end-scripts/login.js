@@ -1,5 +1,6 @@
 $("document").ready(function() {
 	$("#loginForm").submit(function (e) {
+		$("#loginErrorMsg").text("");
 		e.preventDefault();
 		let form = document.getElementById("loginForm");
 		let formData = new FormData(form);
@@ -7,12 +8,10 @@ $("document").ready(function() {
 			url: "/login",
 			type: "POST",
 			data: Object.fromEntries(formData),
-			dataType: "json",
-		});
-		request.done(function(msg) {
-			
-		});
-		request.fail(function(msg) {
+			dataType: "text",
+		}).done(function(msg) {
+			location.reload(true)
+		}).fail(function(msg) {
 			if (msg.status >= 300) {
 				$("#loginErrorMsg").text(JSON.parse(msg.responseText).reason);
 			}
