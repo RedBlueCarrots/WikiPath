@@ -8,7 +8,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-content">
-				<form action="{{ url_for('login') }}" method="post" class="container-fluid my-1">
+				<form class="container-fluid my-1" id="loginForm" data-link="{{ url_for('login') }}">
 					{{ form.hidden_tag() }}
 					<div class="row my-3 gy-2">
 
@@ -17,13 +17,14 @@
 							{{form.username(class="form-control")}}
 						</div>
 					</div>
-					<div class="row my-3 gy-2">
+					<div class="row mt-3 gy-2">
 						{{form.password.label(class="form-label col-2")}}
 						<div class="col-10">
 							{{form.password(class="form-control")}}
 						</div>
 						<p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
 					</div>
+					<h6 class="h6 focus-text" id="loginErrorMsg"></h6>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 						{{ form.submit(class="btn btn-primary") }}

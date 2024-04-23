@@ -1,4 +1,4 @@
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, jsonify
 from flask_login import current_user, login_user, logout_user
 from app import app
 from .database import *
@@ -46,10 +46,14 @@ def login():
     if form.validate_on_submit():
         if checkUsernameExists(form.username.data):
             login_user(getUserViaName(form.username.data), remember=form.remember_me.data)
-            return redirect(url_for('index'))
+            response = jsonify({"reason": "Login Successful"})
+            response.status_code = 200
+            return response
         #TODO - display error message if username not found
         flash("Invalid Username")
-        return ('', 204)
+        response = jsonify({"reason": "Invalid Username or Password"})
+        response.status_code = 401
+        return response
     pass
 
 @app.route('/logout', methods=["GET"])
