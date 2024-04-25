@@ -19,7 +19,11 @@
 			<span class="col">sometime </span>
 		</div>
 		<hr class="challenge-border">
+		{% if current_user.is_anonymous %}
 		{% include "submission.html"%}
+		{% else %}
+		{% include "submit.html" %}
+		{% endif %}
 	</div>
 
 </div>

@@ -40,6 +40,7 @@ def submit():
 @app.route('/view', methods=['GET'])
 def view():
     #TODO - View should have server-side protection from being viewed by wrong account while challenge is active (not MVP)
+    #TODO - Three cases: User hasnt submitted (goes to submit), User has submitted (view own submission), submission is over/creator (view all submissions)
     submission_id = request.args.get("id", default=-1, type=int)
     form = LoginForm()
     return render_template('view.html', form=form) #Extend with parameters as needed
