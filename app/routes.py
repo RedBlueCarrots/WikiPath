@@ -25,6 +25,9 @@ def create():
 #Submit should always include an id parameter
 @app.route('/submit', methods=['GET', 'PUT'])
 def submit():
+    form = LoginForm()
+    return render_template('submit.html', form = form)
+    # return render_template('submit.html')
     #TODO
     submission_id = request.args.get("id", default=-1, type=int)
     if request.method == "PUT":
