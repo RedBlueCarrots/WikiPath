@@ -57,6 +57,14 @@
   border-radius: 10px;
 }
 
+.accordion {
+  --bs-accordion-active-bg: transparent;
+  --bs-accordion-btn-focus-box-shadow: transparent;
+  --bs-accordion-btn-padding-x: 0px;
+  --bs-accordion-btn-padding-y: 0px;
+  --bs-accordion-active-color: black;
+}
+
 #override .nav-link.active {
   background-color: var(--primary);
   color: white;
