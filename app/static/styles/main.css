@@ -62,6 +62,8 @@
   --bs-accordion-btn-focus-box-shadow: transparent;
   --bs-accordion-btn-padding-x: 0px;
   --bs-accordion-btn-padding-y: 0px;
+  --bs-accordion-body-padding-x: 0px;
+  --bs-accordion-body-padding-y: 2px;
   --bs-accordion-active-color: black;
 }
 
