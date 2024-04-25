@@ -48,6 +48,10 @@
   background-color: var(--secondary);
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 #override .nav-link.active {
   background-color: var(--primary);
   color: white;

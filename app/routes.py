@@ -41,7 +41,8 @@ def submit():
 def view():
     #TODO - View should have server-side protection from being viewed by wrong account while challenge is active (not MVP)
     submission_id = request.args.get("id", default=-1, type=int)
-    return render_template('view.html') #Extend with parameters as needed
+    form = LoginForm()
+    return render_template('view.html', form=form) #Extend with parameters as needed
 
 #Login
 @app.route('/login', methods=["POST"])
