@@ -4,16 +4,18 @@ from app import app
 from .database import *
 from .forms import LoginForm
 
+#Home page
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
 def index():
-    #example challenge below:
+    #Challenges
     challenges = []
     for chal in getAllChallenges():
         challenges.append(chal.toDict())
     form = LoginForm()
     return render_template('index.html', challenges=challenges, form=form)
 
+#Create challenge page
 @app.route('/create', methods=['GET', 'PUT'])
 def create():
     #TODO
@@ -22,6 +24,7 @@ def create():
     else:
         return render_template('create.html') #Extend with parameters as needed
 
+#Challenge submission
 #Submit should always include an id parameter
 @app.route('/submit', methods=['GET', 'PUT'])
 def submit():
@@ -35,13 +38,17 @@ def submit():
     else:
         return render_template('submit.html') #Extend with parameters as needed
 
+#Challenge view
 #View should always include an id parameter
 @app.route('/view', methods=['GET'])
 def view():
     #TODO - View should have server-side protection from being viewed by wrong account while challenge is active (not MVP)
+    #TODO - Three cases: User hasnt submitted (goes to submit), User has submitted (view own submission), submission is over/creator (view all submissions)
     submission_id = request.args.get("id", default=-1, type=int)
-    return render_template('view.html') #Extend with parameters as needed
+    form = LoginForm()
+    return render_template('view.html', form=form) #Extend with parameters as needed
 
+#Login
 @app.route('/login', methods=["POST"])
 def login():
     #TODO - implement password and password checking
@@ -52,13 +59,12 @@ def login():
             response = jsonify({"reason": "Login Successful"})
             response.status_code = 200
             return response
-        #TODO - display error message if username not found
-        flash("Invalid Username")
         response = jsonify({"reason": "Invalid Username or Password"})
         response.status_code = 401
         return response
     pass
 
+#Logout
 @app.route('/logout', methods=["GET"])
 def logout():
     logout_user()
