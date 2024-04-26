@@ -20,11 +20,12 @@ def index():
 #Create challenge page
 @app.route('/create', methods=['GET', 'PUT'])
 def create():
-    #TODO
+    form = LoginForm()
+    create_form = ChallengeCreationForm()
     if request.method == "PUT":
-        pass
-    else:
-        return render_template('create.html') #Extend with parameters as needed
+        if create_form.validate_on_submit():
+            return redirect(url_for('index'))
+    return render_template('create.html', form=form, create_form=create_form)
 
 #Challenge submission
 #Submit should always include an id parameter
