@@ -16,18 +16,22 @@
 		</div>
 		<div class="row mb-3">
 			<span class="fst-italic col-lg-3 col-md-4 col-sm-6">Time remaining:</span>
-			<span class="col">sometime </span>
+			<span class="col-8">sometime </span>
+			<span class="col-1"><button id="revealsubmit">Submit</button></span>
 		</div>
 		<hr class="challenge-border">
-		{% if current_user.is_anonymous %}
+		{# {% if current_user.is_anonymous %}
 		{% include "submission.html"%}
 		{% else %}
 		{% include "submit.html" %}
-		{% endif %}
+		{% endif %} #}
+		<div class="invisible" id="hiddenSubmit">
+			{% include "submit.html" %}
+		</div>
 	</div>
 
 </div>
 
 
-
+<script src="{{ url_for('static',filename='front-end-scripts/submit.js') }}"></script>
 {% endblock %}
