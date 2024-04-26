@@ -10,7 +10,7 @@
     {% for field in create_form %}
     {% if field.type == "StringField" or field.type == "DateTimeLocalField" %}
     <div class="row my-3 gy-2">
-      {{ field.label(class="col-form-label col-2") }}
+      {{ field.label(class="col-form-label col-sm-2") }}
       <div class="col-sm-10">
         {{ field(class="form-control") }}
       </div>
