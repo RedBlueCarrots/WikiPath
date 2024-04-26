@@ -1,6 +1,12 @@
-function revealSubmit() {
-    document.getElementById("hiddenSubmit").className = "visible";
+function revealPath(currentPath) {
+    currentPath = currentPath.nextSibling.className.replace( /(?:^|\s)formPathHidden(?!\S)/g , '' );
+    return currentPath;
 }
 
 
-// document.getElementById("revealsubmit").addEventListener("click", revealSubmit);
+
+
+
+
+currentpath = document.getElementsByClassName("formPathHidden")[0];
+currentpath = document.getElementById("revealPathForm").addEventListener('click', revealPath(currentpath));

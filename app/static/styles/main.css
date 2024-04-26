@@ -67,6 +67,10 @@
   --bs-accordion-active-color: black;
 }
 
+.formPathHidden {
+  display: none;
+}
+
 #override .nav-link.active {
   background-color: var(--primary);
   color: white;

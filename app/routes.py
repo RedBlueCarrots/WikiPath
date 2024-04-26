@@ -2,7 +2,7 @@ from flask import render_template, request, flash, redirect, url_for, jsonify
 from flask_login import current_user, login_user, logout_user
 from app import app
 from .database import *
-from .forms import LoginForm
+from .forms import *
 
 #Home page
 @app.route('/', methods=['GET'])
@@ -40,13 +40,16 @@ def submit():
 
 #Challenge view
 #View should always include an id parameter
-@app.route('/view', methods=['GET'])
+@app.route('/view', methods=['GET', 'POST'])
 def view():
     #TODO - View should have server-side protection from being viewed by wrong account while challenge is active (not MVP)
     #TODO - Three cases: User hasnt submitted (goes to submit), User has submitted (view own submission), submission is over/creator (view all submissions)
+    submitForm = SubmitForm()
     submission_id = request.args.get("id", default=-1, type=int)
     form = LoginForm()
-    return render_template('view.html', form=form) #Extend with parameters as needed
+    if submitForm.validate_on_submit():
+        return render_template('view.html', form=form, submitForm=submitForm, submitted=True)
+    return render_template('view.html', form=form, submitForm=submitForm)
 
 #Login
 @app.route('/login', methods=["POST"])

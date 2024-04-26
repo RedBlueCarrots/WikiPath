@@ -7,14 +7,17 @@
 		</h2>
 		<div id="collapseSubmission" class="accordion-collapse collapse" data-bs-parent="#submission-accordion">
 			<div class="accordion-body">
-				<div class="row">
-					<p class="col-lg-3 col-md-4 col-sm-6">Here's my path:</p>
-					<p class="col"> left -> Curb (album) -> Colin Larkin -> Agatha Christie -> The Diamond Brothers ->
-						Maltesers
-						->
-						United Kingdom -> William Ewart Gladstone -> Rights -> right </p>
-					<p>Date Sent: (Date Goes Here!!!)</p>
-				</div>
+                <form method="POST" action="">
+					{{ submitForm.csrf_token }}
+					{% for ind in submitForm.path %}
+                        <div>
+                            {{ ind.label }}
+                            {{ ind() }}
+                        </div>
+                    {% endfor %}
+					<button type="submit">Submit the attempt</button>
+				</form>
+                <button id="revealPathForm">Reveal more paths idk</button>
 			</div>
 		</div>
 
