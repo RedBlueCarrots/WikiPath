@@ -26,17 +26,13 @@ def create():
 
 #Challenge submission
 #Submit should always include an id parameter
-@app.route('/submit', methods=['GET', 'PUT'])
+@app.route('/submit', methods=['POST'])
 def submit():
+    submitForm = SubmitForm()
     form = LoginForm()
-    return render_template('submit.html', form = form)
-    # return render_template('submit.html')
-    #TODO
-    submission_id = request.args.get("id", default=-1, type=int)
-    if request.method == "PUT":
-        pass
-    else:
-        return render_template('submit.html') #Extend with parameters as needed
+    for i in submitForm.path.data:
+        print(i)
+    return render_template('view.html', form=form, submitForm=submitForm, submitted=True)
 
 #Challenge view
 #View should always include an id parameter
