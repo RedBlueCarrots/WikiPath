@@ -7,17 +7,28 @@
 		</h2>
 		<div id="collapseSubmission" class="accordion-collapse collapse" data-bs-parent="#submission-accordion">
 			<div class="accordion-body">
-                <form method="POST" action="">
-					{{ submitForm.csrf_token }}
-					{% for ind in submitForm.path %}
-                        <div class="formPathHidden">
-                            {{ ind.label }}
-                            {{ ind() }}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-4">
+                            <h2>My path:</h2>
                         </div>
-                    {% endfor %}
-					<button type="submit">Submit the attempt</button>
-				</form>
-                <button id="revealPathForm">Reveal more paths idk</button>
+                        <div class="col-4">
+                        <form method="POST" action="">
+                            {{ submitForm.csrf_token }}
+                            {% for ind in submitForm.path %}
+                                <div class="formPathHidden">
+                                    {{ ind() }}
+                                </div>
+                            {% endfor %}
+                            <button type="submit">Submit the attempt</button>
+                        </form>
+                        </div>
+                        <div class="col-4">
+                            <button id="revealPathForm">+</button>
+                            <button id="removePathForm">-</button>
+                        </div>
+                    </div>
+                </div>
 			</div>
 		</div>
 
