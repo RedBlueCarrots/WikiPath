@@ -10,7 +10,7 @@
                 <form method="POST" action="">
 					{{ submitForm.csrf_token }}
 					{% for ind in submitForm.path %}
-                        <div>
+                        <div class="formPathHidden">
                             {{ ind.label }}
                             {{ ind() }}
                         </div>

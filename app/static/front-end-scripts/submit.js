@@ -1,12 +1,14 @@
-function revealPath(currentPath) {
-    currentPath = currentPath.nextSibling.className.replace( /(?:^|\s)formPathHidden(?!\S)/g , '' );
-    return currentPath;
+var inputs = document.querySelectorAll('.formPathHidden');
+var index = 0;
+
+
+
+function revealPath() {
+    if (index < inputs.length) {
+        inputs[index].removeAttribute("class")
+        index++
+    }
 }
 
 
-
-
-
-
-currentpath = document.getElementsByClassName("formPathHidden")[0];
-currentpath = document.getElementById("revealPathForm").addEventListener('click', revealPath(currentpath));
+document.getElementById("revealPathForm").addEventListener("click", revealPath);

@@ -9,4 +9,4 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
     
 class SubmitForm(FlaskForm):
-    path = FieldList(StringField('Path'), min_entries=1, max_entries=50)
+    path = FieldList(StringField('Path'), min_entries=50, max_entries=50)
