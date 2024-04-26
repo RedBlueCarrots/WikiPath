@@ -13,13 +13,10 @@
                             <h2>My path:</h2>
                         </div>
                         <div class="col-4">
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ url_for('login') }}">
                             {{ submitForm.csrf_token }}
-                            {% for ind in submitForm.path %}
-                                <div class="formPathHidden">
-                                    {{ ind() }}
-                                </div>
-                            {% endfor %}
+                            <div id="submitForm">
+                            </div>
                             <button type="submit">Submit the attempt</button>
                         </form>
                         </div>

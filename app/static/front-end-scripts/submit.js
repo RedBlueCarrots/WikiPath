@@ -1,22 +1,15 @@
-var inputs = document.querySelectorAll('.formPathHidden');
-var index = 0;
-
 
 
 function revealPath() {
-    if (index < inputs.length) {
-        inputs[index].removeAttribute("class")
-        index++
-    }
+    const newInput = `<div><input class="path-entry" id="path-${$("#submitForm .path-entry").length}" name="path-${$("#submitForm .path-entry").length}" type="text" value=""></div>`
+    $("#submitForm").append(newInput);
 }
 
 function removePath() {
-    if (index > 0){
-        index = index - 1;
-        inputs[index].classList.add("formPathHidden");
-    }
+    $(".path-entry").last().remove()
 }
 
-
-document.getElementById("revealPathForm").addEventListener("click", revealPath);
-document.getElementById("removePathForm").addEventListener("click", removePath);
+$("document").ready(function() {
+    $("#revealPathForm").on("click", revealPath);
+    $("#removePathForm").on("click", removePath);
+})
