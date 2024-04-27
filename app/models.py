@@ -10,8 +10,6 @@ class User(db.Model):
     points = db.Column(db.Integer, nullable=False)
     # I believe there are more secure ways of implementing this
     password_hash = db.Column(db.Text, nullable=False)
-    challenges = db.relationship('Challenge', backref='user')
-    submissions = db.relationship('Submission', backref='user')
     
     def __repr__(self):
         return f'User({self.id}, "{self.username}", {self.points}, "{self.password_hash}")'
@@ -26,8 +24,9 @@ class Challenge(db.Model):
     dt_finish = db.Column(db.Integer, nullable=False)
     finished = db.Column(db.Boolean, nullable=False)
     winner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    submissions = db.relationship('Submission', backref='challenge')
-    
+    poster = db.relationship("User", foreign_keys=[poster_id])
+    winner = db.relationship("User", foreign_keys=[winner_id])
+
 class Submission(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     poster_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -35,4 +34,8 @@ class Submission(db.Model):
     path = db.Column(db.Text, nullable=False)
     dt_submit = db.Column(db.Integer, nullable=False)
     article_no = db.Column(db.Integer, nullable=False)
+    ogpost = db.relationship("Challenge", foreign_keys=[post_id])
+    poster = db.relationship("User", foreign_keys=[poster_id])
+    
+
     
