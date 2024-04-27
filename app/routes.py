@@ -9,11 +9,12 @@ from .forms import LoginForm
 @app.route('/index', methods=['GET'])
 def index():
     #Challenges
-    challenges = []
-    for chal in getAllChallenges():
-        challenges.append(chal.toDict())
+    challengeList = []
+    challenges = Challenge.query.all()
+    for challenge in challenges:
+        challengeList.append(challenge.toDict())
     form = LoginForm()
-    return render_template('index.html', challenges=challenges, form=form)
+    return render_template('index.html', challenges=challengeList, form=form)
 
 #Create challenge page
 @app.route('/create', methods=['GET', 'PUT'])

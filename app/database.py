@@ -1,4 +1,5 @@
 from .classes import *
+from .models import *
 from .utilities import *
 import sqlite3
 import time
