@@ -85,6 +85,12 @@
   border-color: var(--primary);
 }
 
+#override .btn-focus {
+  background-color: var(--focus);
+  border-color: var(--focus);
+  color: white;
+}
+
 #override .btn-outline-success {
   border-color: var(--secondary);
   color: var(--secondary);
