@@ -53,7 +53,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         if checkUsernameExists(form.username.data):
-            login_user(getUserViaName(form.username.data), remember=form.remember_me.data)
+            # login_user(getUserViaName(form.username.data), remember=form.remember_me.data)
             response = jsonify({"reason": "Login Successful"})
             response.status_code = 200
             return response
