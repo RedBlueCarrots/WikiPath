@@ -17,3 +17,18 @@ def checkChallengeExists(post_id):
 def checkSubmissionExists(submission_id):
     submission = db.session.query(Submission).filter_by(id=submission_id).first()
     return submission is not None
+
+def getSubmissionByChallengeAndCreator(challenge_id, creator_id):
+    submission = db.session.query(Submission).filter_by(challenge_id=challenge_id, creator_id=creator_id).one()
+    return submission
+
+def createNewSubmission(creator_id, challenge_id, path, dt_submit):
+    newSubmission = Submission(
+        creator_id=creator_id,
+        challenge_id=challenge_id,
+        path=path,
+        dt_submit=dt_submit,
+        article_no=path.count("|")+1,
+        win=False)
+    db.session.add(newSubmission)
+    db.session.commit()
