@@ -4,12 +4,12 @@ from app import login
 
 @login.user_loader
 def load_user(id):
-    return getUser(id)
+    return User.query.get(id)
 
-def checkUsernameExists(name):
+def returnUserViaUsername(name):
     user = db.session.query(User).filter_by(username=name).first()
-    return user is not None
-
+    return user
+    
 def checkChallengeExists(post_id):
     challenge = db.session.query(Challenge).filter_by(id=post_id).first()
     return challenge is not None

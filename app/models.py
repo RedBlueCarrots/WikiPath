@@ -25,8 +25,8 @@ class Challenge(db.Model):
     dt_finish = db.Column(db.Integer, nullable=False)
     finished = db.Column(db.Boolean, nullable=False)
     winner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    poster = db.relationship("User", foreign_keys=[creator_id])
-    creator = db.relationship("User", foreign_keys=[winner_id])
+    creator = db.relationship("User", foreign_keys=[creator_id])
+    winner = db.relationship("User", foreign_keys=[winner_id])
     attempts = db.relationship("Submission", backref="challenge")
     
     def toDict(self):
@@ -48,10 +48,13 @@ class Challenge(db.Model):
 class Submission(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    post_id = db.Column(db.Integer, db.ForeignKey('challenge.id'))
+    challenge_id = db.Column(db.Integer, db.ForeignKey('challenge.id'))
     path = db.Column(db.Text, nullable=False)
     dt_submit = db.Column(db.Integer, nullable=False)
     article_no = db.Column(db.Integer, nullable=False)
+    # was this submission the winner of the challenge?
+    win = db.Column(db.Boolean, nullable=False)
+    
     
 
     
