@@ -4,6 +4,7 @@ import sqlalchemy.orm as so
 from app import db
 import time
 from flask_login import UserMixin
+from .utilities import *
 
 class User(db.Model, UserMixin):
     # Integer column type with primary_key=True will enable auto-increment
@@ -39,7 +40,7 @@ class Challenge(db.Model):
             "title": self.title,
             "startArticle": pathArticles[0],
             "endArticle": pathArticles[1],
-            "timeLeft" : self.dt_finish-int(time.time()),
+            "timeLeft" : secondsToTime(self.dt_finish-int(time.time())),
             "guesses" : len(self.attempts),
             "finished": self.finished,
             "winner_id": self.winner_id
