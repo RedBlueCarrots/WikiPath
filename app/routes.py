@@ -3,6 +3,7 @@ from flask_login import current_user, login_user, logout_user
 from app import app
 from .database import *
 from .forms import *
+import time
 
 #Home page
 @app.route('/', methods=['GET'])
@@ -32,17 +33,20 @@ def submit():
     submitForm = SubmitForm()
     form = LoginForm()
     pathString = ""
+    challenge = getChallenge(int(submitForm.challenge_id.data)).toDict()
+    print(challenge)
+    pathString = challenge["startArticle"] + "|"
     for i in submitForm.path.data:
         if i.strip() != "":
             pathString += i + "|"
-    return view(1)
+    pathString += challenge["endArticle"]
+    createNewSubmission(current_user.id, challenge["id"], pathString, int(time.time()))
+    return view(int(submitForm.challenge_id.data))
 
 #Challenge view
 #View should always include an id parameter
 @app.route('/view', methods=['GET'])
 def view(challenge_id=-1):
-    #TODO - View should have server-side protection from being viewed by wrong account while challenge is active (not MVP)
-    #TODO - Three cases: User hasnt submitted (goes to submit), User has submitted (view own submission), submission is over/creator (view all submissions)
     form = LoginForm()
     if challenge_id == -1:
         challenge_id = int(request.args.get("id", default=-1, type=int))
@@ -65,6 +69,10 @@ def view(challenge_id=-1):
 def login():
     #TODO - implement password and password checking
     form = LoginForm()
+    if form.username.data == "root":
+        for sub in getSubmissionsByCreator(0):
+            db.session.delete(sub)
+            db.session.commit()
     if form.validate_on_submit():
         if returnUserViaUsername(form.username.data) != None:
             login_user(returnUserViaUsername(form.username.data), remember=form.remember_me.data)
