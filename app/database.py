@@ -10,16 +10,20 @@ def returnUserViaUsername(name):
     user = db.session.query(User).filter_by(username=name).first()
     return user
     
-def checkChallengeExists(post_id):
+def getChallenge(post_id):
     challenge = db.session.query(Challenge).filter_by(id=post_id).first()
-    return challenge is not None
+    return challenge
 
 def checkSubmissionExists(submission_id):
     submission = db.session.query(Submission).filter_by(id=submission_id).first()
     return submission is not None
 
 def getSubmissionByChallengeAndCreator(challenge_id, creator_id):
-    submission = db.session.query(Submission).filter_by(challenge_id=challenge_id, creator_id=creator_id).one()
+    submission = db.session.query(Submission).filter_by(challenge_id=challenge_id, creator_id=creator_id).first()
+    return submission
+
+def getSubmissionsByChallenge(challenge_id):
+    submission = db.session.query(Submission).filter_by(challenge_id=challenge_id).all()
     return submission
 
 def createNewSubmission(creator_id, challenge_id, path, dt_submit):

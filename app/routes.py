@@ -13,13 +13,6 @@ def index():
     challenges = Challenge.query.all()
     for challenge in challenges:
         challengeList.append(challenge.toDict())
-    lst = Challenge.query.all()
-    for g in lst:
-        print(str(g.id) + str(g.title))
-    lst = Submission.query.all()
-    for g in lst:
-        print(str(g.challenge_id), str(g.path), str(g.creator_id))
-    print(User.query.all())
     form = LoginForm()
     return render_template('index.html', challenges=challengeList, form=form)
 
@@ -42,21 +35,30 @@ def submit():
     for i in submitForm.path.data:
         if i.strip() != "":
             pathString += i + "|"
-    submissions = getSubmissionsByChallenge(1, 2)
-    return render_template('view.html', form=form, submitForm=submitForm, submitted=True, submissions=submissions)
+    return view(1)
 
 #Challenge view
 #View should always include an id parameter
 @app.route('/view', methods=['GET'])
-def view():
+def view(challenge_id=-1):
     #TODO - View should have server-side protection from being viewed by wrong account while challenge is active (not MVP)
     #TODO - Three cases: User hasnt submitted (goes to submit), User has submitted (view own submission), submission is over/creator (view all submissions)
-    submitForm = SubmitForm()
-    submission_id = request.args.get("id", default=-1, type=int)
     form = LoginForm()
-    if submitForm.validate_on_submit():
-        return render_template('view.html', form=form, submitForm=submitForm, submitted=True)
-    return render_template('view.html', form=form, submitForm=submitForm, submitted=False)
+    if challenge_id == -1:
+        challenge_id = int(request.args.get("id", default=-1, type=int))
+    isCreator = getChallenge(challenge_id).creator_id == current_user.id
+    isSubmitted = getSubmissionByChallengeAndCreator(getChallenge(challenge_id).id, current_user.id) != None
+    isFinished = getChallenge(challenge_id).finished
+    
+    challenge = getChallenge(challenge_id).toDict()
+    if isCreator or isFinished:
+        submissions = getSubmissionsByChallenge(challenge_id)
+        return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
+    elif isSubmitted:
+        submissions = [getSubmissionByChallengeAndCreator(getChallenge(challenge_id).id, current_user.id)]
+        return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
+    submitForm = SubmitForm()
+    return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge)
 
 #Login
 @app.route('/login', methods=["POST"])
