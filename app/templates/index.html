@@ -24,7 +24,13 @@
 		<span class="d-block d-md-none col-md-0 col-6 lead">Creator: </span>
 		<span class="col-md-2 col-6">{{challenge.creator}}</span>
 		<span class="d-block d-md-none col-md-0 col-6 lead">Time Left: </span>
-		<span class="col-md-2 col-6">{{challenge.timeLeft}}</span>
+		<span class="col-md-2 col-6">
+			{% if challenge.finished %}
+				{{"Finished"}}
+			{% else %}
+				{{challenge.timeLeft}}
+			{% endif %}
+		</span>
 	</div>
 	{% endfor %}
 </div>
