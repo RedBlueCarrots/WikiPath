@@ -1,7 +1,5 @@
 from .models import *
 from .utilities import *
-import sqlite3
-import time
 from app import login
 
 @login.user_loader

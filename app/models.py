@@ -52,8 +52,6 @@ class Submission(db.Model):
     path = db.Column(db.Text, nullable=False)
     dt_submit = db.Column(db.Integer, nullable=False)
     article_no = db.Column(db.Integer, nullable=False)
-    # ogpost = db.relationship("Challenge", foreign_keys=[post_id])
-    # poster = db.relationship("User", foreign_keys=[poster_id])
     
 
     
