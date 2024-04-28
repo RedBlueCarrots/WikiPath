@@ -3,8 +3,9 @@ import sqlalchemy as sa
 import sqlalchemy.orm as so
 from app import db
 import time
+from flask_login import UserMixin
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     # Integer column type with primary_key=True will enable auto-increment
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Text, nullable=False, unique=True)

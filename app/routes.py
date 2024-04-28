@@ -13,6 +13,13 @@ def index():
     challenges = Challenge.query.all()
     for challenge in challenges:
         challengeList.append(challenge.toDict())
+    lst = Challenge.query.all()
+    for g in lst:
+        print(str(g.id) + str(g.title))
+    lst = Submission.query.all()
+    for g in lst:
+        print(str(g.challenge_id), str(g.path), str(g.creator_id))
+    print(User.query.all())
     form = LoginForm()
     return render_template('index.html', challenges=challengeList, form=form)
 
@@ -31,13 +38,16 @@ def create():
 def submit():
     submitForm = SubmitForm()
     form = LoginForm()
+    pathString = ""
     for i in submitForm.path.data:
-        print(i)
-    return render_template('view.html', form=form, submitForm=submitForm, submitted=True)
+        if i.strip() != "":
+            pathString += i + "|"
+    submissions = getSubmissionsByChallenge(1, 2)
+    return render_template('view.html', form=form, submitForm=submitForm, submitted=True, submissions=submissions)
 
 #Challenge view
 #View should always include an id parameter
-@app.route('/view', methods=['GET', 'POST'])
+@app.route('/view', methods=['GET'])
 def view():
     #TODO - View should have server-side protection from being viewed by wrong account while challenge is active (not MVP)
     #TODO - Three cases: User hasnt submitted (goes to submit), User has submitted (view own submission), submission is over/creator (view all submissions)
@@ -46,7 +56,7 @@ def view():
     form = LoginForm()
     if submitForm.validate_on_submit():
         return render_template('view.html', form=form, submitForm=submitForm, submitted=True)
-    return render_template('view.html', form=form, submitForm=submitForm)
+    return render_template('view.html', form=form, submitForm=submitForm, submitted=False)
 
 #Login
 @app.route('/login', methods=["POST"])
@@ -54,8 +64,8 @@ def login():
     #TODO - implement password and password checking
     form = LoginForm()
     if form.validate_on_submit():
-        if checkUsernameExists(form.username.data):
-            # login_user(getUserViaName(form.username.data), remember=form.remember_me.data)
+        if returnUserViaUsername(form.username.data) != None:
+            login_user(returnUserViaUsername(form.username.data), remember=form.remember_me.data)
             response = jsonify({"reason": "Login Successful"})
             response.status_code = 200
             return response
