@@ -12,7 +12,7 @@
 	</div>
 	{% for challenge in challenges %}
 	<div class="row cursor-pointer table-row text-center border-top py-3"
-		onclick="location.href='{{ url_for('view') }}'">
+		onclick="location.href='{{ url_for('view') +'?id='+challenge.id|string}}'">
 		<span class="d-block d-md-none col-md-0 col-6 lead">Challenge Title: </span>
 		<span class="col-md-2 col-6">{{challenge.title}}</span>
 		<span class="d-block d-md-none col-md-0 col-6 lead">From: </span>

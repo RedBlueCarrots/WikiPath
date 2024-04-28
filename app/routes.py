@@ -50,11 +50,13 @@ def view(challenge_id=-1):
     form = LoginForm()
     if challenge_id == -1:
         challenge_id = int(request.args.get("id", default=-1, type=int))
+    challenge = getChallenge(challenge_id).toDict()
+    if current_user.is_anonymous:
+        return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=[])
     isCreator = getChallenge(challenge_id).creator_id == current_user.id
     isSubmitted = getSubmissionByChallengeAndCreator(getChallenge(challenge_id).id, current_user.id) != None
     isFinished = getChallenge(challenge_id).finished
     
-    challenge = getChallenge(challenge_id).toDict()
     if isCreator or isFinished:
         submissions = getSubmissionsByChallenge(challenge_id)
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
