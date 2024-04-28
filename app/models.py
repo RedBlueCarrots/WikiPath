@@ -54,6 +54,7 @@ class Submission(db.Model):
     article_no = db.Column(db.Integer, nullable=False)
     # was this submission the winner of the challenge?
     win = db.Column(db.Boolean, nullable=False)
+    creator = db.relationship("User", foreign_keys=[creator_id])
     
     
 
