@@ -67,6 +67,10 @@
   --bs-accordion-active-color: black;
 }
 
+.formPathHidden {
+  display: none;
+}
+
 #override .nav-link.active {
   background-color: var(--primary);
   color: white;
@@ -79,6 +83,12 @@
 #override .btn-primary {
   background-color: var(--primary);
   border-color: var(--primary);
+}
+
+#override .btn-focus {
+  background-color: var(--focus);
+  border-color: var(--focus);
+  color: white;
 }
 
 #override .btn-outline-success {

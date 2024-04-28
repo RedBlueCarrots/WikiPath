@@ -1,0 +1,28 @@
+{% block submit %}
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-3 col-lg-2">
+                            <h3 class="h3 text-center text-md-start mb-3">My path:</h3>
+                        </div>
+                        <div class="col-12 col-md-9 col-lg-10 mt-3">
+                        <form class="form" method="POST" action="{{ url_for('submit') }}">
+                            {{ submitForm.csrf_token }}
+                                
+                            <div id="submitForm" class="container">
+                                <input id="pathStart" class="form-control mb-3" type="text" placeholder="left" disabled>
+                                <input id="pathEnd" class="form-control mb-3" type="text" placeholder="right" disabled>
+                                <div class="row justify-content-evenly mb-3 mb-md-0">
+                                    <button class="btn btn-focus d-md-none d-block col-md-0 col-3" type="button"  id="removePathFormSmall">-</button>
+                                    <button class="btn btn-primary col-md-0 col-3  d-md-none d-block" type="button"  id="revealPathFormSmall">+</button>
+                                </div>
+                                <div class="row justify-content-evenly">
+                                    <button class=" btn btn-primary col-5 col-md-3 mb-3" type="submit">Submit the attempt</button>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+
+</div>
+{% endblock %}
