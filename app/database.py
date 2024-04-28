@@ -22,6 +22,11 @@ def getSubmissionByChallengeAndCreator(challenge_id, creator_id):
     submission = db.session.query(Submission).filter_by(challenge_id=challenge_id, creator_id=creator_id).first()
     return submission
 
+#Used to delete all root user submissions for debugging
+def getSubmissionsByCreator(creator_id):
+    submission = db.session.query(Submission).filter_by(creator_id=creator_id).all()
+    return submission
+
 def getSubmissionsByChallenge(challenge_id):
     submission = db.session.query(Submission).filter_by(challenge_id=challenge_id).all()
     return submission
