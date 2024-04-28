@@ -9,11 +9,12 @@ from .forms import *
 @app.route('/index', methods=['GET'])
 def index():
     #Challenges
-    challenges = []
-    for chal in getAllChallenges():
-        challenges.append(chal.toDict())
+    challengeList = []
+    challenges = Challenge.query.all()
+    for challenge in challenges:
+        challengeList.append(challenge.toDict())
     form = LoginForm()
-    return render_template('index.html', challenges=challenges, form=form)
+    return render_template('index.html', challenges=challengeList, form=form)
 
 #Create challenge page
 @app.route('/create', methods=['GET', 'PUT'])
@@ -54,7 +55,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         if checkUsernameExists(form.username.data):
-            login_user(getUserViaName(form.username.data), remember=form.remember_me.data)
+            # login_user(getUserViaName(form.username.data), remember=form.remember_me.data)
             response = jsonify({"reason": "Login Successful"})
             response.status_code = 200
             return response
