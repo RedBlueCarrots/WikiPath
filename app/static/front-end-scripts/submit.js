@@ -1,14 +1,13 @@
 
 
 function redoButtons() {
-    const buttons = `<button type="button" class="btn btn-primary d-none d-md-block col-0 col-md-1" id="revealPathForm">+</button>
-                    <button type="button" class="btn btn-focus d-none d-md-block col-0 col-md-1" id="removePathForm">-</button>`
+    const buttons = `<button type="button" class="btn btn-focus d-none d-md-block col-0 col-md-1" id="removePathForm">-</button>
+    <button type="button" class="btn btn-primary d-none d-md-block col-0 col-md-1" id="revealPathForm">+</button>`
     $("#revealPathForm").remove()
     $("#removePathForm").remove()
     $("#path-"+($("#submitForm .path-entry").length-1)).parent().after(buttons);
     $("#revealPathForm").on("click", revealPath);
     $("#removePathForm").on("click", removePath);
-    console.log("here")
 }
 
 function revealPath() {
