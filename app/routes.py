@@ -41,15 +41,14 @@ def submit():
             pathString += i + "|"
     pathString += challenge["endArticle"]
     createNewSubmission(current_user.id, challenge["id"], pathString, int(time.time()))
-    return view(int(submitForm.challenge_id.data))
+    return redirect(url_for('view', id=int(submitForm.challenge_id.data)))
 
 #Challenge view
 #View should always include an id parameter
 @app.route('/view', methods=['GET'])
-def view(challenge_id=-1):
+def view():
     form = LoginForm()
-    if challenge_id == -1:
-        challenge_id = int(request.args.get("id", default=-1, type=int))
+    challenge_id = int(request.args.get("id", default=-1, type=int))
     challenge = getChallenge(challenge_id).toDict()
     if current_user.is_anonymous:
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=[])
