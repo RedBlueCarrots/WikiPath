@@ -25,9 +25,12 @@
 						<p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
 					</div>
 					<h6 class="h6 focus-text" id="loginErrorMsg"></h6>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						{{ form.submit(class="btn btn-primary") }}
+					<div class="modal-footer d-flex justify-content-between">
+						{{ form.create_account(class="btn btn-primary") }}
+						<div>
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							{{ form.login(class="btn btn-primary") }}
+						</div>
 					</div>
 
 				</form>
