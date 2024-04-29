@@ -4,27 +4,26 @@
 
 <div class="container d-flex justify-content-center w-md-75 w-90 mt-4">
 	<div class="row d-flex w-100 challenge-border shadow-lg p-2 text-break ">
-		<h1>Title of Challenge - Creator </h1>
+		<h1>{{challenge.title}} - {{challenge.creator}} </h1>
 		<hr class="challenge-border">
 		<div class="row mb-3">
 			<span class="fst-italic col-lg-3 col-md-4 col-sm-6">Source article:</span>
-			<span class="col-sm">left</span>
+			<span class="col-sm">{{challenge.startArticle}}</span>
 		</div>
 		<div class="row mb-3">
 			<span class="fst-italic col-lg-3 col-md-4 col-sm-6">Destination article:</span>
-			<span class="col"> right</span>
+			<span class="col">{{challenge.endArticle}}</span>
 		</div>
 		<div class="row mb-3">
 			<span class="fst-italic col-lg-3 col-md-4 col-sm-6">Time remaining:</span>
-			<span class="col-6">sometime </span>
+			<span class="col-6">{{challenge.timeLeft}}</span>
 		</div>
 		<hr class="challenge-border">
-		{# {% if submitted %}
+		{% if submitted %}
 		{% include "submission.html"%}
 		{% else %}
 		{% include "submit.html" %}
-		{% endif %} #}
-		{% include "submit.html" %}
+		{% endif %}
 
 	</div>
 

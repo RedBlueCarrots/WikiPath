@@ -6,26 +6,25 @@ TODO (display own submission/ all submissions depending on conditions)-->
 {% block submission %}
 
 <div class="accordion accordion-flush" id="submission-accordion">
-	<div class="accordion-item mb-2">
-		<h2 class="accordion-header">
+	{% for submission in submissions %}
+	<div class="accordion-item mb-3">
+		<h2 class="accordion-header mb-3">
 			<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-				data-bs-target="#collapseSubmission" aria-expanded="false" aria-controls="collapseSubmission">
-				<h2>User 2 <span class="h4">(10 articles) </span></h2>
+				data-bs-target={{"#collapseSubmission"+submission.creator.username }} aria-expanded="false" aria-controls="collapseSubmission">
+				<h2>{{submission.creator.username+ " "}}<span class="h4">({{submission.article_no}} articles) </span></h2>
 			</button>
 		</h2>
-		<div id="collapseSubmission" class="accordion-collapse collapse" data-bs-parent="#submission-accordion">
+		<div id={{"collapseSubmission"+submission.creator.username }} class="accordion-collapse collapse" data-bs-parent="#submission-accordion">
 			<div class="accordion-body">
 				<div class="row">
 					<p class="col-lg-3 col-md-4 col-sm-6">Here's my path:</p>
-					<p class="col"> left -> Curb (album) -> Colin Larkin -> Agatha Christie -> The Diamond Brothers ->
-						Maltesers
-						->
-						United Kingdom -> William Ewart Gladstone -> Rights -> right </p>
-					<p>Date Sent: (Date Goes Here!!!)</p>
+					<p class="col">{{submission.path.replace("|", " -> ")}}</p>
+					<p>Date Sent: {{submission.dt_submit}}</p>
 				</div>
 			</div>
 		</div>
 
 	</div>
+	{% endfor %}
 </div>
 {% endblock %}
