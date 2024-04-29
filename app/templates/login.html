@@ -8,7 +8,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-content">
-				<form class="container-fluid my-1" id="loginForm" data-link="{{ url_for('login') }}">
+				<form class="container-fluid my-1" id="loginForm">
 					{{ form.hidden_tag() }}
 					<div class="row my-3 gy-2">
 
@@ -26,10 +26,10 @@
 					</div>
 					<h6 class="h6 focus-text" id="loginErrorMsg"></h6>
 					<div class="modal-footer d-flex justify-content-between">
-						{{ form.create_account(class="btn btn-primary") }}
+						{{ form.create_account(class="btn btn-primary", id=url_for('login')) }}
 						<div>
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-							{{ form.login(class="btn btn-primary") }}
+							{{ form.login(class="btn btn-primary", id=url_for('login')) }}
 						</div>
 					</div>
 

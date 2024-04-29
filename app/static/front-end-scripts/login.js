@@ -9,7 +9,7 @@ $("document").ready(function () {
 		let formData = Object.fromEntries(new FormData(form));
 		let request = $.ajax({
 			//The id of the submit buttons is the route
-			url: "/" + buttonClicked,
+			url: buttonClicked,
 			type: "POST",
 			data: formData,
 			dataType: "text",
