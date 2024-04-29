@@ -65,15 +65,33 @@ def view():
     submitForm = SubmitForm()
     return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge)
 
+#create account
+@app.route('/create_account', methods=["POST"])
+def create_account():
+    form = LoginForm()
+    if returnUserViaUsername(form.username.data) == None:
+        createUser(form.username.data, form.password.data)
+        login_user(returnUserViaUsername(form.username.data), remember=form.remember_me.data)
+        response = jsonify({"reason": "Account successful"})
+        response.status_code = 200
+        return response
+    response = jsonify({"reason": "Username already exists"})
+    response.status_code = 401
+    return response
+
 #Login
 @app.route('/login', methods=["POST"])
 def login():
     #TODO - implement password and password checking
     form = LoginForm()
+    #This is for testing.
     if form.username.data == "root":
         for sub in getSubmissionsByCreator(0):
             db.session.delete(sub)
             db.session.commit()
+        db.session.delete(returnUserViaUsername("testUser"))  
+        db.session.commit()
+   
     if form.validate_on_submit():
         if returnUserViaUsername(form.username.data) != None:
             login_user(returnUserViaUsername(form.username.data), remember=form.remember_me.data)

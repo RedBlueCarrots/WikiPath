@@ -1,4 +1,6 @@
-$("document").ready(function() {
+let buttonClicked = "";
+
+$("document").ready(function () {
 	$("#loginForm").submit(function (e) {
 		$("#loginErrorMsg").text("");
 		e.preventDefault();
@@ -6,18 +8,24 @@ $("document").ready(function() {
 		//gets data entered in the form and converts it to json
 		let formData = Object.fromEntries(new FormData(form));
 		let request = $.ajax({
-			url: form.dataset.link,
+			//The id of the submit buttons is the route
+			url: buttonClicked,
 			type: "POST",
 			data: formData,
 			dataType: "text",
-		}).done(function(msg) {
+		}).done(function (msg) {
 			location.reload(true)
-		}).fail(function(msg) {
+		}).fail(function (msg) {
 			if (msg.status >= 300) {
 				$("#loginErrorMsg").text(JSON.parse(msg.responseText).reason);
 			}
 		});
 	});
+
+	$(".loginFormButton").click(function () {
+		buttonClicked = $(this).attr("id");
+	})
+
 });
 
 function logout(url) {
