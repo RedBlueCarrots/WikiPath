@@ -22,7 +22,7 @@ $("document").ready(function () {
 		});
 	});
 
-	$("#loginForm input[type = 'submit']").click(function (e) {
+	$(".loginFormButton").click(function () {
 		buttonClicked = $(this).attr("id");
 	})
 

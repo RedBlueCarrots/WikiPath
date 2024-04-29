@@ -26,10 +26,10 @@
 					</div>
 					<h6 class="h6 focus-text" id="loginErrorMsg"></h6>
 					<div class="modal-footer d-flex justify-content-between">
-						{{ form.create_account(class="btn btn-primary", id=url_for('login')) }}
+						{{ form.create_account(class="btn btn-primary loginFormButton", id=url_for('create_account')) }}
 						<div>
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-							{{ form.login(class="btn btn-primary", id=url_for('login')) }}
+							{{ form.login(class="btn btn-primary loginFormButton", id=url_for('login')) }}
 						</div>
 					</div>
 
