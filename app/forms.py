@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, FieldList
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FieldList, HiddenField
 from wtforms.validators import DataRequired
 
 class LoginForm(FlaskForm):
@@ -11,3 +11,4 @@ class LoginForm(FlaskForm):
     
 class SubmitForm(FlaskForm):
     path = FieldList(StringField('Path'), min_entries=1, max_entries=50)
+    challenge_id = HiddenField()

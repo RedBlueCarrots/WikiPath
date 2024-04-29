@@ -37,7 +37,7 @@
 					data-bs-target="#loginPopup">Login</button>
 				{% else %}
 				<button type="button" class="btn btn-primary m-2" onclick="logout('{{ url_for('logout') }}')">{{
-					current_user.name }}</button>
+					current_user.username }}</button>
 				{% endif %}
 			</div>
 		</div>
