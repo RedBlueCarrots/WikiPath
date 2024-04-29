@@ -9,6 +9,12 @@ def load_user(id):
 def returnUserViaUsername(name):
     user = db.session.query(User).filter_by(username=name).first()
     return user
+
+#TODO password should be properly secured
+def createUser(username, password):
+    user = User(username = username, password_hash = password, points = 0)
+    db.session.add(user)
+    db.session.commit()
     
 def getChallenge(post_id):
     challenge = db.session.query(Challenge).filter_by(id=post_id).first()

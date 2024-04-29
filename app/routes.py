@@ -5,8 +5,6 @@ from .database import *
 from .forms import *
 import time
 
-import sys
-
 #Home page
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
@@ -72,11 +70,7 @@ def view():
 def create_account():
     form = LoginForm()
     if returnUserViaUsername(form.username.data) == None:
-        print("Stuff is happening", sys.stdout)
-        #TODO password should be properly secured
-        user = User(username = form.username.data, password_hash = form.password.data, points = 0)
-        db.session.add(user)
-        db.session.commit()
+        createUser(form.username.data, form.password.data)
         login_user(returnUserViaUsername(form.username.data), remember=form.remember_me.data)
         response = jsonify({"reason": "Account successful"})
         response.status_code = 200
@@ -94,7 +88,9 @@ def login():
     if form.username.data == "root":
         for sub in getSubmissionsByCreator(0):
             db.session.delete(sub)
-            db.session.commit()   
+            db.session.commit()
+        db.session.delete(returnUserViaUsername("testUser"))  
+        db.session.commit()
    
     if form.validate_on_submit():
         if returnUserViaUsername(form.username.data) != None:
