@@ -18,13 +18,12 @@ def index():
     return render_template('index.html', challenges=challengeList, form=form)
 
 #Create challenge page
-@app.route('/create', methods=['GET', 'PUT'])
+@app.route('/create', methods=['GET', 'POST'])
 def create():
     form = LoginForm()
     create_form = ChallengeCreationForm()
-    if request.method == "PUT":
-        if create_form.validate_on_submit():
-            return redirect(url_for('index'))
+    if create_form.validate_on_submit():
+        return redirect(url_for('index'))
     return render_template('create.html', form=form, create_form=create_form)
 
 #Challenge submission

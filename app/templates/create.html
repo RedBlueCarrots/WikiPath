@@ -2,26 +2,27 @@
 
 {%block content%}
 <div class="container-fluid  min-vh-100">
-  <h1 class="my-3 text-center">Create a Challenge</h1>
-  
-  <form class="container my-1 challenge-border bg-white" id="createForm" method="put">
-    {{ create_form.hidden_tag() }}
-
-    {% for field in create_form %}
-    {% if field.type == "StringField" or field.type == "DateTimeLocalField" %}
-    <div class="row my-3 gy-2">
-      {{ field.label(class="col-form-label col-sm-2") }}
-      <div class="col-sm-10">
-        {{ field(class="form-control") }}
-      </div>
-      {% for error in field.errors %}
-      <span style="color: red;">[{{ error }}]</span>
-      {% endfor %}
-    </div>
-    {% endif %}
-    {% endfor %}
-
-    <div class="my-3">{{ create_form.submit(class="btn btn-primary") }}</div>
-  </form>
+	<form class="form" id="createForm" method="post">
+		<div class="container my-3 p-2 challenge-border bg-white shadow-lg">
+			<h1 class="text-center">Create a Challenge</h1>
+			<hr class="challenge-border">
+			{{ create_form.hidden_tag() }}
+			{% for field in create_form %}
+			{% if field.type == "StringField" or field.type == "DateTimeLocalField" %}
+			<div class="row my-3 gy-2">
+				{{ field.label(class="col-form-label col-sm-2") }}
+				<div class="col-sm-10">
+					{{ field(class="form-control") }}
+				</div>
+				{% for error in field.errors %}
+				<span style="color: red;">[{{ error }}]</span>
+				{% endfor %}
+			</div>
+			{% endif %}
+			{% endfor %}
+			<div class="my-3">{{ create_form.submit(class="btn btn-primary") }}</div>
+			<hr class="challenge-border">
+		</div>
+	</form>
 </div>
 {%endblock%}
