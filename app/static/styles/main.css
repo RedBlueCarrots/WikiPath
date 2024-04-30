@@ -37,9 +37,11 @@
 .deep-bg {
   background-color: var(--deep);
 }
+
 .light-bg {
   background-color: var(--light);
 }
+
 .focus-bg {
   background-color: var(--focus);
 }
