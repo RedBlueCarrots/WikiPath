@@ -21,6 +21,9 @@
 			{% endif %}
 			{% endfor %}
 			<div class="my-3">{{ create_form.submit(class="btn btn-primary") }}</div>
+			{% for error in errors %}
+			<span class="col-form-label col-sm-2" style="color: red">{{error}}</span><br>
+			{% endfor %}
 			<hr class="challenge-border">
 		</div>
 	</form>
