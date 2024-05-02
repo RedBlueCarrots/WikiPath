@@ -4,6 +4,7 @@ from app import app
 from .database import *
 from .forms import *
 import time
+from datetime import datetime
 
 #Home page
 @app.route('/', methods=['GET'])
@@ -24,12 +25,14 @@ def create():
     create_form = ChallengeCreationForm()        
     if create_form.validate_on_submit():
         if current_user.is_anonymous:
-            response = jsonify({"reason": "Login first to create a challenge!"})
-            response.status_code = 401
-            return response
+            # TODO error messages
+            return render_template('create.html', form=form, create_form=create_form)
         path = create_form.start.data + "|" + create_form.destination.data
-        datetime = create_form.time.data
-        createNewChallenge(current_user.id, create_form.title.data, path, int(time.time()), int(datetime.timestamp()))
+        datetime_object = int(datetime.fromisoformat(str(create_form.time.data)).timestamp())
+        if datetime_object < int(time.time()):
+            # TODO error messages
+            return render_template('create.html', form=form, create_form=create_form)
+        createNewChallenge(current_user.id, create_form.title.data, path, int(time.time()), datetime_object)
         return redirect(url_for('index'))
     return render_template('create.html', form=form, create_form=create_form)
 
