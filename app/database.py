@@ -47,3 +47,14 @@ def createNewSubmission(creator_id, challenge_id, path, dt_submit):
         win=False)
     db.session.add(newSubmission)
     db.session.commit()
+    
+def createNewChallenge(creator_id, title, path, dt_submit, dt_finish):
+    newChallenge = Challenge(
+        creator_id = creator_id,
+        title=title,
+        path=path,
+        dt_submit=dt_submit,
+        dt_finish=dt_finish,
+        finished=False)
+    db.session.add(newChallenge)
+    db.session.commit()

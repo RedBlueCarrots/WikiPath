@@ -21,8 +21,15 @@ def index():
 @app.route('/create', methods=['GET', 'POST'])
 def create():
     form = LoginForm()
-    create_form = ChallengeCreationForm()
+    create_form = ChallengeCreationForm()        
     if create_form.validate_on_submit():
+        if current_user.is_anonymous:
+            response = jsonify({"reason": "Login first to create a challenge!"})
+            response.status_code = 401
+            return response
+        path = create_form.start.data + "|" + create_form.destination.data
+        datetime = create_form.time.data
+        createNewChallenge(current_user.id, create_form.title.data, path, int(time.time()), int(datetime.timestamp()))
         return redirect(url_for('index'))
     return render_template('create.html', form=form, create_form=create_form)
 
