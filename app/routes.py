@@ -4,6 +4,7 @@ from app import app
 from .database import *
 from .forms import *
 import time
+from datetime import datetime
 
 #Home page
 @app.route('/', methods=['GET'])
@@ -22,9 +23,22 @@ def index():
 def create():
     form = LoginForm()
     create_form = ChallengeCreationForm()
+    errors = []
     if create_form.validate_on_submit():
+        if current_user.is_anonymous:
+            errors.append("Login before creating a challenge!")
+        path = create_form.start.data + "|" + create_form.destination.data
+        try:
+            datetime_object = int(datetime.fromisoformat(str(create_form.time.data)).timestamp())
+            if datetime_object < int(time.time()):
+                errors.append("The submission close date must be in the future.")
+        except:
+            errors.append("The submission close date must be in the future.")
+        if len(errors) > 0:
+            return render_template('create.html', form=form, create_form=create_form, errors=errors)
+        createNewChallenge(current_user.id, create_form.title.data, path, int(time.time()), datetime_object)
         return redirect(url_for('index'))
-    return render_template('create.html', form=form, create_form=create_form)
+    return render_template('create.html', form=form, create_form=create_form, errors=errors)
 
 #Challenge submission
 #Submit should always include an id parameter
