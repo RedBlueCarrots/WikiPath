@@ -57,8 +57,7 @@ def submit():
     if submitForm.validate_on_submit():
         createNewSubmission(current_user.id, challenge["id"], pathString, int(time.time()))
         return redirect(url_for('view', id=int(submitForm.challenge_id.data)))
-    print(pathString)
-    return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, errors=[], path=pathString)
+    return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, errors=submitForm.errors["path"][0], path=pathString)
 
 #Challenge view
 #View should always include an id parameter

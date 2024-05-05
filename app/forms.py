@@ -3,10 +3,15 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Field
 from wtforms.validators import DataRequired, ValidationError
 from .wikipedia import *
 
-def articleExists(form,field):
-        print(field.data)
-        if not checkArticleExists(field.data):
-            raise ValidationError(str(field.data) + " is not a valid article")
+def articlesExist(form, field):
+    errorsString = ""
+    articlesInfo = checkArticlesExists(field.data)
+    for article in articlesInfo:
+        if not articlesInfo[article]:
+            errorsString += article + "|"
+    errorsString = errorsString.strip("|")
+    if errorsString != "":
+        raise ValidationError(errorsString)
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -16,7 +21,7 @@ class LoginForm(FlaskForm):
     create_account = SubmitField('Create Account')
     
 class SubmitForm(FlaskForm):
-    path = FieldList(StringField('Path', validators=[articleExists]), min_entries=1, max_entries=50)
+    path = FieldList(StringField('Path'), min_entries=1, max_entries=50, validators=[articlesExist])
     challenge_id = HiddenField()
     
 
