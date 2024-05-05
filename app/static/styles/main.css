@@ -1,9 +1,21 @@
-:root {
-  --primary: #879d95;
-  --secondary: #a2799a;
-  --deep: #1b5862;
-  --light: #f8d3ba;
-  --focus: #f76f6c;
+@media (prefers-color-scheme: light) {
+  :root {
+    --primary: #879d95;
+    --secondary: #a2799a;
+    --deep: #1b5862;
+    --light: #f8d3ba;
+    --focus: #f76f6c;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: #359d39;
+    --secondary: #a2799a;
+    --deep: #1b5862;
+    --light: #f8d3ba;
+    --focus: #f76f6c;
+  }
 }
 
 .primary-text {
