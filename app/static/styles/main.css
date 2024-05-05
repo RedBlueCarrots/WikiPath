@@ -20,6 +20,10 @@
   }
 }
 
+body {
+  color: var(--text);
+}
+
 .focus-text {
   color: var(--focus);
 }
@@ -92,36 +96,59 @@
 .btn-primary {
   --bs-btn-border-color: var(--primary);
   --bs-btn-bg: var(--primary);
+  --bs-btn-color: var(--text);
   --bs-btn-hover-bg: color-mix(in srgb, var(--primary) 75%, transparent);
   --bs-btn-hover-border-color: color-mix(
     in srgb,
     var(--primary) 75%,
     transparent
   );
-  --bs-btn-color: var(--text);
+  --bs-btn-hover-color: var(--text);
+  --bs-btn-active-bg: color-mix(in srgb, var(--primary) 75%, transparent);
+  --bs-btn-active-color: var(--text);
+  --bs-btn-active-border-color: color-mix(
+    in srgb,
+    var(--primary) 75%,
+    transparent
+  );
 }
 
 .btn-focus {
   --bs-btn-border-color: var(--focus);
   --bs-btn-bg: var(--focus);
+  --bs-btn-color: var(--text);
   --bs-btn-hover-bg: color-mix(in srgb, var(--focus) 75%, transparent);
   --bs-btn-hover-border-color: color-mix(
     in srgb,
     var(--focus) 75%,
     transparent
   );
-  --bs-btn-color: var(--text);
+  --bs-btn-hover-color: var(--text);
+  --bs-btn-active-bg: color-mix(in srgb, var(--focus) 75%, transparent);
+  --bs-btn-active-color: var(--text);
+  --bs-btn-active-border-color: color-mix(
+    in srgb,
+    var(--focus) 75%,
+    transparent
+  );
 }
 
 .btn-outline-secondary {
   --bs-btn-border-color: var(--secondary);
   --bs-btn-color: var(--secondary);
+  --bs-btn-bg: transparent;
   --bs-btn-hover-color: color-mix(in srgb, var(--secondary) 75%, transparent);
   --bs-btn-hover-border-color: color-mix(
     in srgb,
     var(--secondary) 75%,
     transparent
   );
-  --bs-btn-bg: transparent;
   --bs-btn-hover-bg: transparent;
+  --bs-btn-active-bg: transparent;
+  --bs-btn-active-color: color-mix(in srgb, var(--secondary) 75%, transparent);
+  --bs-btn-active-border-color: color-mix(
+    in srgb,
+    var(--secondary) 75%,
+    transparent
+  );
 }
