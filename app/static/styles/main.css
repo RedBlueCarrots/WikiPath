@@ -20,48 +20,16 @@
   }
 }
 
-.primary-text {
-  color: var(--primary);
-}
-
-.secondary-text {
-  color: var(--secondary);
-}
-
-.deep-text {
-  color: var(--deep);
-}
-
-.light-text {
-  color: var(--light);
-}
-
 .focus-text {
   color: var(--focus);
 }
 
-.primary-bg {
-  background-color: var(--primary);
-}
-
-.secondary-bg {
-  background-color: var(--secondary);
-}
-
-.deep-bg {
-  background-color: var(--deep);
-}
-
-.light-bg {
-  background-color: var(--light);
-}
-
-.focus-bg {
-  background-color: var(--focus);
+.table-row {
+  transition: background-color 0.2s ease-in-out;
 }
 
 .table-row:hover {
-  background-color: var(--secondary);
+  background-color: color-mix(in srgb, var(--secondary) 50%, transparent);
 }
 
 .cursor-pointer {
@@ -114,6 +82,13 @@
   color: var(--text);
 }
 
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: inset 0 0px 1px var(--primary), 0 0 8px var(--primary);
+}
+
+/* Buttons below  */
+
 .btn-primary {
   --bs-btn-border-color: var(--primary);
   --bs-btn-bg: var(--primary);
@@ -138,7 +113,7 @@
   --bs-btn-color: var(--text);
 }
 
-.btn-outline-success {
+.btn-outline-secondary {
   --bs-btn-border-color: var(--secondary);
   --bs-btn-color: var(--secondary);
   --bs-btn-hover-color: color-mix(in srgb, var(--secondary) 75%, transparent);
@@ -149,9 +124,4 @@
   );
   --bs-btn-bg: transparent;
   --bs-btn-hover-bg: transparent;
-}
-
-.form-control:focus {
-  border-color: var(--primary);
-  box-shadow: inset 0 0px 1px var(--primary), 0 0 8px var(--primary);
 }
