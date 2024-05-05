@@ -5,6 +5,7 @@
     --deep: #1b5862;
     --light: #f8d3ba;
     --focus: #f76f6c;
+    --text: black;
   }
 }
 
@@ -15,6 +16,7 @@
     --deep: #1b5862;
     --light: #f8d3ba;
     --focus: #f76f6c;
+    --text: white;
   }
 }
 
@@ -85,13 +87,26 @@
   display: none;
 }
 
-#override .nav-link.active {
-  background-color: var(--primary);
-  color: white;
+/* Navbar classes */
+.navbar {
+  background-color: var(--light);
+  --bs-navbar-toggler-border-color: var(--text);
+  --bs-navbar-color: var(--text);
+  --bs-navbar-brand-color: var(--text);
+  --bs-navbar-brand-hover-color: var(--text);
 }
 
-#override .nav-link {
+.nav-link {
   color: var(--primary);
+}
+
+.nav-pills {
+  --bs-nav-pills-link-active-bg: var(--primary);
+  --bs-nav-pills-link-active-color: var(--text);
+}
+
+.fa-bars {
+  color: var(--text);
 }
 
 #override .btn-primary {
