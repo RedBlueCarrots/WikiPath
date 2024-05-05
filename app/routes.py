@@ -46,16 +46,19 @@ def create():
 def submit():
     submitForm = SubmitForm()
     form = LoginForm()
-    pathString = ""
     challenge = getChallenge(int(submitForm.challenge_id.data)).toDict()
+    pathString = ""
     print(challenge)
     pathString = challenge["startArticle"] + "|"
     for i in submitForm.path.data:
         if i.strip() != "":
             pathString += i + "|"
     pathString += challenge["endArticle"]
-    createNewSubmission(current_user.id, challenge["id"], pathString, int(time.time()))
-    return redirect(url_for('view', id=int(submitForm.challenge_id.data)))
+    if submitForm.validate_on_submit():
+        createNewSubmission(current_user.id, challenge["id"], pathString, int(time.time()))
+        return redirect(url_for('view', id=int(submitForm.challenge_id.data)))
+    print(pathString)
+    return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, errors=[], path=pathString)
 
 #Challenge view
 #View should always include an id parameter

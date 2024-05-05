@@ -1,6 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, FieldList, HiddenField, DateTimeLocalField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, ValidationError
+from .wikipedia import *
+
+def articleExists(form,field):
+        print(field.data)
+        if not checkArticleExists(field.data):
+            raise ValidationError(str(field.data) + " is not a valid article")
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -10,8 +16,9 @@ class LoginForm(FlaskForm):
     create_account = SubmitField('Create Account')
     
 class SubmitForm(FlaskForm):
-    path = FieldList(StringField('Path'), min_entries=1, max_entries=50)
+    path = FieldList(StringField('Path', validators=[articleExists]), min_entries=1, max_entries=50)
     challenge_id = HiddenField()
+    
 
 class ChallengeCreationForm(FlaskForm):
     title = StringField('Challenge Title', validators=[DataRequired()])
