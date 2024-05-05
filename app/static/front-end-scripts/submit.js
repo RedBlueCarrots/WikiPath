@@ -11,14 +11,16 @@ function redoButtons() {
 }
 
 function revealPath() {
+    const newId = "path-" + $("#submitForm .path-entry").length;
     const newInput = `
     <div class="row mb-3 g-0">
         <div class= "col-12 col-md-10"> 
-            <input class="path-entry form-control mx-0" id="path-${$("#submitForm .path-entry").length}" name="path-${$("#submitForm .path-entry").length}" type="text" value="">
+            <input class="path-entry form-control mx-0" id="${newId}" name="${newId}" type="text" value="">
         </div>
     </div>`
     $("#pathEnd").before(newInput);
     redoButtons()
+    return newId
 }
 
 function removePath() {
@@ -30,8 +32,15 @@ function removePath() {
 }
 
 $("document").ready(function() {
-    redoButtons()
     $("#revealPathFormSmall").on("click", revealPath);
     $("#removePathFormSmall").on("click", removePath);
-    revealPath();
+    let articleList = $("#submitForm").data("path").split("|");
+    let numArticles = articleList.length;
+    for (let entry = 1; entry < numArticles-1; entry++){
+        const newId = revealPath();
+        $("#"+newId).attr("value", articleList[entry]);
+    }
+    if (numArticles===2){
+        revealPath();
+    }
 })
