@@ -13,7 +13,7 @@ function redoButtons() {
 function revealPath() {
     const newId = "path-" + $("#submitForm .path-entry").length;
     const newInput = `
-    <div class="row mb-3 g-0">
+    <div class="row mt-3 g-0">
         <div class= "col-12 col-md-10"> 
             <input class="path-entry form-control mx-0" id="${newId}" name="${newId}" type="text" value="">
         </div>
@@ -23,13 +23,21 @@ function revealPath() {
     return newId
 }
 
+
 function removePath() {
     if ($("#submitForm .path-entry").length !== 1) {
-        $(".path-entry").last().parent().parent().remove()
-        redoButtons()
+        $(".path-entry").last().parent().parent().remove();
+        redoButtons();
     }
 
 }
+
+function addError(error, id){
+    const errorElem = `<div class="h6 focus-text mx-2">${error}</div>`;
+    $("#"+id).parent().parent().after(errorElem);
+}
+
+
 
 $("document").ready(function() {
     $("#revealPathFormSmall").on("click", revealPath);
@@ -40,7 +48,12 @@ $("document").ready(function() {
         const newId = revealPath();
         $("#"+newId).attr("value", articleList[entry]);
     }
-    if (numArticles===2){
+    if (numArticles<=2){
         revealPath();
     }
+    const errorList = $("#submitForm").data("errors").split("|");
+    console.log(errorList);
+    $(".path-entry[value!='']").each(function (index) {
+        errorList.includes($(this).attr("value")) & addError($(this).attr("value")+ " is not a valid article", $(this).attr("id"));
+    })
 })
