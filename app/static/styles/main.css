@@ -6,6 +6,7 @@
     --light: #f8d3ba;
     --focus: #f76f6c;
     --text: black;
+    --bg: white;
   }
 }
 
@@ -17,11 +18,13 @@
     --light: #f8d3ba;
     --focus: #f76f6c;
     --text: white;
+    --bg: black;
   }
 }
 
 body {
   color: var(--text);
+  background-color: var(--bg);
 }
 
 .focus-text {
@@ -43,6 +46,12 @@ body {
 .challenge-border {
   border: 1px solid var(--deep);
   border-radius: 10px;
+}
+
+.modal {
+  --bs-modal-header-border-color: var(--deep);
+  --bs-modal-footer-border-color: var(--deep);
+  --bs-modal-border-color: var(--deep);
 }
 
 .accordion {
@@ -109,6 +118,26 @@ body {
   --bs-btn-active-border-color: color-mix(
     in srgb,
     var(--primary) 75%,
+    transparent
+  );
+}
+
+.btn-secondary {
+  --bs-btn-border-color: var(--secondary);
+  --bs-btn-bg: var(--secondary);
+  --bs-btn-color: var(--text);
+  --bs-btn-hover-bg: color-mix(in srgb, var(--secondary) 75%, transparent);
+  --bs-btn-hover-border-color: color-mix(
+    in srgb,
+    var(--secondary) 75%,
+    transparent
+  );
+  --bs-btn-hover-color: var(--text);
+  --bs-btn-active-bg: color-mix(in srgb, var(--secondary) 75%, transparent);
+  --bs-btn-active-color: var(--text);
+  --bs-btn-active-border-color: color-mix(
+    in srgb,
+    var(--secondary) 75%,
     transparent
   );
 }

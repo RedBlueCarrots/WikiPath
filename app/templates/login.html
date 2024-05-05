@@ -2,15 +2,15 @@
 <!-- Create the popup for logging in using a Bootstrap modal -->
 <div class="modal fade" id="loginPopup" data-bs-keyboard="false" tabindex="-1">
 	<div class="modal-dialog">
-		<div class="modal-content challenge-border">
+		<div class="modal-content shadow-lg">
 			<div class="modal-header">
 				<h5 class="modal-title">Login</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
-			<div class="modal-content">
-				<form class="container-fluid my-1" id="loginForm">
+			<form id="loginForm">
+				<div class="modal-body">
 					{{ form.hidden_tag() }}
-					<div class="row my-3 gy-2">
+					<div class="row my-3">
 						{{form.username.label(class="col-form-label col-2")}}
 						<div class="col-10">
 							{{form.username(class="form-control")}}
@@ -24,16 +24,17 @@
 						<p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
 					</div>
 					<h6 class="h6 focus-text" id="loginErrorMsg"></h6>
-					<div class="modal-footer d-flex justify-content-between">
-						{{ form.create_account(class="btn btn-primary loginFormButton", id=url_for('create_account')) }}
-						<div>
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-							{{ form.login(class="btn btn-primary loginFormButton", id=url_for('login')) }}
-						</div>
+				</div>
+				<div class="modal-footer d-flex justify-content-between">
+					{{ form.create_account(class="btn btn-primary loginFormButton", id=url_for('create_account')) }}
+					<div>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						{{ form.login(class="btn btn-primary loginFormButton", id=url_for('login')) }}
 					</div>
-				</form>
-			</div>
+				</div>
+			</form>
 		</div>
 	</div>
+</div>
 </div>
 {% endblock %}
