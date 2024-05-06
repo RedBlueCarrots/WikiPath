@@ -1,5 +1,18 @@
 {% block submit %}
 
+<template id="buttons">
+    <button type="button" class="btn btn-focus d-none d-md-block col-0 col-md-1" id="removePathForm">-</button>
+    <button type="button" class="btn btn-primary d-none d-md-block col-0 col-md-1" id="revealPathForm">+</button>
+</template>
+
+<div id="inputTemplate" style="display:none">
+    <div class="row mb-3 g-0">
+        <div class="col-12 col-md-10">
+            <input class="path-entry form-control mx-0" id="" name="" type="text" value="">
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col-12 col-md-3 col-lg-2">
@@ -9,7 +22,7 @@
             <form class="form" method="POST" action="{{ url_for('submit') }}">
                 {{ submitForm.csrf_token }}
                 {{ submitForm.challenge_id(value=challenge.id)}}
-                <div id="submitForm" class="container">
+                <div id="submitChallengeForm" class="container">
                     <input id="pathStart" class="form-control mb-3" type="text" placeholder="left" disabled>
                     <input id="pathEnd" class="form-control mb-3" type="text" placeholder="right" disabled>
                     <div class="row justify-content-evenly mb-3 mb-md-0">

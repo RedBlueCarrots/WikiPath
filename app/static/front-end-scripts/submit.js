@@ -1,36 +1,35 @@
-
-
+//Moves the buttons to the appropriate form
 function redoButtons() {
-    const buttons = `<button type="button" class="btn btn-focus d-none d-md-block col-0 col-md-1" id="removePathForm">-</button>
-    <button type="button" class="btn btn-primary d-none d-md-block col-0 col-md-1" id="revealPathForm">+</button>`
-    $("#revealPathForm").remove()
-    $("#removePathForm").remove()
-    $("#path-"+($("#submitForm .path-entry").length-1)).parent().after(buttons);
+    const buttons = $("#buttons").clone().html();
+    $("#revealPathForm").remove();
+    $("#removePathForm").remove();
+    $("#path-" + ($("#submitChallengeForm .path-entry").length - 1)).parent().after(buttons);
     $("#revealPathForm").on("click", revealPath);
     $("#removePathForm").on("click", removePath);
 }
 
 function revealPath() {
-    const newInput = `
-    <div class="row mb-3 g-0">
-        <div class= "col-12 col-md-10"> 
-            <input class="path-entry form-control mx-0" id="path-${$("#submitForm .path-entry").length}" name="path-${$("#submitForm .path-entry").length}" type="text" value="">
-        </div>
-    </div>`
+    const formlength = $(' #submitChallengeForm .path-entry').length;
+    const path = "path-" + formlength;
+    let template = $("#inputTemplate").clone();
+    template.find("input").attr({
+        "name": path,
+        "id": path
+    })
+    newInput = template.html();
     $("#pathEnd").before(newInput);
     redoButtons()
 }
 
 function removePath() {
-    if ($("#submitForm .path-entry").length !== 1) {
+    if ($("#submitChallengeForm .path-entry").length !== 1) {
         $(".path-entry").last().parent().parent().remove()
         redoButtons()
     }
 
 }
 
-$("document").ready(function() {
-    redoButtons()
+$("document").ready(function () {
     $("#revealPathFormSmall").on("click", revealPath);
     $("#removePathFormSmall").on("click", removePath);
     revealPath();
