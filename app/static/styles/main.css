@@ -52,6 +52,7 @@ body {
   --bs-modal-header-border-color: var(--deep);
   --bs-modal-footer-border-color: var(--deep);
   --bs-modal-border-color: var(--deep);
+  --bs-modal-bg: var(--bg);
 }
 
 .accordion {
@@ -91,8 +92,10 @@ body {
   --bs-nav-pills-link-active-color: var(--text);
 }
 
-.fa-bars {
+.fa {
   color: var(--text);
+  opacity: 60%;
+  font-size: 1.25em;
 }
 
 .form-control:focus {
