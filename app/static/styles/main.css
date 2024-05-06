@@ -59,7 +59,7 @@ body {
   display: none;
 }
 
-.fa {
+.fa-solid {
   color: var(--text);
   opacity: 60%;
   font-size: 1.25em;
@@ -70,24 +70,26 @@ body {
   --bs-accordion-bg: var(--bg);
   --bs-accordion-btn-color: var(--text);
   --bs-accordion-active-color: var(--primary);
-  --bs-accordion-active-bg: transparent;
-  --bs-accordion-btn-focus-box-shadow: transparent;
+  --bs-accordion-border-color: none;
+  --bs-accordion-border-radius: 5px;
+  --bs-accordion-active-bg: none;
+  --bs-accordion-btn-focus-box-shadow: none;
   --bs-accordion-btn-padding-x: 0px;
   --bs-accordion-btn-padding-y: 0px;
   --bs-accordion-body-padding-x: 0px;
   --bs-accordion-body-padding-y: 2px;
-}
-
-/* Using font-awesome for accordion arrow*/
-.icon::before {
-  display: inline-block;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
+  --bs-accordion-btn-icon: none;
+  --bs-accordion-btn-active-icon: none;
 }
 
 .accordion-button::after {
+  display: inline-block;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
   font: var(--fa-font-solid);
-  content: "\f106";
+  content: "\f107";
+  width: 14px;
+  height: 14px;
   /* background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important; */
 }
 
