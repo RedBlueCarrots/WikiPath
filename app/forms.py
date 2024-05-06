@@ -5,6 +5,7 @@ from .wikipedia import *
 
 def articlesExist(form, field):
     errorsString = ""
+    #Will return a dictionary of article names, and true/false if it exists
     articlesInfo = checkArticlesExists(field.data)
     for article in articlesInfo:
         if not articlesInfo[article]:

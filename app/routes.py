@@ -48,7 +48,6 @@ def submit():
     form = LoginForm()
     challenge = getChallenge(int(submitForm.challenge_id.data)).toDict()
     pathString = ""
-    print(challenge)
     pathString = challenge["startArticle"] + "|"
     for i in submitForm.path.data:
         if i.strip() != "":
