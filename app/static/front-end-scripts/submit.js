@@ -10,11 +10,11 @@ function redoButtons() {
 
 function revealPath() {
     const formlength = $(' #submitForm .path-entry').length;
-    const path = "path-" + formlength;
+    const newId = "path-" + formlength;
     let template = $("#inputTemplate").clone();
     template.find("input").attr({
-        "name": path,
-        "id": path
+        "name": newId,
+        "id": newId
     })
     const newInput = template.html();
     $("#pathEnd").before(newInput);
@@ -32,7 +32,9 @@ function removePath() {
 }
 
 function addError(error, id) {
-    const errorElem = `<div class="h6 focus-text mx-2">${error}</div>`;
+    const errorTemplate = $("#errorTemplate").clone();
+    errorTemplate.find("div").html(error);
+    const errorElem = errorTemplate.html();
     $("#" + id).parent().parent().after(errorElem);
 }
 
