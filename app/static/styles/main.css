@@ -60,6 +60,7 @@ body {
 .challenge-border {
   border: 1px solid var(--secondary);
   border-radius: 10px;
+  background-color: color-mix(in srgb, var(--bg) 98%, var(--text));
 }
 
 .fa-solid {
@@ -107,7 +108,7 @@ body {
 
 .accordion {
   --bs-accordion-color: var(--text);
-  --bs-accordion-bg: var(--bg);
+  --bs-accordion-bg: transparent;
   --bs-accordion-btn-color: var(--text);
   --bs-accordion-active-color: var(--secondary);
   --bs-accordion-border-color: none;
