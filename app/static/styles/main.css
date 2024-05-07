@@ -2,9 +2,9 @@
   :root {
     --primary: #879d95;
     --secondary: #a2799a;
-    --highlight: #1b5862;
     --navbar: #4a6582;
-    --focus: #f76f6c;
+    --warning: #f76f6c;
+    --focus: #6db086;
     --text: black;
     --bg: white;
   }
@@ -13,10 +13,10 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --primary: #a2799a;
-    --secondary: #359d39;
-    --highlight: #d9ab82;
+    --secondary: #d9ab82;
     --navbar: #4a6582;
-    --focus: #f76f6c;
+    --warning: #f76f6c;
+    --focus: #6db086;
     --text: white;
     --bg: #242426;
   }
@@ -27,9 +27,8 @@ body {
   background-color: var(--bg);
 }
 
-//Main error colour
-.focus-text {
-  color: var(--focus);
+.warning-text {
+  color: var(--warning);
 }
 
 .table-row {
@@ -59,7 +58,7 @@ body {
 }
 
 .challenge-border {
-  border: 1px solid var(--highlight);
+  border: 1px solid var(--secondary);
   border-radius: 10px;
 }
 
@@ -69,13 +68,17 @@ body {
   font-size: 1.25em;
 }
 
+.faded {
+  opacity: 40%;
+}
+
 .formPathHidden {
   display: none;
 }
 
 .form-control:focus {
-  border-color: var(--highlight);
-  box-shadow: inset 0 0px 1px var(--highlight), 0 0 8px var(--highlight);
+  border-color: var(--secondary);
+  box-shadow: inset 0 0px 1px var(--secondary), 0 0 8px var(--secondary);
   background-color: var(--bg);
   color: var(--text);
 }
@@ -94,15 +97,11 @@ body {
   background-color: color-mix(in srgb, var(--bg) 80%, var(--text));
 }
 
-.faded {
-  opacity: 40%;
-}
-
 /* Bootstrap classes below: */
 .modal {
-  --bs-modal-header-border-color: var(--highlight);
-  --bs-modal-footer-border-color: var(--highlight);
-  --bs-modal-border-color: var(--highlight);
+  --bs-modal-header-border-color: var(--secondary);
+  --bs-modal-footer-border-color: var(--secondary);
+  --bs-modal-border-color: var(--secondary);
   --bs-modal-bg: var(--bg);
 }
 
@@ -137,19 +136,17 @@ body {
 /*navbar */
 .navbar {
   background-color: var(--navbar);
-  --bs-navbar-toggler-border-color: var(--text);
+  --bs-navbar-toggler-border-color: none;
+  --bs-navbar-toggler-focus-width: 1px;
   --bs-navbar-color: var(--text);
   --bs-navbar-brand-color: var(--text);
   --bs-navbar-brand-hover-color: var(--text);
 }
 
 .nav {
-  --bs-nav-link-color: var(--highlight);
-  --bs-nav-link-hover-color: color-mix(in srgb, var(--highlight) 80%, white);
-}
-
-.nav {
-  --bs-nav-underline-link-active-color: var(--highlight);
+  --bs-nav-link-color: var(--secondary);
+  --bs-nav-link-hover-color: color-mix(in srgb, var(--secondary) 80%, white);
+  --bs-nav-underline-link-active-color: var(--secondary);
 }
 
 /* Buttons below  */
@@ -166,16 +163,16 @@ body {
   --bs-btn-active-border-color: color-mix(in srgb, var(--primary) 80%, white);
 }
 
-.btn-secondary {
-  --bs-btn-border-color: var(--secondary);
-  --bs-btn-bg: var(--secondary);
+.btn-warning {
+  --bs-btn-border-color: var(--warning);
+  --bs-btn-bg: var(--warning);
   --bs-btn-color: var(--text);
-  --bs-btn-hover-bg: color-mix(in srgb, var(--secondary) 80%, white);
-  --bs-btn-hover-border-color: color-mix(in srgb, var(--secondary) 80%, white);
+  --bs-btn-hover-bg: color-mix(in srgb, var(--warning) 80%, white);
+  --bs-btn-hover-border-color: color-mix(in srgb, var(--warning) 80%, white);
   --bs-btn-hover-color: var(--text);
-  --bs-btn-active-bg: color-mix(in srgb, var(--secondary) 80%, white);
+  --bs-btn-active-bg: color-mix(in srgb, var(--warning) 80%, white);
   --bs-btn-active-color: var(--text);
-  --bs-btn-active-border-color: color-mix(in srgb, var(--secondary) 80%, white);
+  --bs-btn-active-border-color: color-mix(in srgb, var(--warning) 80%, white);
 }
 
 .btn-focus {
@@ -190,14 +187,14 @@ body {
   --bs-btn-active-border-color: color-mix(in srgb, var(--focus) 80%, white);
 }
 
-.btn-highlight {
-  --bs-btn-border-color: var(--highlight);
-  --bs-btn-bg: var(--highlight);
+.btn-secondary {
+  --bs-btn-border-color: var(--secondary);
+  --bs-btn-bg: var(--secondary);
   --bs-btn-color: var(--text);
-  --bs-btn-hover-bg: color-mix(in srgb, var(--highlight) 80%, white);
-  --bs-btn-hover-border-color: color-mix(in srgb, var(--highlight) 80%, white);
+  --bs-btn-hover-bg: color-mix(in srgb, var(--secondary) 80%, white);
+  --bs-btn-hover-border-color: color-mix(in srgb, var(--secondary) 80%, white);
   --bs-btn-hover-color: var(--text);
-  --bs-btn-active-bg: color-mix(in srgb, var(--highlight) 80%, white);
+  --bs-btn-active-bg: color-mix(in srgb, var(--secondary) 80%, white);
   --bs-btn-active-color: var(--text);
-  --bs-btn-active-border-color: color-mix(in srgb, var(--highlight) 80%, white);
+  --bs-btn-active-border-color: color-mix(in srgb, var(--secondary) 80%, white);
 }
