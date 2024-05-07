@@ -21,7 +21,7 @@
 				<span role="button"><i class="fa-solid fa-bars" aria-hidden="true"></i></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<div class="nav nav-pills nav-justified me-auto mb-2 mb-lg-0">
+				<div class="nav nav-underline nav-justified me-auto mb-2 mb-lg-0">
 					{% if nav == "play" %}
 					<a class="nav-link active" href="{{ url_for('index') }}">Play</a>
 					<a class="nav-link" href="{{ url_for('create') }}">Create </a>
@@ -39,7 +39,7 @@
 				</div>
 				<form class="d-flex">
 					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-secondary" type="submit">Search</button>
+					<button class="btn btn-highlight" type="submit">Search</button>
 				</form>
 				{% if current_user.is_anonymous %}
 				<button type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
