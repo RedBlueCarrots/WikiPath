@@ -18,7 +18,7 @@
     --light: #f8d3ba;
     --focus: #f76f6c;
     --text: white;
-    --bg: black;
+    --bg: #242426;
   }
 }
 
@@ -33,11 +33,21 @@ body {
 }
 
 .table-row {
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  border-radius: 10px;
 }
 
 .table-row:hover {
   background-color: color-mix(in srgb, var(--secondary) 50%, transparent);
+  transform: scaleY(1.25);
+}
+
+.table-row span {
+  transition: transform 0.3s ease-in-out;
+}
+
+.table-row:hover span {
+  transform: scaleY(0.8);
 }
 
 .cursor-pointer {
