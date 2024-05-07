@@ -3,13 +3,13 @@ function redoButtons() {
     const buttons = $("#buttons").clone().html();
     $("#revealPathForm").remove();
     $("#removePathForm").remove();
-    $("#path-" + ($("#submitChallengeForm .path-entry").length - 1)).parent().after(buttons);
+    $("#path-" + ($("#submitForm .path-entry").length - 1)).parent().after(buttons);
     $("#revealPathForm").on("click", revealPath);
     $("#removePathForm").on("click", removePath);
 }
 
 function revealPath() {
-    const formlength = $(' #submitChallengeForm .path-entry').length;
+    const formlength = $(' #submitForm .path-entry').length;
     const path = "path-" + formlength;
     let template = $("#inputTemplate").clone();
     template.find("input").attr({
@@ -22,7 +22,7 @@ function revealPath() {
 }
 
 function removePath() {
-    if ($("#submitChallengeForm .path-entry").length !== 1) {
+    if ($("#submitForm .path-entry").length !== 1) {
         $(".path-entry").last().parent().parent().remove()
         redoButtons()
     }

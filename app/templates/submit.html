@@ -22,7 +22,7 @@
             <form class="form" method="POST" action="{{ url_for('submit') }}">
                 {{ submitForm.csrf_token }}
                 {{ submitForm.challenge_id(value=challenge.id)}}
-                <div id="submitChallengeForm" class="container">
+                <div id="submitForm" class="container">
                     <input id="pathStart" class="form-control mb-3" type="text" placeholder="left" disabled>
                     <input id="pathEnd" class="form-control mb-3" type="text" placeholder="right" disabled>
                     <div class="row justify-content-evenly mb-3 mb-md-0">
