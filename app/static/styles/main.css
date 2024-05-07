@@ -69,6 +69,7 @@ body {
 .form-control {
   background-color: var(--bg);
   color: var(--text);
+  border-color: color-mix(in srgb, var(--text) 50%, transparent);
 }
 
 .form-control::placeholder {
