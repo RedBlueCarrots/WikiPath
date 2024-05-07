@@ -22,9 +22,9 @@
             <form class="form" method="POST" action="{{ url_for('submit') }}">
                 {{ submitForm.csrf_token }}
                 {{ submitForm.challenge_id(value=challenge.id)}}
-                <div id="submitForm" class="container">
-                    <input id="pathStart" class="form-control mb-3" type="text" placeholder="left" disabled>
-                    <input id="pathEnd" class="form-control mb-3" type="text" placeholder="right" disabled>
+                <div id="submitForm" class="container" data-path="{{path}}" data-errors="{{errors}}">
+                    <input id="pathStart" class="form-control" type="text" placeholder="left" disabled>
+                    <input id="pathEnd" class="form-control my-3" type="text" placeholder="right" disabled>
                     <div class="row justify-content-evenly mb-3 mb-md-0">
                         <button class="btn btn-focus d-md-none d-block col-md-0 col-3" type="button"
                             id="removePathFormSmall">-</button>

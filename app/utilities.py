@@ -16,3 +16,10 @@ def secondsToTime(totalSeconds):
 	    if minutesLeft > 1:
 	        timeString += "s"
 	return timeString.strip()
+
+def pathify(articleList):
+	pathString = ""
+	for i in articleList:
+		if i.strip() != "":
+			pathString += i + "|"
+	return pathString.strip("|")

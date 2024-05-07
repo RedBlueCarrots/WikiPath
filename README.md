@@ -33,6 +33,7 @@ pip install flask-wtf
 pip install flask-login
 pip install flask-sqlalchemy
 pip install flask-migrate
+pip install requests
 ```
 
 Please edit this file as we make more progress if you need to install more files
