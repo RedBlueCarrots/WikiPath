@@ -8,6 +8,11 @@ function redoButtons() {
     $("#removePathForm").on("click", removePath);
     if ($("#submitForm .path-entry").length == 1) {
         $("#removePathForm").addClass("faded");
+        $("#removePathFormSmall").addClass("faded");
+    }
+    else {
+        $("#removePathFormSmall").removeClass("faded");
+
     }
 }
 
