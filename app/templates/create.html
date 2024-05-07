@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {%block content%}
-<div class="container-fluid ">
-	<form class="form" id="createForm" method="post">
-		<div class="container my-3 p-2 challenge-border shadow-lg">
+<div class="container d-flex justify-content-center w-md-75 w-90 mt-4">
+	<div class="container p-2 challenge-border shadow-lg">
+		<form class="form" id="createForm" method="post">
 			<h1 class="text-center">Create a Challenge</h1>
 			<hr class="challenge-border">
 			{{ create_form.hidden_tag() }}
@@ -26,7 +26,7 @@
 			{% for error in errors %}
 			<span class="form-label" style="color: red">{{error}}</span><br>
 			{% endfor %}
-		</div>
-	</form>
+		</form>
+	</div>
 </div>
 {%endblock%}
