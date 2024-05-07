@@ -1,10 +1,10 @@
 @media (prefers-color-scheme: light) {
   :root {
-    --primary: #879d95;
-    --secondary: #a2799a;
-    --navbar: #4a6582;
-    --warning: #f76f6c;
-    --focus: #6db086;
+    --primary: #c68bc7;
+    --secondary: #bf936b;
+    --navbar: #203857;
+    --warning: #ed524e;
+    --focus: #74b38b;
     --text: black;
     --bg: white;
   }
@@ -110,7 +110,7 @@ body {
   --bs-accordion-color: var(--text);
   --bs-accordion-bg: transparent;
   --bs-accordion-btn-color: var(--text);
-  --bs-accordion-active-color: var(--secondary);
+  --bs-accordion-active-color: var(--primary);
   --bs-accordion-border-color: none;
   --bs-accordion-border-radius: 5px;
   --bs-accordion-active-bg: none;
@@ -140,8 +140,8 @@ body {
   --bs-navbar-toggler-border-color: none;
   --bs-navbar-toggler-focus-width: 1px;
   --bs-navbar-color: var(--text);
-  --bs-navbar-brand-color: var(--text);
-  --bs-navbar-brand-hover-color: var(--text);
+  --bs-navbar-brand-color: white;
+  --bs-navbar-brand-hover-color: white;
 }
 
 .nav {
