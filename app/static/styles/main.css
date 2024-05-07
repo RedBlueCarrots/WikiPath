@@ -203,3 +203,7 @@ body {
     transparent
   );
 }
+
+.faded {
+  opacity: 40%;
+}

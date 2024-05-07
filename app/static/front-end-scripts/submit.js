@@ -6,6 +6,9 @@ function redoButtons() {
     $("#path-" + ($("#submitForm .path-entry").length - 1)).parent().after(buttons);
     $("#revealPathForm").on("click", revealPath);
     $("#removePathForm").on("click", removePath);
+    if ($("#submitForm .path-entry").length == 1) {
+        $("#removePathForm").addClass("faded");
+    }
 }
 
 function revealPath() {
