@@ -58,3 +58,24 @@ def createNewChallenge(creator_id, title, path, dt_submit, dt_finish):
         finished=False)
     db.session.add(newChallenge)
     db.session.commit()
+
+# Given a Challenge model, find the submission with the fewest articles in its path (the winner of the challenge)
+def findWinner(challenge):
+    maxArticles = 51 # For what we currently have, each path has a maximum length of 50 articles
+    winningSubmission = None
+    for submission in challenge.attempts:
+        # If there's a tie, the earliest submission should be the winner, and in the database, it automatically sorts via attempt submission
+        if submission.article_no < maxArticles:
+            maxArticles = submission.article_no
+            winningSubmission = submission.id
+    return winningSubmission
+
+# Query the database to see if a challenge is finished. If so, update the database to store who won the challenge.
+def updateDB():
+    challenges = Challenge.query.all()
+    for challenge in challenges:
+        if ((challenge.dt_finish-int(time.time())) <= 0 and challenge.finished == False):
+            challenge.finished = True
+            challenge.winner_id = findWinner(challenge)
+    db.session.commit()
+            

@@ -10,6 +10,7 @@ from datetime import datetime
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
 def index():
+    updateDB()
     #Challenges
     challengeList = []
     challenges = Challenge.query.all()
@@ -21,6 +22,7 @@ def index():
 #Create challenge page
 @app.route('/create', methods=['GET', 'POST'])
 def create():
+    updateDB()
     form = LoginForm()
     create_form = ChallengeCreationForm()
     errors = []
@@ -44,6 +46,7 @@ def create():
 #Submit should always include an id parameter
 @app.route('/submit', methods=['POST'])
 def submit():
+    updateDB()
     submitForm = SubmitForm()
     form = LoginForm()
     challenge = getChallenge(int(submitForm.challenge_id.data)).toDict()
@@ -62,6 +65,7 @@ def submit():
 #View should always include an id parameter
 @app.route('/view', methods=['GET'])
 def view():
+    updateDB()
     form = LoginForm()
     challenge_id = int(request.args.get("id", default=-1, type=int))
     challenge = getChallenge(challenge_id).toDict()
@@ -83,6 +87,7 @@ def view():
 #create account
 @app.route('/create_account', methods=["POST"])
 def create_account():
+    updateDB()
     form = LoginForm()
     if returnUserViaUsername(form.username.data) == None:
         createUser(form.username.data, form.password.data)
@@ -97,6 +102,7 @@ def create_account():
 #Login
 @app.route('/login', methods=["POST"])
 def login():
+    updateDB()
     #TODO - implement password and password checking
     form = LoginForm()
     #This is for testing.
@@ -121,5 +127,6 @@ def login():
 #Logout
 @app.route('/logout', methods=["GET"])
 def logout():
+    updateDB()
     logout_user()
     return redirect(url_for('index'))
