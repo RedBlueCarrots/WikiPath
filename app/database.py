@@ -74,6 +74,7 @@ def findWinner(challenge):
 def updateDB():
     challenges = Challenge.query.all()
     for challenge in challenges:
+        # challenge.finished == False is most likely bad practice
         if ((challenge.dt_finish-int(time.time())) <= 0 and challenge.finished == False):
             challenge.finished = True
             challenge.winner_id = findWinner(challenge)

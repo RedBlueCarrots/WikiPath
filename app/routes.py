@@ -29,6 +29,8 @@ def create():
     if create_form.validate_on_submit():
         if current_user.is_anonymous:
             errors.append("Login before creating a challenge!")
+        if (create_form.start.data == create_form.destination.data):
+            errors.append("The starting article cannot be the same as the destination article!")
         path = create_form.start.data + "|" + create_form.destination.data
         try:
             datetime_object = int(datetime.fromisoformat(str(create_form.time.data)).timestamp())
@@ -69,7 +71,11 @@ def view():
     form = LoginForm()
     challenge_id = int(request.args.get("id", default=-1, type=int))
     challenge = getChallenge(challenge_id).toDict()
+    isFinished = getChallenge(challenge_id).finished
     if current_user.is_anonymous:
+        if isFinished:
+            submissions = getSubmissionsByChallenge(challenge_id)
+            return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=[])
     isCreator = getChallenge(challenge_id).creator_id == current_user.id
     isSubmitted = getSubmissionByChallengeAndCreator(getChallenge(challenge_id).id, current_user.id) != None
