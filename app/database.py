@@ -78,5 +78,8 @@ def updateDB():
         if ((challenge.dt_finish-int(time.time())) <= 0 and challenge.finished == False):
             challenge.finished = True
             challenge.winner_id = findWinner(challenge)
+            winner = loadUser(challenge.winner_id)
+            # Needs to be changed when points column gets renamed to WikiAura
+            winner.points += 10
     db.session.commit()
             
