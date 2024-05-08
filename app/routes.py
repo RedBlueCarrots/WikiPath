@@ -17,7 +17,8 @@ def index():
     for challenge in challenges:
         challengeList.append(challenge.toDict())
     form = LoginForm()
-    return render_template('index.html', challenges=challengeList, form=form)
+    active_nav = "play"
+    return render_template('index.html', challenges=challengeList, form=form, nav=active_nav)
 
 #Create challenge page
 @app.route('/create', methods=['GET', 'POST'])
@@ -26,6 +27,7 @@ def create():
     form = LoginForm()
     create_form = ChallengeCreationForm()
     errors = []
+    active_nav = "create"
     if create_form.validate_on_submit():
         if current_user.is_anonymous:
             errors.append("Login before creating a challenge!")
@@ -39,10 +41,10 @@ def create():
         except:
             errors.append("The submission close date must be in the future.")
         if len(errors) > 0:
-            return render_template('create.html', form=form, create_form=create_form, errors=errors)
+            return render_template('create.html', form=form, create_form=create_form, errors=errors, nav=active_nav)
         createNewChallenge(current_user.id, create_form.title.data, path, int(time.time()), datetime_object)
         return redirect(url_for('index'))
-    return render_template('create.html', form=form, create_form=create_form, errors=errors)
+    return render_template('create.html', form=form, create_form=create_form, errors=errors, nav=active_nav)
 
 #Challenge submission
 #Submit should always include an id parameter
