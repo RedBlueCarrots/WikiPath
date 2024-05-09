@@ -71,11 +71,11 @@ def findWinner(challenge):
     return winningSubmission
 
 # Query the database to see if a challenge is finished. If so, update the database to store who won the challenge.
-def updateDB():
+def checkChallengesCompleted():
     challenges = Challenge.query.all()
     for challenge in challenges:
         # challenge.finished == False is most likely bad practice
-        if ((challenge.dt_finish-int(time.time())) <= 0 and challenge.finished == False):
+        if ((challenge.dt_finish-int(time.time())) <= 0 and not challenge.finished):
             challenge.finished = True
             challenge.winner_id = findWinner(challenge)
             winner = loadUser(challenge.winner_id)
