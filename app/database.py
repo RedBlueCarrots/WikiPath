@@ -1,6 +1,8 @@
 from .models import *
 from .utilities import *
 from app import login
+import random
+import string
 
 @login.user_loader
 def load_user(id):
@@ -10,9 +12,12 @@ def returnUserViaUsername(name):
     user = db.session.query(User).filter_by(username=name).first()
     return user
 
-#TODO password should be properly secured
 def createUser(username, password):
-    user = User(username = username, password_hash = password, points = 0)
+    # Make the salt
+    salt = random.choice(string.ascii_letters)
+    user = User(username = username, password_hash = "", points = 0, password_salt = salt)
+    # Hash the password
+    user.set_password(password)
     db.session.add(user)
     db.session.commit()
     

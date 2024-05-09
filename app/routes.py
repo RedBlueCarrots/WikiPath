@@ -106,7 +106,7 @@ def login():
         for sub in getSubmissionsByCreator(0):
             db.session.delete(sub)
             db.session.commit()
-        db.session.delete(returnUserViaUsername("testUser"))  
+        #db.session.delete(returnUserViaUsername("testUser"))  
         db.session.commit()
    
     if form.validate_on_submit():
