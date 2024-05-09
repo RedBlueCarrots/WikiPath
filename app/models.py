@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):
     # Integer column type with primary_key=True will enable auto-increment
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Text, nullable=False, unique=True)
-    points = db.Column(db.Integer, nullable=False)
+    WikiAura = db.Column(db.Integer, nullable=False)
     # Maybe we should use something like Character rather than Text to limit the length of hash stored?
     # Currently cannot think of a substantial reason to do this
     password_hash = db.Column(db.Text, nullable=False)
