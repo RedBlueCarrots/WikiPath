@@ -24,17 +24,18 @@ def checkArticlesExists(pathList):
 
 def checkValidPath(pathList):
 	for index in range(len(pathList)):
+		print(pathList)
+
 		if index == len(pathList) - 1:
 			return True
 		
 		links = getArticleLinks(pathList[index])
-		
+
 		if pathList[index + 1] not in links:
 			return False
 
 def getArticleLinks(article):
 	links = []
-
 	session = requests.Session()
 	url = "https://en.wikipedia.org/w/api.php"
 	params = {
