@@ -24,8 +24,6 @@ def checkArticlesExists(pathList):
 
 def checkValidPath(pathList):
 	for index in range(len(pathList)):
-		print(pathList)
-
 		if index == len(pathList) - 1:
 			return True
 		
