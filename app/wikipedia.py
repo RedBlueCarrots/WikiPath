@@ -21,3 +21,43 @@ def checkArticlesExists(pathList):
 		for article in queryJson["query"]["pages"]:
 			articleInfo[article["title"]] = not "missing" in article
 	return articleInfo
+
+def checkValidPath(pathList):
+	for index in range(len(pathList)):
+		if index == len(pathList) - 1:
+			return True
+		
+		links = getArticleLinks(pathList[index])
+		
+		if pathList[index + 1] not in links:
+			return False
+
+def getArticleLinks(article):
+	links = []
+
+	session = requests.Session()
+	url = "https://en.wikipedia.org/w/api.php"
+	params = {
+		"action": "query",
+		"format": "json",
+		"titles": article,
+		"prop": "links", 
+		"pllimit": "max"
+	}
+	
+	while True:
+		response = session.get(url=url, params=params)
+		data = response.json()
+		pages = data["query"]["pages"]
+		
+		for key, value in pages.items():
+			for link in value["links"]:
+				links.append(link["title"])
+		
+		if "continue" in data:
+			plcontinue = data["continue"]["plcontinue"]
+			params["plcontinue"] = plcontinue
+		else:
+			break
+	
+	return links
