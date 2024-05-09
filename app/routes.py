@@ -99,7 +99,6 @@ def create_account():
 #Login
 @app.route('/login', methods=["POST"])
 def login():
-    #TODO - implement password and password checking
     form = LoginForm()
     #This is for testing.
     if form.username.data == "root":
@@ -110,8 +109,10 @@ def login():
         db.session.commit()
    
     if form.validate_on_submit():
-        if returnUserViaUsername(form.username.data) != None:
-            login_user(returnUserViaUsername(form.username.data), remember=form.remember_me.data)
+        current_login_user = returnUserViaUsername(form.username.data)
+        # Checks if the user exists and the password matches with what's stored in the database
+        if current_login_user != None and current_login_user.check_password(form.password.data):
+            login_user(current_login_user, remember=form.remember_me.data)
             response = jsonify({"reason": "Login Successful"})
             response.status_code = 200
             return response
