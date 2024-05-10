@@ -5,14 +5,26 @@ from app import db
 import time
 from flask_login import UserMixin
 from .utilities import *
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model, UserMixin):
     # Integer column type with primary_key=True will enable auto-increment
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Text, nullable=False, unique=True)
-    points = db.Column(db.Integer, nullable=False)
-    # I believe there are more secure ways of implementing this
+    WikiAura = db.Column(db.Integer, nullable=False)
+    # Maybe we should use something like Character rather than Text to limit the length of hash stored?
+    # Currently cannot think of a substantial reason to do this
     password_hash = db.Column(db.Text, nullable=False)
+    # Same thing for the salt
+    password_salt = db.Column(db.Text, nullable=False)
+    
+    # Hashes the password (with salt)
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password + self.password_salt)
+        
+    # Checks the stored hash with submitted password + salt
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password + self.password_salt)
     
     def __repr__(self):
         return f'User({self.id}, "{self.username}", {self.points}, "{self.password_hash}")'
