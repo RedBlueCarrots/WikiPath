@@ -48,10 +48,15 @@ def getArticleLinks(article):
 		response = session.get(url=url, params=params)
 		data = response.json()
 		pages = data["query"]["pages"]
-		
+
 		for key, value in pages.items():
-			for link in value["links"]:
-				links.append(link["title"])
+			try:
+				for link in value["links"]:
+					print(link)
+					links.append(link["title"])
+			except KeyError:
+				continue
+
 		
 		if "continue" in data:
 			plcontinue = data["continue"]["plcontinue"]
