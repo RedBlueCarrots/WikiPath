@@ -52,7 +52,6 @@ def getArticleLinks(article):
 		for key, value in pages.items():
 			try:
 				for link in value["links"]:
-					print(link)
 					links.append(link["title"])
 			except KeyError:
 				continue
