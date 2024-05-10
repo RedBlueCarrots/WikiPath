@@ -66,11 +66,11 @@ def createNewChallenge(creator_id, title, path, dt_submit, dt_finish):
 
 # Given a Challenge model, find the submission with the fewest articles in its path (the winner of the challenge)
 def findWinner(challenge):
-    maxArticles = 51 # For what we currently have, each path has a maximum length of 50 articles
+    maxArticles = -1 # For what we currently have, each path has a maximum length of 50 articles
     winningSubmission = None
     for submission in challenge.attempts:
         # If there's a tie, the earliest submission should be the winner, and in the database, it automatically sorts via attempt submission
-        if submission.article_no < maxArticles:
+        if submission.article_no < maxArticles or maxArticles == -1:
             maxArticles = submission.article_no
             winningSubmission = submission.id
     return winningSubmission

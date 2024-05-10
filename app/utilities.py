@@ -16,7 +16,7 @@ def secondsToTime(totalSeconds):
 	    if minutesLeft > 1:
 	        timeString += "s"
 	if timeString == "":
-	    timeString += "just about to finish"
+	    timeString += "Just about to finish"
 	return timeString.strip()
 
 def pathify(articleList):
