@@ -25,18 +25,15 @@
 					
 					<a class="nav-link {% if nav == 'play' %} active {% endif %}" href="{{ url_for('index') }}">Play</a>
 					<a class="nav-link {% if nav == 'create' %} active {% endif %}" href="{{ url_for('create') }}">Create </a>
-					<a class="nav-link {% if nav == 'leaderboard' %} active {% endif %}" href="{{ url_for('create') }}">Leaderboard </a>
+					<a class="nav-link {% if nav == 'leaderboard' %} active {% endif %}" href="{{ url_for('leaderboard') }}">Leaderboard </a>
 				</div>
-				<form class="d-flex">
-					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-secondary" type="submit">Search</button>
-				</form>
 				{% if current_user.is_anonymous %}
 				<button type="button" class="btn btn-focus m-2" data-bs-toggle="modal"
 					data-bs-target="#loginPopup">Login</button>
 				{% else %}
-				<button type="button" class="btn btn-primary m-2" onclick="logout('{{ url_for('logout') }}')">{{
-					current_user.username }}</button>
+				<span class="h5 my-1"><strong>{{current_user.username}}</strong></span>
+				<span class="p mx-3">WikiAura: {{current_user.WikiAura}}</span>
+				<button type="button" class="btn btn-primary m-2" onclick="logout('{{ url_for('logout') }}')">Logout</button>
 				{% endif %}
 			</div>
 		</div>
