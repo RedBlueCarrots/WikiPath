@@ -126,3 +126,21 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route("/users", methods=["GET"])
+def leaderboard():
+    form = LoginForm()
+    userList = []
+    users = db.session.execute(db.select(User).order_by(User.WikiAura)).scalars()
+    scores = [usr.WikiAura for usr in db.session.execute(db.select(User)).scalars()]
+    scores.sort(reverse=True)
+    for user in users:
+        print("hi")
+        userList.append({})
+        userList[-1]["rank"] = scores.index(user.WikiAura) + 1
+        userList[-1]["username"] = user.username
+        userList[-1]["WikiAura"] = user.WikiAura
+    print(userList)
+    active_nav = "leaderboard"
+    return render_template('leaderboard.html', users=userList, form=form, nav=active_nav)
