@@ -15,7 +15,7 @@ def returnUserViaUsername(name):
 def createUser(username, password):
     # Make the salt
     salt = random.choice(string.ascii_letters)
-    user = User(username = username, password_hash = "", points = 0, password_salt = salt)
+    user = User(username = username, password_hash = "", WikiAura = 0, password_salt = salt)
     # Hash the password
     user.set_password(password)
     db.session.add(user)
