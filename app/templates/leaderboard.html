@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="mx-5 my-2">
+	<div class="row my-3">
+		<form class="d-flex">
+			<input class="form-control me-2 col-10" type="search" placeholder="Search" aria-label="Search">
+			<button class="btn btn-secondary col-2" type="submit">Search</button>
+		</form>
+	</div>
+	<div class="row lead text-center d-none d-md-flex mb-4" id="tableHeader">
+		<span class="col-md-3">Rank</span>
+		<span class="col-md-6">Username</span>
+		<span class="col-md-3">WikiAura</span>
+	</div>
+	{% for user in users %}
+	<div class="row cursor-pointer table-row text-center  my-3 py-3">
+		<span class="d-block d-md-none col-md-0 col-6 lead">Rank: </span>
+		<span class="col-md-3 col-6">{{user.rank}}</span>
+		<span class="d-block d-md-none col-md-0 col-6 lead">Username: </span>
+		<span class="col-md-6 col-6">{{user.username}}</span>
+		<span class="d-block d-md-none col-md-0 col-6 lead">WikiAura: </span>
+		<span class="col-md-3 col-6">{{user.WikiAura}}</span>
+	</div>
+	{% endfor %}
+</div>
+{% endblock %}
