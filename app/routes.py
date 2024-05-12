@@ -10,6 +10,7 @@ from datetime import datetime
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
 def index():
+    checkChallengesCompleted()
     #Challenges
     challengeList = []
     challenges = Challenge.query.all()
@@ -29,6 +30,8 @@ def create():
     if create_form.validate_on_submit():
         if current_user.is_anonymous:
             errors.append("Login before creating a challenge!")
+        if (create_form.start.data == create_form.destination.data):
+            errors.append("The starting article cannot be the same as the destination article!")
         path = create_form.start.data + "|" + create_form.destination.data
         try:
             datetime_object = int(datetime.fromisoformat(str(create_form.time.data)).timestamp())
@@ -46,9 +49,13 @@ def create():
 #Submit should always include an id parameter
 @app.route('/submit', methods=['POST'])
 def submit():
+    checkChallengesCompleted()
     submitForm = SubmitForm()
     form = LoginForm()
     challenge = getChallenge(int(submitForm.challenge_id.data)).toDict()
+    if challenge.finished:
+        # There has to be a better way to communicate that the time has run out other than reloading the page
+        return redirect(url_for('view', id=int(submitForm.challenge_id.data)))
     pathString = ""
     pathString = challenge["startArticle"] + "|"
     for i in submitForm.path.data:
@@ -64,10 +71,15 @@ def submit():
 #View should always include an id parameter
 @app.route('/view', methods=['GET'])
 def view():
+    checkChallengesCompleted()
     form = LoginForm()
     challenge_id = int(request.args.get("id", default=-1, type=int))
     challenge = getChallenge(challenge_id).toDict()
+    isFinished = getChallenge(challenge_id).finished
     if current_user.is_anonymous:
+        if isFinished:
+            submissions = getSubmissionsByChallenge(challenge_id)
+            return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=[])
     isCreator = getChallenge(challenge_id).creator_id == current_user.id
     isSubmitted = getSubmissionByChallengeAndCreator(getChallenge(challenge_id).id, current_user.id) != None
