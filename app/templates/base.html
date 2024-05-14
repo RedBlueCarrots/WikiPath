@@ -26,11 +26,12 @@
 					<a class="nav-link {% if nav == 'create' %} active {% endif %}" href="{{ url_for('create') }}">Create </a>
 					<a class="nav-link {% if nav == 'leaderboard' %} active {% endif %}" href="{{ url_for('leaderboard') }}">Leaderboard </a>
 				</div>
-				<span id="userInfo" class="d-flex justify-content-between align-items-center">
 					{% if current_user.is_anonymous %}
+					<span id="userInfo" class="d-flex justify-content-end align-items-center">
 					<button type="button" class="btn btn-focus m-2" data-bs-toggle="modal"
 						data-bs-target="#loginPopup">Login</button>
 					{% else %}
+				<span id="userInfo" class="d-flex justify-content-between align-items-center">
 					<span class="ms-1">
 						<span class=" align-text-bottom text-center h5 my-1"><strong>{{current_user.username}}</strong></span>
 						<span class="align-text-bottom text-center h6 my-1 mx-3">WikiAura: {{current_user.WikiAura}}</span>
