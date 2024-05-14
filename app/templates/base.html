@@ -14,27 +14,30 @@
 	<!-- Create the header of the page using Bootstrap -->
 	<nav class="navbar navbar-expand-md sticky-top">
 		<div class="container-fluid">
-			<a class="navbar-brand">WikiPath</a>
+			<a class="navbar-brand ms-1">WikiPath</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<span role="button"><i class="fa-solid fa-bars" aria-hidden="true"></i></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<div class="nav nav-underline nav-justified me-auto mb-2 mb-lg-0">
-					
+			<div class="collapse navbar-collapse " id="navbarSupportedContent">
+				<div class="nav nav-underline nav-justified me-auto mb-2 mb-md-0">
 					<a class="nav-link {% if nav == 'play' %} active {% endif %}" href="{{ url_for('index') }}">Play</a>
 					<a class="nav-link {% if nav == 'create' %} active {% endif %}" href="{{ url_for('create') }}">Create </a>
 					<a class="nav-link {% if nav == 'leaderboard' %} active {% endif %}" href="{{ url_for('leaderboard') }}">Leaderboard </a>
 				</div>
-				{% if current_user.is_anonymous %}
-				<button type="button" class="btn btn-focus m-2" data-bs-toggle="modal"
-					data-bs-target="#loginPopup">Login</button>
-				{% else %}
-				<span class="h5 my-1"><strong>{{current_user.username}}</strong></span>
-				<span class="p mx-3">WikiAura: {{current_user.WikiAura}}</span>
-				<button type="button" class="btn btn-primary m-2" onclick="logout('{{ url_for('logout') }}')">Logout</button>
-				{% endif %}
+				<span id="userInfo" class="d-flex justify-content-between align-items-center">
+					{% if current_user.is_anonymous %}
+					<button type="button" class="btn btn-focus m-2" data-bs-toggle="modal"
+						data-bs-target="#loginPopup">Login</button>
+					{% else %}
+					<span class="ms-1">
+						<span class=" align-text-bottom text-center h5 my-1"><strong>{{current_user.username}}</strong></span>
+						<span class="align-text-bottom text-center h6 my-1 mx-3">WikiAura: {{current_user.WikiAura}}</span>
+					</span>
+					<button type="button" class="btn btn-primary m-2" onclick="logout('{{ url_for('logout') }}')">Logout</button>
+					{% endif %}
+				</span>
 			</div>
 		</div>
 	</nav>
