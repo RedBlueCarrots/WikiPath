@@ -83,8 +83,7 @@ def checkChallengesCompleted():
         if ((challenge.dt_finish-int(time.time())) <= 0 and not challenge.finished):
             challenge.finished = True
             challenge.winner_id = findWinner(challenge)
-            winner = loadUser(challenge.winner_id)
-            # Needs to be changed when points column gets renamed to WikiAura
-            winner.points += 10
+            winner = load_user(challenge.winner_id)
+            winner.WikiAura += 10
     db.session.commit()
             
