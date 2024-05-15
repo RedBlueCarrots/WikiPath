@@ -20,6 +20,21 @@ def index():
     active_nav = "play"
     return render_template('index.html', challenges=challengeList, form=form, nav=active_nav)
 
+@app.route('/search', methods=['POST'])
+def search():
+    form = SearchForm()
+    print(form.search.data)
+    if form.validate_on_submit():
+        print(form.search.data)
+        challengeList = []
+        challenges = getChallengesByTitle(form.search.data)
+        for challenge in challenges:
+            challengeList.append(challenge.toDict())
+        form = LoginForm()
+        active_nav = "play"
+        return render_template('index.html', challenges=challengeList, form=form, nav=active_nav)
+    return redirect(url_for('index'))
+
 #Create challenge page
 @app.route('/create', methods=['GET', 'POST'])
 def create():
