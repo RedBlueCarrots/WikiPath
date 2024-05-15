@@ -7,33 +7,23 @@ import time
 from datetime import datetime
 
 #Home page
-@app.route('/', methods=['GET'])
-@app.route('/index', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def index():
     checkChallengesCompleted()
     #Challenges
     challengeList = []
     challenges = Challenge.query.all()
-    for challenge in challenges:
-        challengeList.append(challenge.toDict())
+    search_form = SearchForm()
     form = LoginForm()
     active_nav = "play"
-    return render_template('index.html', challenges=challengeList, form=form, nav=active_nav)
-
-@app.route('/search', methods=['POST'])
-def search():
-    form = SearchForm()
-    print(form.search.data)
-    if form.validate_on_submit():
-        print(form.search.data)
-        challengeList = []
-        challenges = getChallengesByTitle(form.search.data)
-        for challenge in challenges:
-            challengeList.append(challenge.toDict())
-        form = LoginForm()
-        active_nav = "play"
-        return render_template('index.html', challenges=challengeList, form=form, nav=active_nav)
-    return redirect(url_for('index'))
+    if search_form.validate_on_submit():
+        challenges = getChallengesByTitleOrCreator(search_form.search.data)
+        if challenges == []:
+            flash("Your search did not return any results.")
+    for challenge in challenges:
+        challengeList.append(challenge.toDict())
+    return render_template('index.html', challenges=challengeList, form=form, search_form=search_form, nav=active_nav)
 
 #Create challenge page
 @app.route('/create', methods=['GET', 'POST'])
