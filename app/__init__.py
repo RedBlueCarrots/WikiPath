@@ -10,11 +10,11 @@ login = LoginManager()
 def create_app(config):
 	app = Flask(__name__)
 	app.config.from_object(config)
-	db.init_app(app)
-	login.init_app(app)
 	from app.blueprints import main
 	app.register_blueprint(main)
-
+	db.init_app(app)
+	login.init_app(app)
+	
 	return app
 
 from app import routes, models, database
