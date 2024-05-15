@@ -32,3 +32,6 @@ class ChallengeCreationForm(FlaskForm):
     destination = StringField('Destination Article', validators=[DataRequired()])
     time = DateTimeLocalField('Submission Close', validators=[DataRequired()])
     submit = SubmitField('Create Challenge')
+
+class SearchForm(FlaskForm):
+    search = StringField('Search', validators=[DataRequired()])
