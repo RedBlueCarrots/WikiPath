@@ -35,3 +35,4 @@ class ChallengeCreationForm(FlaskForm):
 
 class SearchForm(FlaskForm):
     search = StringField('Search', validators=[DataRequired()])
+    submit = SubmitField('Search')
