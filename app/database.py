@@ -25,6 +25,12 @@ def getChallenge(post_id):
     challenge = db.session.query(Challenge).filter_by(id=post_id).first()
     return challenge
 
+def getChallengesByTitle(search_str):
+    challenge = db.session.query(Challenge).filter_by(title=search_str).all()
+    print(search_str)
+    print(challenge)
+    return challenge
+
 def checkSubmissionExists(submission_id):
     submission = db.session.query(Submission).filter_by(id=submission_id).first()
     return submission is not None
