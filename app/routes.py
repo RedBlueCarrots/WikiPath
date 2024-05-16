@@ -9,8 +9,34 @@ from datetime import datetime
 #Home page
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
-def index():
+@app.route('/index/<search_string>', methods=['GET'])
+def index(search_string=None):
     checkChallengesCompleted()
+    form = LoginForm()
+    search_form = SearchForm()
+    active_nav = "play"
+    challengeList = []
+    if search_string is None:
+        challenges = Challenge.query.all()
+    else:
+        challenges = getChallengesByTitleOrCreator(search_string)
+        if challenges == []:
+            flash("Your search did not return any results.")
+    for challenge in challenges:
+        challengeList.append(challenge.toDict())
+    return render_template('index.html', challenges=challengeList, form=form, search_form=search_form, nav=active_nav)
+
+@app.route('/search', methods=['POST'])
+def search():
+    search_form = SearchForm()
+    return redirect(url_for('index', search_string=search_form.search.data))
+
+'''
+#Home page
+@app.route('/', methods=['GET'])
+@app.route('/index', methods=['GET'])
+def index():
+    #checkChallengesCompleted()
     form = LoginForm()
     search_form = SearchForm()
     active_nav = "play"
@@ -22,7 +48,7 @@ def index():
 
 @app.route('/search', methods=['POST'])
 def search():
-    checkChallengesCompleted()
+    #checkChallengesCompleted()
     form = LoginForm()
     search_form = SearchForm()
     active_nav = "play"
@@ -33,7 +59,7 @@ def search():
     else:
         for challenge in challenges:
             challengeList.append(challenge.toDict())
-    return render_template('index.html', challenges=challengeList, form=form, search_form=search_form, nav=active_nav)
+    return render_template('index.html', challenges=challengeList, form=form, search_form=search_form, nav=active_nav)'''
 
 #Create challenge page
 @app.route('/create', methods=['GET', 'POST'])
