@@ -25,16 +25,6 @@ def getChallenge(post_id):
     challenge = db.session.query(Challenge).filter_by(id=post_id).first()
     return challenge
 
-def getChallengesByTitle(search):
-    challenges = db.session.query(Challenge).filter(Challenge.title.icontains(search)).all()
-    return challenges
-
-def getChallengesByCreator(search):
-    users = db.session.query(User).filter(User.username.icontains(search)).all()
-    ids = [user.id for user in users]
-    challenges = db.session.query(Challenge).filter(Challenge.creator_id.in_(ids)).all()
-    return challenges
-
 def getChallengesByTitleOrCreator(search):
     users = db.session.query(User).filter(User.username.icontains(search)).all()
     ids = [user.id for user in users]
