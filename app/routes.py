@@ -31,36 +31,6 @@ def search():
     search_form = SearchForm()
     return redirect(url_for('index', search_string=search_form.search.data))
 
-'''
-#Home page
-@app.route('/', methods=['GET'])
-@app.route('/index', methods=['GET'])
-def index():
-    #checkChallengesCompleted()
-    form = LoginForm()
-    search_form = SearchForm()
-    active_nav = "play"
-    challengeList = []
-    challenges = Challenge.query.all()
-    for challenge in challenges:
-        challengeList.append(challenge.toDict())
-    return render_template('index.html', challenges=challengeList, form=form, search_form=search_form, nav=active_nav)
-
-@app.route('/search', methods=['POST'])
-def search():
-    #checkChallengesCompleted()
-    form = LoginForm()
-    search_form = SearchForm()
-    active_nav = "play"
-    challengeList = []
-    challenges = getChallengesByTitleOrCreator(search_form.search.data)
-    if challenges == []:
-        flash("Your search did not return any results.")
-    else:
-        for challenge in challenges:
-            challengeList.append(challenge.toDict())
-    return render_template('index.html', challenges=challengeList, form=form, search_form=search_form, nav=active_nav)'''
-
 #Create challenge page
 @app.route('/create', methods=['GET', 'POST'])
 def create():
