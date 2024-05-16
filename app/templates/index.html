@@ -3,7 +3,7 @@
 
 <div class="mx-5 my-2">
 	<div class="row my-3">
-		<form class="form d-flex" method="POST">
+		<form class="form d-flex" action="{{ url_for('search') }}" method="POST">
 			{{ search_form.hidden_tag() }}
 			{{ search_form.search(class="form-control me-2") }}
 			{{ search_form.submit(class="btn btn-secondary") }}
