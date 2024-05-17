@@ -2,6 +2,7 @@ from app import create_app, db
 from app.config import TestConfig
 from app.models import *
 from app.database import *
+from app.wikipedia import *
 from unittest import TestCase
 
 class UnitTests(TestCase):
@@ -113,3 +114,11 @@ class UnitTests(TestCase):
 		self.assertFalse(challengeNotFinish.finished)
 		self.assertEqual(challengeFinish.winner_id, user1.id)
 		self.assertEqual(user1.WikiAura, 10)
+
+	def test_check_articles_exist(self):
+		pathList = ["Stenborg Company", "Jonathan Lemalu", "Akçaabat, Karpuzlu"]
+		notPath = ["English Language", "NotAnArticle", "West Germanic Languages"]
+		pathDict = checkArticlesExists(pathList)
+		notPathDict = checkArticlesExists(notPath)
+		self.assertTrue(all(pathDict.values()))
+		self.assertFalse(all(notPathDict.values()))
