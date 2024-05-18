@@ -1,10 +1,12 @@
 {% block submit %}
 
+<!-- Our add and remove buttons, used by JS -->
 <template id="buttons">
     <button type="button" class="btn btn-warning d-none d-md-block col-0 col-md-1" id="removePathForm">-</button>
     <button type="button" class="btn btn-focus d-none d-md-block col-0 col-md-1" id="revealPathForm">+</button>
 </template>
 
+<!-- Our input form template which will be dynamically added/removed, used by JS -->
 <div id="inputTemplate" style="display:none">
     <div class="row mb-2 g-0">
         <div class="col-12 col-md-10">
@@ -13,6 +15,7 @@
     </div>
 </div>
 
+<!-- Template for our dynamic errors, used by JS -->
 <div id="errorTemplate" style="display:none">
     <div class="h6 warning-text mx-2"></div>
 </div>

@@ -53,7 +53,7 @@ def submit():
     submitForm = SubmitForm()
     form = LoginForm()
     challenge = getChallenge(int(submitForm.challenge_id.data)).toDict()
-    if challenge.finished:
+    if challenge["finished"]:
         # There has to be a better way to communicate that the time has run out other than reloading the page
         return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
     pathString = ""
@@ -65,6 +65,7 @@ def submit():
     if submitForm.validate_on_submit():
         createNewSubmission(current_user.id, challenge["id"], pathString, int(time.time()))
         return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
+    # return redirect(url_for("main.view", id=int(submitForm.challenge_id.data)))
     return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, errors=submitForm.errors["path"][0], path=pathString)
 
 #Challenge view
@@ -74,6 +75,8 @@ def view():
     checkChallengesCompleted()
     form = LoginForm()
     challenge_id = int(request.args.get("id", default=-1, type=int))
+    if(challenge_id == -1):
+        return redirect(url_for('main.index'))
     challenge = getChallenge(challenge_id).toDict()
     isFinished = getChallenge(challenge_id).finished
     if current_user.is_anonymous:
