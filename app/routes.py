@@ -5,6 +5,7 @@ from .database import *
 from .forms import *
 import time
 from datetime import datetime
+from app.wikipedia import *
 
 #Home page
 @main.route('/', methods=['GET'])
@@ -32,6 +33,10 @@ def create():
             errors.append("Login before creating a challenge!")
         if (create_form.start.data == create_form.destination.data):
             errors.append("The starting article cannot be the same as the destination article!")
+        articlesInfo = checkArticlesExists([create_form.start.data, create_form.destination.data])
+        for article in articlesInfo:
+            if not articlesInfo[article]:
+                errors.append(article + " is not a valid article")
         path = create_form.start.data + "|" + create_form.destination.data
         try:
             datetime_object = int(datetime.fromisoformat(str(create_form.time.data)).timestamp())
