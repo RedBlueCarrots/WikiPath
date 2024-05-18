@@ -13,6 +13,15 @@ def articlesExist(form, field):
     errorsString = errorsString.strip("|")
     if errorsString != "":
         raise ValidationError(errorsString)
+    
+def pathValid(full_path):
+    pathInfo = checkValidPath(full_path)
+    errorsString = ""
+    for article in pathInfo:
+        if not pathInfo[article]:
+            errorsString += article + "|"
+    errorsString = errorsString.strip("|")
+    return errorsString
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
