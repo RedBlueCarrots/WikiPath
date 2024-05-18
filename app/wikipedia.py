@@ -23,44 +23,24 @@ def checkArticlesExists(pathList):
 	return articleInfo
 
 def checkValidPath(pathList):
-	for index in range(len(pathList)):
-		if index == len(pathList) - 1:
-			return True
-		
-		links = getArticleLinks(pathList[index])
+	pathInfo = {}
+	for index in range(len(pathList) - 1):
+		pathInfo[pathList[index]] = checkArticleLink(pathList[index], pathList[index+1])
+	return pathInfo
 
-		if pathList[index + 1] not in links:
-			return False
-
-def getArticleLinks(article):
-	links = []
+def checkArticleLink(from_article, to_article):
 	session = requests.Session()
 	url = "https://en.wikipedia.org/w/api.php"
 	params = {
 		"action": "query",
 		"format": "json",
-		"titles": article,
-		"prop": "links", 
-		"pllimit": "max"
+		"titles": from_article,
+		"prop": "links",
+		"pltitles": to_article
 	}
 	
-	while True:
-		response = session.get(url=url, params=params)
-		data = response.json()
-		pages = data["query"]["pages"]
-
-		for key, value in pages.items():
-			try:
-				for link in value["links"]:
-					links.append(link["title"])
-			except KeyError:
-				continue
-
-		
-		if "continue" in data:
-			plcontinue = data["continue"]["plcontinue"]
-			params["plcontinue"] = plcontinue
-		else:
-			break
-	
-	return links
+	response = session.get(url=url, params=params)
+	data = response.json()
+	if "links" in data["query"]["pages"].popitem()[1].keys():
+		return True
+	return False
