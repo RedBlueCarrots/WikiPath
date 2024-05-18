@@ -78,12 +78,7 @@ def view():
     challenge_id = int(request.args.get("id", default=-1, type=int))
     if(challenge_id == -1):
         return redirect(url_for('main.index'))
-    submitted_path = request.args.get("path")
-    path_errors = request.args.get("errors")
-    print(submitted_path)
     challenge = getChallenge(challenge_id).toDict()
-    if(submitted_path is not None):
-        return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, errors=path_errors, path=submitted_path)
     isFinished = getChallenge(challenge_id).finished
     if current_user.is_anonymous:
         if isFinished:
@@ -100,6 +95,10 @@ def view():
     elif isSubmitted:
         submissions = [getSubmissionByChallengeAndCreator(getChallenge(challenge_id).id, current_user.id)]
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
+    submitted_path = request.args.get("path")
+    path_errors = request.args.get("errors")
+    if(submitted_path is not None):
+        return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, errors=path_errors, path=submitted_path)
     
     return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge)
 
