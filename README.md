@@ -10,12 +10,12 @@ Viewers of the site (logged in or not), can view all challenges, completed or on
 
 ## Group members
 
-| UWA ID      | Name     | Github username|
-| ------------- | ------------- |--- |
-| 23450844|Ethan Yong | RadiationOcelot |
-| 23475912 |Delta Oliver| DeltaO3 |
-|23334811 | Joseph Newman | RedBlueCarrots|
-|23443804 | Jaidan Balea | jaidan18|
+| UWA ID   | Name          | Github username |
+| -------- | ------------- | --------------- |
+| 23450844 | Ethan Yong    | RadiationOcelot |
+| 23475912 | Delta Oliver  | DeltaO3         |
+| 23334811 | Joseph Newman | RedBlueCarrots  |
+| 23443804 | Jaidan Balea  | jaidan18        |
 
 ## Setup instructions:
 
@@ -50,7 +50,6 @@ Install the requirements via pip:
 pip install -r requirements.txt
 ```
 
-
 Run the flask app :
 
 ```
@@ -64,6 +63,15 @@ Now you can just open the virtual environment and run flask if you want to use t
 ## Testing
 
 Make sure you're in the WikiPath directory and run:
+
 ```
 python3 -m unittest tests/unit.py
 ```
+
+To run selenium tests, run:
+
+```
+python3 -m unittest selenium/unit.py
+```
+
+Note that selenium tests will not work in windows.
