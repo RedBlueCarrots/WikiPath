@@ -1,10 +1,13 @@
 # WikiPath
 
+WikiPath is a website for users to play the Wikipedia game
+
+## Setup instructions:
+
 Requires python3 and pip
 
-Setup instructions:
+**Make sure you are in the uppermost WikiPath directory.**
 
-MAKE SURE you are in the uppermost wikipath directory
 Create a virtual environment:
 
 ```
@@ -24,19 +27,14 @@ Activate the environment:
   source venv/bin/activate
   ```
 
-Pip installs:
+Traverse into the Wikipath directory.
+
+Install the requirements via pip:
 
 ```
-pip install flask
-pip install python-dotenv
-pip install flask-wtf
-pip install flask-login
-pip install flask-sqlalchemy
-pip install flask-migrate
-pip install requests
+pip install -r requirements.txt
 ```
 
-Please edit this file as we make more progress if you need to install more files
 
 To run, simply :
 
@@ -47,3 +45,10 @@ flask run
 And if everything was setup and configured right you should run on port 5000.
 
 Now you can just open the virtual environment and run flask if you want to use the server again.
+
+Testing
+
+Make sure you're in the WikiPath directory and run:
+```
+python3 -m unittest tests/unit.py
+```
