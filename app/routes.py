@@ -76,7 +76,7 @@ def view():
     form = LoginForm()
     submitForm = SubmitForm()
     challenge_id = int(request.args.get("id", default=-1, type=int))
-    if(challenge_id == -1):
+    if(getChallenge(challenge_id) is None ):
         return redirect(url_for('main.index'))
     challenge = getChallenge(challenge_id).toDict()
     isFinished = getChallenge(challenge_id).finished
