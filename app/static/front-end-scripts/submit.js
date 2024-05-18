@@ -43,7 +43,11 @@ function addError(error, id) {
     const errorTemplate = $("#errorTemplate").clone();
     errorTemplate.find("div").html(error);
     const errorElem = errorTemplate.html();
-    $("#" + id).parent().parent().append(errorElem);
+    if(id == "pathStart") {
+        $("#" + id).after(errorElem);
+    }else {
+        $("#" + id).parent().parent().append(errorElem);
+    }
 }
 
 function addPreviousPaths(articleList) {
@@ -60,7 +64,7 @@ function addPreviousPaths(articleList) {
 
 }
 
-function addPathErrors(errorList) {
+function addArticleErrors(errorList) {
     //For every non-empty path entry, if its value is in the list of error articles, 
     //add an error message below
     $(".path-entry[value!='']").each(function (index) {
@@ -68,21 +72,12 @@ function addPathErrors(errorList) {
     })
 }
 
-function addPathErrors(errorList, articleList) {
-    let path_entries = $(".path-entry[value!='']");
+function addPathErrors(errorList) {
+    let path_entries = $("#pathStart").add($(".path-entry[value!='']")).add($("#pathEnd"));
 
-    if(articleList[0] != "") {
-        for(let i = 0; i < articleList.length; i++) {
-            if(errorList.includes(articleList[i])) {
-                if (i == 0) {
-                    addError(articleList[i] + " does not link to " + articleList[i + 1], path_entries.eq(i).attr("id"));
-                } else {
-                    addError(articleList[i] + " does not link to " + articleList[i + 1], path_entries.eq(i-1).attr("id"));
-                }
-                
-            }
-        }
-    }
+    path_entries.each(function (index) {
+        errorList.includes($(this).attr("value")) && addError($(this).attr("value") + " does not link to " + path_entries.eq(index + 1).attr("value"), $(this).attr("id"));
+    })
 }
 
 $("document").ready(function () {
@@ -93,5 +88,5 @@ $("document").ready(function () {
     const articleErrorList = $("#submitForm").data("article-errors").split("|");
     const pathErrorList = $("#submitForm").data("path-errors").split("|");
     addArticleErrors(articleErrorList);
-    addPathErrors(pathErrorList, articleList);
+    addPathErrors(pathErrorList);
 })

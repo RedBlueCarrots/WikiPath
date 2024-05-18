@@ -84,7 +84,7 @@ def submit():
         if path_errors == "":
             createNewSubmission(current_user.id, challenge["id"], pathString, int(time.time()))
             return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
-        return redirect(url_for('main.view', id=int(submitForm.challenge_id.data), article_errors=[], path=pathString, path_errors=path_errors))
+        return redirect(url_for('main.view', id=int(submitForm.challenge_id.data), article_errors="", path=pathString, path_errors=path_errors))
     return redirect(url_for('main.view', id=int(submitForm.challenge_id.data), article_errors=submitForm.errors["path"][0], path=pathString, path_errors=""))
 
 #Challenge view
@@ -115,9 +115,10 @@ def view():
         submissions = [getSubmissionByChallengeAndCreator(getChallenge(challenge_id).id, current_user.id)]
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
     submitted_path = request.args.get("path")
-    path_errors = request.args.get("errors")
+    article_errors = request.args.get("article_errors")
+    path_errors = request.args.get("path_errors")
     if(submitted_path is not None):
-        return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, errors=path_errors, path=submitted_path)
+        return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, article_errors=article_errors, path=submitted_path, path_errors=path_errors)
     
     return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge)
 
