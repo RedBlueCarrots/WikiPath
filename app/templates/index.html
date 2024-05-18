@@ -3,7 +3,7 @@
 
 <div class="mx-5 my-2">
 	<div class="row my-3">
-		<form class="form d-flex" action="{{ url_for('search') }}" method="POST">
+		<form class="form d-flex" action="{{ url_for('main.search') }}" method="POST">
 			{{ search_form.hidden_tag() }}
 			{{ search_form.search(class="form-control me-2") }}
 			{{ search_form.submit(class="btn btn-secondary") }}
@@ -26,8 +26,9 @@
         {% endfor %}
     {% endif %}
     {% endwith %}
-	{% for challenge in challenges %}
 	</div>
+	{% for challenge in challenges %}
+	
 
 	<div class="row cursor-pointer table-row text-center  my-3 py-3"
 		onclick="location.href='{{ url_for('view') +'?id='+challenge.id|string}}'">
