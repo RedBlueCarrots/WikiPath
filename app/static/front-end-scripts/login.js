@@ -23,8 +23,12 @@ $("document").ready(function () {
 	});
 
 	$(".loginFormButton").click(function () {
-		buttonClicked = $(this).attr("id");
+		buttonClicked = $(this).data("link");
 	})
+
+	$("#loginPopup").on("show.bs.modal", () => {
+		$("#loginErrorMsg").text("");
+	});
 
 });
 
