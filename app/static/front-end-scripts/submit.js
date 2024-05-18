@@ -43,7 +43,7 @@ function addError(error, id) {
     const errorTemplate = $("#errorTemplate").clone();
     errorTemplate.find("div").html(error);
     const errorElem = errorTemplate.html();
-    $("#" + id).parent().parent().after(errorElem);
+    $("#" + id).parent().parent().append(errorElem);
 }
 
 function addPreviousPaths(articleList) {

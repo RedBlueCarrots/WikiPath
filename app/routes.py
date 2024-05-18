@@ -1,27 +1,40 @@
 from flask import render_template, request, flash, redirect, url_for, jsonify
 from flask_login import current_user, login_user, logout_user
-from app import app
+from app.blueprints import main
 from .database import *
 from .forms import *
 import time
 from datetime import datetime
+from app.wikipedia import *
 
 #Home page
-@app.route('/', methods=['GET'])
-@app.route('/index', methods=['GET'])
-def index():
+
+@main.route('/', methods=['GET'])
+@main.route('/index', methods=['GET'])
+def index(search_string=None):
     checkChallengesCompleted()
-    #Challenges
+    form = LoginForm()
+    search_form = SearchForm()
+    active_nav = "play"
     challengeList = []
-    challenges = Challenge.query.all()
+    search_string = request.args.get("search")
+    if search_string is None:
+        challenges = Challenge.query.all()
+    else:
+        challenges = getChallengesByTitleOrCreator(search_string)
+        if challenges == []:
+            flash("Your search did not return any results.")
     for challenge in challenges:
         challengeList.append(challenge.toDict())
-    form = LoginForm()
-    active_nav = "play"
-    return render_template('index.html', challenges=challengeList, form=form, nav=active_nav)
+    return render_template('index.html', challenges=challengeList, form=form, search_form=search_form, nav=active_nav)
+
+@main.route('/search', methods=['POST'])
+def search():
+    search_form = SearchForm()
+    return redirect(url_for('main.index', search=search_form.search.data))
 
 #Create challenge page
-@app.route('/create', methods=['GET', 'POST'])
+@main.route('/create', methods=['GET', 'POST'])
 def create():
     form = LoginForm()
     create_form = ChallengeCreationForm()
@@ -32,6 +45,10 @@ def create():
             errors.append("Login before creating a challenge!")
         if (create_form.start.data == create_form.destination.data):
             errors.append("The starting article cannot be the same as the destination article!")
+        articlesInfo = checkArticlesExists([create_form.start.data, create_form.destination.data])
+        for article in articlesInfo:
+            if not articlesInfo[article]:
+                errors.append(article + " is not a valid article")
         path = create_form.start.data + "|" + create_form.destination.data
         try:
             datetime_object = int(datetime.fromisoformat(str(create_form.time.data)).timestamp())
@@ -42,20 +59,20 @@ def create():
         if len(errors) > 0:
             return render_template('create.html', form=form, create_form=create_form, errors=errors, nav=active_nav)
         createNewChallenge(current_user.id, create_form.title.data, path, int(time.time()), datetime_object)
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     return render_template('create.html', form=form, create_form=create_form, errors=errors, nav=active_nav)
 
 #Challenge submission
 #Submit should always include an id parameter
-@app.route('/submit', methods=['POST'])
+@main.route('/submit', methods=['POST'])
 def submit():
     checkChallengesCompleted()
     submitForm = SubmitForm()
     form = LoginForm()
     challenge = getChallenge(int(submitForm.challenge_id.data)).toDict()
-    if challenge.finished:
+    if challenge["finished"]:
         # There has to be a better way to communicate that the time has run out other than reloading the page
-        return redirect(url_for('view', id=int(submitForm.challenge_id.data)))
+        return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
     pathString = ""
     pathString = challenge["startArticle"] + "|"
     for i in submitForm.path.data:
@@ -66,16 +83,20 @@ def submit():
         if not checkValidPath(pathString.split("|")):
             return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, article_errors=[], path=pathString, path_error=True)
         createNewSubmission(current_user.id, challenge["id"], pathString, int(time.time()))
-        return redirect(url_for('view', id=int(submitForm.challenge_id.data)))
-    return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, article_errors=submitForm.errors["path"][0], path=pathString, path_error=False)
+        return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
+    return redirect(url_for("main.view", id=int(submitForm.challenge_id.data), errors=submitForm.errors["path"][0], path=pathString))
+    # return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, errors=submitForm.errors["path"][0], path=pathString)
 
 #Challenge view
 #View should always include an id parameter
-@app.route('/view', methods=['GET'])
+@main.route('/view', methods=['GET'])
 def view():
     checkChallengesCompleted()
     form = LoginForm()
+    submitForm = SubmitForm()
     challenge_id = int(request.args.get("id", default=-1, type=int))
+    if(getChallenge(challenge_id) is None ):
+        return redirect(url_for('main.index'))
     challenge = getChallenge(challenge_id).toDict()
     isFinished = getChallenge(challenge_id).finished
     if current_user.is_anonymous:
@@ -93,11 +114,15 @@ def view():
     elif isSubmitted:
         submissions = [getSubmissionByChallengeAndCreator(getChallenge(challenge_id).id, current_user.id)]
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
-    submitForm = SubmitForm()
+    submitted_path = request.args.get("path")
+    path_errors = request.args.get("errors")
+    if(submitted_path is not None):
+        return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, errors=path_errors, path=submitted_path)
+    
     return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge)
 
 #create account
-@app.route('/create_account', methods=["POST"])
+@main.route('/create_account', methods=["POST"])
 def create_account():
     form = LoginForm()
     if returnUserViaUsername(form.username.data) == None:
@@ -111,7 +136,7 @@ def create_account():
     return response
 
 #Login
-@app.route('/login', methods=["POST"])
+@main.route('/login', methods=["POST"])
 def login():
     form = LoginForm()
     #This is for testing.
@@ -136,13 +161,13 @@ def login():
     pass
 
 #Logout
-@app.route('/logout', methods=["GET"])
+@main.route('/logout', methods=["GET"])
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
 
-@app.route("/users", methods=["GET"])
+@main.route("/users", methods=["GET"])
 def leaderboard():
     form = LoginForm()
     userList = []
