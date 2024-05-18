@@ -68,11 +68,30 @@ function addPathErrors(errorList) {
     })
 }
 
+function addPathErrors(errorList, articleList) {
+    let path_entries = $(".path-entry[value!='']");
+
+    if(articleList[0] != "") {
+        for(let i = 0; i < articleList.length; i++) {
+            if(errorList.includes(articleList[i])) {
+                if (i == 0) {
+                    addError(articleList[i] + " does not link to " + articleList[i + 1], path_entries.eq(i).attr("id"));
+                } else {
+                    addError(articleList[i] + " does not link to " + articleList[i + 1], path_entries.eq(i-1).attr("id"));
+                }
+                
+            }
+        }
+    }
+}
+
 $("document").ready(function () {
     $("#revealPathFormSmall").on("click", revealPath);
     $("#removePathFormSmall").on("click", removePath);
     let articleList = $("#submitForm").data("path").split("|");
     addPreviousPaths(articleList);
-    const errorList = $("#submitForm").data("errors").split("|");
-    addPathErrors(errorList);
+    const articleErrorList = $("#submitForm").data("article-errors").split("|");
+    const pathErrorList = $("#submitForm").data("path-errors").split("|");
+    addArticleErrors(articleErrorList);
+    addPathErrors(pathErrorList, articleList);
 })
