@@ -10,13 +10,13 @@ from datetime import datetime
 
 @main.route('/', methods=['GET'])
 @main.route('/index', methods=['GET'])
-@main.route('/index/?search=<search_string>', methods=['GET'])
 def index(search_string=None):
     checkChallengesCompleted()
     form = LoginForm()
     search_form = SearchForm()
     active_nav = "play"
     challengeList = []
+    search_string = request.args.get("search")
     if search_string is None:
         challenges = Challenge.query.all()
     else:
@@ -30,7 +30,7 @@ def index(search_string=None):
 @main.route('/search', methods=['POST'])
 def search():
     search_form = SearchForm()
-    return redirect(url_for('main.index', search_string=search_form.search.data))
+    return redirect(url_for('main.index', search=search_form.search.data))
 
 #Create challenge page
 @main.route('/create', methods=['GET', 'POST'])
