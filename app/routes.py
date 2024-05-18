@@ -10,7 +10,7 @@ from datetime import datetime
 
 @main.route('/', methods=['GET'])
 @main.route('/index', methods=['GET'])
-@main.route('/index/<search_string>', methods=['GET'])
+@main.route('/index/?search=<search_string>', methods=['GET'])
 def index(search_string=None):
     checkChallengesCompleted()
     form = LoginForm()
@@ -27,10 +27,10 @@ def index(search_string=None):
         challengeList.append(challenge.toDict())
     return render_template('index.html', challenges=challengeList, form=form, search_form=search_form, nav=active_nav)
 
-@app.route('/search', methods=['POST'])
+@main.route('/search', methods=['POST'])
 def search():
     search_form = SearchForm()
-    return redirect(url_for('index', search_string=search_form.search.data))
+    return redirect(url_for('main.index', search_string=search_form.search.data))
 
 #Create challenge page
 @main.route('/create', methods=['GET', 'POST'])
