@@ -28,12 +28,12 @@
 					<h6 class="h6 warning-text" id="loginErrorMsg"></h6>
 				</div>
 				<div class="modal-footer d-flex justify-content-between">
-					<!-- order-2 will render this div after the create account, but will be first in the dom to get the "submit" signal on enter pressed" !-->
-					<div id="loginOptions" class="order-2">
+					{{ form.create_account(class="btn btn-primary loginFormButton", id=url_for('main.create_account'))
+					}}
+					<div>
 						<button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
-						{{ form.login(class="btn btn-focus loginFormButton", data_link=url_for('login')) }}
+						{{ form.login(class="btn btn-focus loginFormButton", id=url_for('main.login')) }}
 					</div>
-					{{ form.create_account(class="btn btn-primary loginFormButton", data_link=url_for('create_account')) }}
 				</div>
 			</form>
 		</div>
