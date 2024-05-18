@@ -1,6 +1,17 @@
 # WikiPath
 
-WikiPath is a website for users to play the Wikipedia game
+WikiPath is a website for users to play the [Wikipedia game](https://en.wikipedia.org/wiki/Wikipedia:Wiki_Game). <br>Players start from a particular article and attempt to navigate to a chosen destination article via the hyperlinks in the articles.
+
+Players can propose challenges on WikiPath, where other users can view and attempt the challenges. Challenges are a given start article and destination article, where players compete with each other to find the path of these articles with the fewest article links. Challenges has a set time limit, and once that time limit is over, a winner is decided. Winners gains points called WikiAura.
+
+## Group members
+
+| UWA ID      | Name     | Github username|
+| ------------- | ------------- |--- |
+| 23450844|Ethan Yong | RadiationOcelot |
+| 23475912 |Delta Oliver| DeltaO3 |
+|23334811 | Joseph Newman | RedBlueCarrots|
+|23443804 | Jaidan Balea | jaidan18|
 
 ## Setup instructions:
 
