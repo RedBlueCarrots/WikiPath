@@ -23,7 +23,7 @@
             <h3 class="h3 text-center text-md-start mt-3">My path:</h3>
         </div>
         <div class="col-12 col-md-6 col-lg-8 mt-3">
-            <form class="form" method="POST" action="{{ url_for('submit') }}">
+            <form class="form" method="POST" action="{{ url_for('main.submit') }}">
                 {{ submitForm.csrf_token }}
                 {{ submitForm.challenge_id(value=challenge.id)}}
                 <div id="submitForm" class="container" data-path="{{path}}" data-errors="{{errors}}">
