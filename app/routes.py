@@ -8,18 +8,30 @@ from datetime import datetime
 from app.wikipedia import *
 
 #Home page
+
 @main.route('/', methods=['GET'])
 @main.route('/index', methods=['GET'])
-def index():
+def index(search_string=None):
     checkChallengesCompleted()
-    #Challenges
+    form = LoginForm()
+    search_form = SearchForm()
+    active_nav = "play"
     challengeList = []
-    challenges = Challenge.query.all()
+    search_string = request.args.get("search")
+    if search_string is None:
+        challenges = Challenge.query.all()
+    else:
+        challenges = getChallengesByTitleOrCreator(search_string)
+        if challenges == []:
+            flash("Your search did not return any results.")
     for challenge in challenges:
         challengeList.append(challenge.toDict())
-    form = LoginForm()
-    active_nav = "play"
-    return render_template('index.html', challenges=challengeList, form=form, nav=active_nav)
+    return render_template('index.html', challenges=challengeList, form=form, search_form=search_form, nav=active_nav)
+
+@main.route('/search', methods=['POST'])
+def search():
+    search_form = SearchForm()
+    return redirect(url_for('main.index', search=search_form.search.data))
 
 #Create challenge page
 @main.route('/create', methods=['GET', 'POST'])
