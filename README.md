@@ -49,6 +49,11 @@ Install the requirements via pip:
 ```
 pip install -r requirements.txt
 ```
+Create a secret key:
+
+```
+export FLASK_SECRET_KEY='insert_secret_key_here'
+```
 
 
 Run the flask app :
@@ -57,7 +62,13 @@ Run the flask app :
 flask run
 ```
 
-And if everything was setup and configured correctly it should run on port 5000.
+By default it should run on port 5000.
+
+You can change the port number if you wish:
+
+```
+flask run -p port_number
+```
 
 Now you can just open the virtual environment and run flask if you want to use the server again.
 
