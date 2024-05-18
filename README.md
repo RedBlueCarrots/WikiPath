@@ -51,9 +51,16 @@ pip install -r requirements.txt
 ```
 Create a secret key:
 
-```
-export FLASK_SECRET_KEY='insert_secret_key_here'
-```
+- WINDOWS :
+
+  ```
+  setx export FLASK_SECRET_KEY='insert_secret_key_here'
+  ```
+
+- UNIX :
+  ```
+  export FLASK_SECRET_KEY='insert_secret_key_here'
+  ```
 
 
 Run the flask app :
