@@ -25,6 +25,7 @@ def getChallenge(post_id):
     challenge = db.session.query(Challenge).filter_by(id=post_id).first()
     return challenge
 
+
 def getChallengesByTitleOrCreator(search):
     users = db.session.query(User).filter(User.username.icontains(search)).all()
     ids = [user.id for user in users]
@@ -33,6 +34,11 @@ def getChallengesByTitleOrCreator(search):
     challenges = list(dict.fromkeys(challenges))
     return challenges
 
+def getSubmission(submission_id):
+    submission = db.session.query(Submission).filter_by(id=submission_id).first()
+    return submission
+
+# Most likely don't need this anymore as getSubmission() does the same thing essentially
 def checkSubmissionExists(submission_id):
     submission = db.session.query(Submission).filter_by(id=submission_id).first()
     return submission is not None
@@ -87,12 +93,12 @@ def findWinner(challenge):
 def checkChallengesCompleted():
     challenges = Challenge.query.all()
     for challenge in challenges:
-        # challenge.finished == False is most likely bad practice
         if ((challenge.dt_finish-int(time.time())) <= 0 and not challenge.finished):
             challenge.finished = True
-            challenge.winner_id = findWinner(challenge)
-            winner = loadUser(challenge.winner_id)
-            # Needs to be changed when points column gets renamed to WikiAura
-            winner.points += 10
+            winning_submission = getSubmission(findWinner(challenge))
+            if winning_submission is not None:
+                challenge.winner_id = winning_submission.creator_id
+                winner = challenge.winner
+                winner.WikiAura += 10
     db.session.commit()
             

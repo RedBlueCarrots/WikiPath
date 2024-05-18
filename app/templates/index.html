@@ -31,7 +31,7 @@
 	
 
 	<div class="row cursor-pointer table-row text-center  my-3 py-3"
-		onclick="location.href='{{ url_for('view') +'?id='+challenge.id|string}}'">
+		onclick="location.href='{{ url_for('main.view') +'?id='+challenge.id|string}}'">
 		<span class="d-block d-md-none col-md-0 col-6 lead">Challenge Title: </span>
 		<span class="col-md-2 col-6">{{challenge.title}}</span>
 		<span class="d-block d-md-none col-md-0 col-6 lead">From: </span>

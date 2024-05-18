@@ -1,15 +1,16 @@
 from flask import render_template, request, flash, redirect, url_for, jsonify
 from flask_login import current_user, login_user, logout_user
-from app import app
+from app.blueprints import main
 from .database import *
 from .forms import *
 import time
 from datetime import datetime
 
 #Home page
-@app.route('/', methods=['GET'])
-@app.route('/index', methods=['GET'])
-@app.route('/index/<search_string>', methods=['GET'])
+
+@main.route('/', methods=['GET'])
+@main.route('/index', methods=['GET'])
+@main.route('/index/<search_string>', methods=['GET'])
 def index(search_string=None):
     checkChallengesCompleted()
     form = LoginForm()
@@ -32,7 +33,7 @@ def search():
     return redirect(url_for('index', search_string=search_form.search.data))
 
 #Create challenge page
-@app.route('/create', methods=['GET', 'POST'])
+@main.route('/create', methods=['GET', 'POST'])
 def create():
     form = LoginForm()
     create_form = ChallengeCreationForm()
@@ -53,12 +54,12 @@ def create():
         if len(errors) > 0:
             return render_template('create.html', form=form, create_form=create_form, errors=errors, nav=active_nav)
         createNewChallenge(current_user.id, create_form.title.data, path, int(time.time()), datetime_object)
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     return render_template('create.html', form=form, create_form=create_form, errors=errors, nav=active_nav)
 
 #Challenge submission
 #Submit should always include an id parameter
-@app.route('/submit', methods=['POST'])
+@main.route('/submit', methods=['POST'])
 def submit():
     checkChallengesCompleted()
     submitForm = SubmitForm()
@@ -66,7 +67,7 @@ def submit():
     challenge = getChallenge(int(submitForm.challenge_id.data)).toDict()
     if challenge.finished:
         # There has to be a better way to communicate that the time has run out other than reloading the page
-        return redirect(url_for('view', id=int(submitForm.challenge_id.data)))
+        return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
     pathString = ""
     pathString = challenge["startArticle"] + "|"
     for i in submitForm.path.data:
@@ -75,12 +76,12 @@ def submit():
     pathString += challenge["endArticle"]
     if submitForm.validate_on_submit():
         createNewSubmission(current_user.id, challenge["id"], pathString, int(time.time()))
-        return redirect(url_for('view', id=int(submitForm.challenge_id.data)))
+        return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
     return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, errors=submitForm.errors["path"][0], path=pathString)
 
 #Challenge view
 #View should always include an id parameter
-@app.route('/view', methods=['GET'])
+@main.route('/view', methods=['GET'])
 def view():
     checkChallengesCompleted()
     form = LoginForm()
@@ -106,7 +107,7 @@ def view():
     return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge)
 
 #create account
-@app.route('/create_account', methods=["POST"])
+@main.route('/create_account', methods=["POST"])
 def create_account():
     form = LoginForm()
     if returnUserViaUsername(form.username.data) == None:
@@ -120,7 +121,7 @@ def create_account():
     return response
 
 #Login
-@app.route('/login', methods=["POST"])
+@main.route('/login', methods=["POST"])
 def login():
     form = LoginForm()
     #This is for testing.
@@ -145,13 +146,13 @@ def login():
     pass
 
 #Logout
-@app.route('/logout', methods=["GET"])
+@main.route('/logout', methods=["GET"])
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
 
-@app.route("/users", methods=["GET"])
+@main.route("/users", methods=["GET"])
 def leaderboard():
     form = LoginForm()
     userList = []
