@@ -29,7 +29,7 @@
             <form class="form" method="POST" action="{{ url_for('main.submit') }}">
                 {{ submitForm.csrf_token }}
                 {{ submitForm.challenge_id(value=challenge.id)}}
-                <div id="submitForm" class="container" data-path="{{path}}" data-errors="{{errors}}">
+                <div id="submitForm" class="container" data-path="{{ path }}" data-article-errors="{{ article_errors }}" data-path-errors="{{ path_errors }}">
                     <input id="pathStart" class="form-control mb-3" type="text" placeholder="{{challenge.startArticle}}"
                         disabled>
                     <input id="pathEnd" class="form-control my-3" type="text" placeholder="{{challenge.endArticle}}"
