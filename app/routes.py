@@ -72,8 +72,6 @@ def submit():
     challenge = getChallenge(int(submitForm.challenge_id.data)).toDict()
     if challenge["finished"]:
         return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
-    if submitForm.validate_on_submit():
-        return redirect(url_for('main.view', id=int(submitForm.challenge_id.data), article_errors="", path_errors=""))
     #if validation errored, this means there is a path failure
     #Include the submitted path in the return URL, so form stays populated
     pathString = ""
@@ -82,6 +80,9 @@ def submit():
         if i.strip() != "":
             pathString += i + "|"
     pathString += challenge["endArticle"]
+    if submitForm.validate_on_submit():
+        createNewSubmission(current_user.id, challenge["id"], pathString, int(time.time()))
+        return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
     #submitform["path][0] has been raised as ["article errors", "path errors"]
     return redirect(url_for('main.view', id=int(submitForm.challenge_id.data), article_errors=submitForm.errors["path"][0][0], path=pathString, path_errors=submitForm.errors["path"][0][1]))
 
