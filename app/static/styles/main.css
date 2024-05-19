@@ -53,6 +53,25 @@ body {
   }
 }
 
+#pagination, .page-link  {
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  background-color: transparent;
+  border-color: var(--primary);
+  color: var(--text);
+}
+
+
+#pagination .page-link:hover{
+  background-color: color-mix(in srgb, var(--primary) 90%, transparent);
+  color: var(--text);
+}
+
+#pagination .active>.page-link{
+  background-color: var(--primary);
+  color: var(--text);
+  border-color: var(--primary);
+}
+
 .cursor-pointer {
   cursor: pointer;
 }

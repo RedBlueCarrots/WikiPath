@@ -3,11 +3,30 @@
 
 <div class="mx-5 my-2">
 	<div class="row my-3">
-		<form class="form d-flex" action="{{ url_for('main.search') }}" method="POST">
-			{{ search_form.hidden_tag() }}
-			{{ search_form.search(class="form-control me-2") }}
-			{{ search_form.submit(class="btn btn-secondary") }}
-		</form>
+		<span class="col">
+			<form class="form d-flex" action="{{ url_for('main.search') }}" method="POST">
+				{{ search_form.hidden_tag() }}
+				{{ search_form.search(class="form-control me-2") }}
+				{{ search_form.submit(class="btn btn-secondary") }}
+			</form>
+		</span>
+		<nav class="col-auto" aria-label="Page navigation example">
+		  <ul id="pagination" class="pagination justify-content-end" data-page={{current_page}} data-totalpages={{total_pages}}>
+		    <li class="page-item">
+		      <a class="page-link page-link-start" href="#" aria-label="Previous">
+		        <span aria-hidden="true">&laquo;</span>
+		      </a>
+		    </li>
+		    <li class="page-item page-item-1"><a class="page-link" href="#">1</a></li>
+		    <li class="page-item page-item-2"><a class="page-link" href="#">2</a></li>
+		    <li class="page-item page-item-3"><a class="page-link" href="#">3</a></li>
+		    <li class="page-item">
+		      <a class="page-link page-link-end" href="#" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+		  </ul>
+		</nav>
 	</div>
 	<div class="row lead text-center d-none d-md-flex mb-4" id="tableHeader">
 		<span class="col-md-2">Challenge Title</span>
@@ -52,5 +71,8 @@
 		</span>
 	</div>
 	{% endfor %}
+
 </div>
+
+<script src="{{ url_for('static',filename='front-end-scripts/index.js') }}"></script>
 {% endblock %}
