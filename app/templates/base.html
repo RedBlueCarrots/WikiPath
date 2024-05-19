@@ -22,11 +22,11 @@
 			</button>
 			<div class="collapse navbar-collapse " id="navbarSupportedContent">
 				<div class="nav nav-underline nav-justified me-auto mb-2 mb-md-0">
-					<a class="nav-link {% if nav == 'play' %} active {% endif %}"
+					<a id="playButton" class="nav-link {% if nav == 'play' %} active {% endif %}"
 						href="{{ url_for('main.index') }}">Play</a>
-					<a class="nav-link {% if nav == 'create' %} active {% endif %}"
+					<a id="createChallengeButton" class="nav-link {% if nav == 'create' %} active {% endif %}"
 						href="{{ url_for('main.create') }}">Create </a>
-					<a class="nav-link {% if nav == 'leaderboard' %} active {% endif %}"
+					<a id="leaderboardButton" class="nav-link {% if nav == 'leaderboard' %} active {% endif %}"
 						href="{{ url_for('main.leaderboard') }}">Leaderboard </a>
 				</div>
 				{% if current_user.is_anonymous %}

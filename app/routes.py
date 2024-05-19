@@ -53,7 +53,7 @@ def submit():
     submitForm = SubmitForm()
     form = LoginForm()
     challenge = getChallenge(int(submitForm.challenge_id.data)).toDict()
-    if challenge.finished:
+    if challenge["finished"]:
         # There has to be a better way to communicate that the time has run out other than reloading the page
         return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
     pathString = ""
