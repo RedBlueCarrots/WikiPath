@@ -33,17 +33,17 @@
 	<div class="row cursor-pointer table-row text-center  my-3 py-3"
 		onclick="location.href='{{ url_for('main.view') +'?id='+challenge.id|string}}'">
 		<span class="d-block d-md-none col-md-0 col-6 lead">Challenge Title: </span>
-		<span class="col-md-2 col-6">{{challenge.title}}</span>
+		<span id="title" class="col-md-2 col-6">{{challenge.title}}</span>
 		<span class="d-block d-md-none col-md-0 col-6 lead">From: </span>
-		<span class="col-md-2 col-6">{{challenge.startArticle}}</span>
+		<span id="start" class="col-md-2 col-6">{{challenge.startArticle}}</span>
 		<span class="d-block d-md-none col-md-0 col-6 lead">To: </span>
-		<span class="col-md-2 col-6">{{challenge.endArticle}}</span>
+		<span id="end" class="col-md-2 col-6">{{challenge.endArticle}}</span>
 		<span class="d-block d-md-none col-md-0 col-6 lead">Guesses: </span>
-		<span class="col-md-2 col-6">{{challenge.guesses}}</span>
+		<span id="guesses" class="col-md-2 col-6">{{challenge.guesses}}</span>
 		<span class="d-block d-md-none col-md-0 col-6 lead">Creator: </span>
-		<span class="col-md-2 col-6">{{challenge.creator}}</span>
+		<span id="creator" class="col-md-2 col-6">{{challenge.creator}}</span>
 		<span class="d-block d-md-none col-md-0 col-6 lead">Time Left: </span>
-		<span class="col-md-2 col-6">
+		<span id="time" class="col-md-2 col-6">
 			{% if challenge.finished %}
 			{{"Finished"}}
 			{% else %}

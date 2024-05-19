@@ -10,12 +10,12 @@ Viewers of the site (logged in or not), can view all challenges, completed or on
 
 ## Group members
 
-| UWA ID      | Name     | Github username|
-| ------------- | ------------- |--- |
-| 23450844|Ethan Yong | RadiationOcelot |
-| 23475912 |Delta Oliver| DeltaO3 |
-|23334811 | Joseph Newman | RedBlueCarrots|
-|23443804 | Jaidan Balea | jaidan18|
+| UWA ID   | Name          | Github username |
+| -------- | ------------- | --------------- |
+| 23450844 | Ethan Yong    | RadiationOcelot |
+| 23475912 | Delta Oliver  | DeltaO3         |
+| 23334811 | Joseph Newman | RedBlueCarrots  |
+| 23443804 | Jaidan Balea  | jaidan18        |
 
 ## Setup instructions:
 
@@ -54,14 +54,13 @@ Create a secret key:
 - WINDOWS :
 
   ```
-  setx export FLASK_SECRET_KEY='insert_secret_key_here'
+  setx FLASK_SECRET_KEY='insert_secret_key_here'
   ```
 
 - UNIX :
   ```
   export FLASK_SECRET_KEY='insert_secret_key_here'
   ```
-
 
 Run the flask app :
 
@@ -82,6 +81,17 @@ Now you can just open the virtual environment and run flask if you want to use t
 ## Testing
 
 Make sure you're in the WikiPath directory and run:
+
 ```
 python3 -m unittest tests/unit.py
 ```
+
+To run selenium tests, make sure webdrivers are installed/downloaded before hand. <br>
+More information on how we got it to run with Firefox on WSL [here](https://github.com/RedBlueCarrots/WikiPath/pull/84).<br>
+Once installed/downloaded, run:
+
+```
+python -m unittest tests/selenium.py
+```
+
+Note that we could not get the selenium tests to work on Windows.
