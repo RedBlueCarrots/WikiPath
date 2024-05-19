@@ -5,7 +5,8 @@
 #Note that doing that will edit the default app.db, which is far from ideal.
 
 import multiprocessing
-import time
+# time.sleep() could be utilised if you want to read the error messages that may appear when testing
+# import time
 from app import create_app, db
 from app.config import TestConfig
 from selenium import webdriver
@@ -58,14 +59,14 @@ class SeleniumTests(TestCase):
 		for i in input:
 			sendTo.send_keys(i)
 
-	def create_account(self):
+	def create_account(self, name):
 		login_button = self.driver.find_element(by=By.ID, value="loginButton")
 		login_button.click()
 		username_field = self.driver.find_element(by=By.ID, value="username")
-		self.keyIndividualLetters("TestingUsername", username_field)
+		self.keyIndividualLetters(name, username_field)
 		password_field = self.driver.find_element(by=By.ID, value="password")
 		self.keyIndividualLetters("TestPassword", password_field)
-		create_account_button = self.driver.find_element(by=By.ID, value="/create_account")
+		create_account_button = self.driver.find_element(by=By.ID, value="create_account")
 		create_account_button.click()
 
 	def logout(self):
@@ -79,7 +80,7 @@ class SeleniumTests(TestCase):
 		self.keyIndividualLetters("TestingUsername", username_field)
 		password_field = self.driver.find_element(by=By.ID, value="password")
 		self.keyIndividualLetters("TestPassword", password_field)
-		confirm_login_button = self.driver.find_element(by=By.ID, value="/login")
+		confirm_login_button = self.driver.find_element(by=By.ID, value="login")
 		confirm_login_button.click()
 
 	def create_challenge(self):
@@ -90,7 +91,7 @@ class SeleniumTests(TestCase):
 		start_article = self.driver.find_element(by=By.ID, value="start")
 		self.keyIndividualLetters("Left", start_article)
 		end_article = self.driver.find_element(by=By.ID, value="destination")
-		self.keyIndividualLetters("Right", end_article)
+		self.keyIndividualLetters("McDonald's", end_article)
 		time=self.driver.find_element(by=By.ID, value="time")
 		self.keyIndividualLetters("99999999p", time)
 		submit = self.driver.find_element(by=By.ID, value="submit")
@@ -100,10 +101,9 @@ class SeleniumTests(TestCase):
 		view_challenge_button = self.driver.find_element(by=By.ID, value="title")
 		view_challenge_button.click()
 
-
 	def create_and_login(self):
 		# self.driver.implicitly_wait(10)
-		self.create_account()
+		self.create_account("TestingUsername")
 		username_display = self.driver.find_element(by=By.ID, value="usernameDisplay")
 		self.assertEqual(username_display.text, "TestingUsername")
 		self.logout()
@@ -120,7 +120,7 @@ class SeleniumTests(TestCase):
 		start = self.driver.find_element(by=By.ID, value="start")
 		self.assertEqual(start.text, "Left")
 		end = self.driver.find_element(by=By.ID, value="end")
-		self.assertEqual(end.text, "Right")
+		self.assertEqual(end.text, "McDonald's")
 		guesses = self.driver.find_element(by=By.ID, value="guesses")
 		self.assertEqual(guesses.text, "0")
 		creator = self.driver.find_element(by=By.ID, value="creator")
@@ -128,12 +128,45 @@ class SeleniumTests(TestCase):
 		# really difficult to check the time remaining as it's constantly changing
 		time = self.driver.find_element(by=By.ID, value="time")
 		self.assertNotEqual(time.text, "Finished")
-		# self.view_challenge()
+		self.view_challenge()
+		title = self.driver.find_element(by=By.ID, value="title")
+		self.assertEqual(title.text, "Test Title - TestingUsername")
+		start = self.driver.find_element(by=By.ID, value="start")
+		self.assertEqual(start.text, "Left")
+		end = self.driver.find_element(by=By.ID, value="end")
+		self.assertEqual(end.text, "McDonald's")
+		back = self.driver.find_element(by=By.ID, value="playButton")
+		back.click()
+		self.logout()
+		
+	def create_submission(self):
+		self.create_account("User2")
+		self.view_challenge()
+		first_article = self.driver.find_element(by=By.ID, value="path-0")
+		self.keyIndividualLetters("Copyleft", first_article)
+		revealButton = self.driver.find_element(by=By.ID, value="revealPathForm")
+		revealButton.click()
+		second_article = self.driver.find_element(by=By.ID, value="path-1")
+		self.keyIndividualLetters("License", second_article)
+		submit = self.driver.find_element(by=By.ID, value="submitButton")
+		submit.click()
+		creator = self.driver.find_element(by=By.ID, value="creator")
+		self.assertEqual(creator.text, "User2 (4 articles)")
+		accordian = self.driver.find_element(by=By.ID, value="accordianButton")
+		accordian.click()
+		path = self.driver.find_element(by=By.ID, value="path")
+		self.assertEqual(path.text, "Left -> Copyleft -> License -> McDonald's")
+		back = self.driver.find_element(by=By.ID, value="playButton")
+		back.click()
+		guesses = self.driver.find_element(by=By.ID, value="guesses")
+		self.assertEqual(guesses.text, "1")
+
 
 
 	def test_overall_functionality(self):
 		self.create_and_login()
 		self.create_and_view_challenge()
+		self.create_submission()
 
 		
 	
