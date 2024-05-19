@@ -40,6 +40,7 @@ class SeleniumTests(TestCase):
 		options = Options()
 		options.add_argument('--no-sandbox')
 		options.add_argument('--disable-dev-shm-usage')
+		# Change this to wherever geckodriver is located on your machine
 		geckodriver_path = "/snap/bin/geckodriver"
 		driver_service = Service(executable_path=geckodriver_path)
 		self.driver = webdriver.Firefox(options=options, service=driver_service)
