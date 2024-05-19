@@ -108,10 +108,14 @@ def view():
     isFinished = getChallenge(challenge_id).finished
     
     if isCreator or isFinished:
-        submissions = getSubmissionsByChallenge(challenge_id)
+        submissions = getSubmissionsByChallenge(challenge_id).copy()
+        for s in submissions:
+            s.dt_submit = time.strftime('%d/%m/%Y %I:%M %p', time.localtime(s.dt_submit))
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
     elif isSubmitted:
         submissions = [getSubmissionByChallengeAndCreator(getChallenge(challenge_id).id, current_user.id)]
+        print(submissions[0].dt_submit)
+        submissions[0].dt_submit = time.strftime('%d/%m/%Y %I:%M %p', time.localtime(submissions[0].dt_submit))
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
     submitted_path = request.args.get("path")
     article_errors = request.args.get("article_errors")
