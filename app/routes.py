@@ -71,8 +71,9 @@ def submit():
     form = LoginForm()
     challenge = getChallenge(int(submitForm.challenge_id.data)).toDict()
     if challenge["finished"]:
-        # There has to be a better way to communicate that the time has run out other than reloading the page
         return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
+    #if validation errored, this means there is a path failure
+    #Include the submitted path in the return URL, so form stays populated
     pathString = ""
     pathString = challenge["startArticle"] + "|"
     for i in submitForm.path.data:
@@ -82,8 +83,8 @@ def submit():
     if submitForm.validate_on_submit():
         createNewSubmission(current_user.id, challenge["id"], pathString, int(time.time()))
         return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
-    return redirect(url_for("main.view", id=int(submitForm.challenge_id.data), errors=submitForm.errors["path"][0], path=pathString))
-    # return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, errors=submitForm.errors["path"][0], path=pathString)
+    #submitform["path][0] has been raised as ["article errors", "path errors"]
+    return redirect(url_for('main.view', id=int(submitForm.challenge_id.data), article_errors=submitForm.errors["path"][0][0], path=pathString, path_errors=submitForm.errors["path"][0][1]))
 
 #Challenge view
 #View should always include an id parameter
@@ -113,9 +114,10 @@ def view():
         submissions = [getSubmissionByChallengeAndCreator(getChallenge(challenge_id).id, current_user.id)]
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
     submitted_path = request.args.get("path")
-    path_errors = request.args.get("errors")
+    article_errors = request.args.get("article_errors")
+    path_errors = request.args.get("path_errors")
     if(submitted_path is not None):
-        return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, errors=path_errors, path=submitted_path)
+        return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, article_errors=article_errors, path=submitted_path, path_errors=path_errors)
     
     return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge)
 
