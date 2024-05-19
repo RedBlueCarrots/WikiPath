@@ -3,32 +3,24 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Field
 from wtforms.validators import DataRequired, ValidationError
 from .wikipedia import *
 from .database import *
+VALID = 0
+MISSING = 1
+INVALID = 2
 
-def articlesExist(form, field):
-    errorsString = ""
-    #Will return a dictionary of article names, and true/false if it exists
-    articlesInfo = checkArticlesExists(field.data)
-    for article in articlesInfo:
-        if not articlesInfo[article]:
-            errorsString += article + "|"
-    errorsString = errorsString.strip("|")
-    if errorsString != "":
-        raise ValidationError(errorsString)
-    
 def pathValid(form, field):
     challenge = getChallenge(int(form.challenge_id.data)).toDict()
     data = field.data.copy()
     data.insert(0, challenge["startArticle"])
     data.append(challenge["endArticle"])
     pathInfo = checkValidPath(data)
-    errorsString = "#"
+    errorsStrings = ["", ""]
     for article in pathInfo:
-        print(article, pathInfo[article])
-        if not pathInfo[article]:
-            errorsString += article + "|"
-    errorsString = errorsString.strip("|")
-    if errorsString != "#":
-        raise ValidationError(errorsString)
+        if pathInfo[article] != VALID:
+            errorsStrings[pathInfo[article]-1] += article + "|"
+    errorsStrings[0] = errorsStrings[0].strip("|")
+    errorsStrings[1] = errorsStrings[1].strip("|")
+    if errorsStrings[0] != "" or errorsStrings[1] != "":
+        raise ValidationError(errorsStrings)
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -38,7 +30,7 @@ class LoginForm(FlaskForm):
     create_account = SubmitField('Create Account')
     
 class SubmitForm(FlaskForm):
-    path = FieldList(StringField('Path'), min_entries=1, max_entries=50, validators=[articlesExist, pathValid])
+    path = FieldList(StringField('Path'), min_entries=1, max_entries=50, validators=[pathValid])
     challenge_id = HiddenField()
     
 

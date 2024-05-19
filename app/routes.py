@@ -81,14 +81,7 @@ def submit():
         if i.strip() != "":
             pathString += i + "|"
     pathString += challenge["endArticle"]
-    article_errors=""
-    path_errors=""
-    for errs in submitForm.errors["path"]:
-        if errs.startswith("#"):
-            path_errors=errs.strip("#")
-        else:
-            article_errors=errs
-    return redirect(url_for('main.view', id=int(submitForm.challenge_id.data), article_errors=article_errors, path=pathString, path_errors=path_errors))
+    return redirect(url_for('main.view', id=int(submitForm.challenge_id.data), article_errors=submitForm.errors["path"][0][0], path=pathString, path_errors=submitForm.errors["path"][0][1]))
 
 #Challenge view
 #View should always include an id parameter

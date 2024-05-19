@@ -2,25 +2,9 @@ import requests
 import json
 from .utilities import *
 
-def checkArticlesExists(pathList):
-	#Converts list of articles into a formatted string (art1|art2|art3), using pathify from utilities.py
-	pathString = pathify(pathList)
-	#Make api call using this string - | will allow for multiple searches at once
-	#Wikipedia API handles normalizing the data format
-	query = requests.get("https://en.wikipedia.org/w/api.php?action=query&titles="+pathString+"&format=json&formatversion=2")
-	queryJson = json.loads(query.text)
-	articleInfo = {}
-	#Redundancy check to ensure api response contains expected information
-	if "query" in queryJson and "pages" in queryJson["query"]:
-		#reconvert from normalised to original form (Used on js side for error messages)
-		if "normalized" in queryJson["query"]:
-			for article in queryJson["query"]["pages"]:
-				for normalised in queryJson["query"]["normalized"]:
-					if normalised["to"] == article["title"]:
-						article["title"] = normalised["from"]
-		for article in queryJson["query"]["pages"]:
-			articleInfo[article["title"]] = not "missing" in article
-	return articleInfo
+VALID = 0
+MISSING = 1
+INVALID = 2
 
 def checkValidPath(pathList):
 	fromList = ""
@@ -45,15 +29,17 @@ def checkValidPath(pathList):
 				if pathInfo["query"]["pages"][pageId]["title"]==normalized[pathList[path]]:
 					currentId = pageId
 					break
-			hasNext = False
-			if "links" in pathInfo["query"]["pages"][currentId]:
+			state = INVALID
+			if "missing" in pathInfo["query"]["pages"][currentId]:
+				state = MISSING
+			elif "links" in pathInfo["query"]["pages"][currentId]:
 				for link in pathInfo["query"]["pages"][currentId]["links"]:
 					if link["title"] == normalized[pathList[path+1]]:
-						hasNext = True
+						state = VALID
 						break
-			pathReport[pathList[path]] = hasNext
-			print(pathList[path] + " to " + pathList[path+1], hasNext)
-	pathReport[pathList[len(pathList)-1]] = True
+			pathReport[pathList[path]] = state
+			print(pathList[path] + " to " + pathList[path+1], state)
+	pathReport[pathList[len(pathList)-1]] = VALID
 	return pathReport
 
 def checkArticleLink(from_article, to_article):
