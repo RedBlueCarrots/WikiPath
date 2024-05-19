@@ -114,7 +114,6 @@ def view():
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
     elif isSubmitted:
         submissions = [getSubmissionByChallengeAndCreator(getChallenge(challenge_id).id, current_user.id)]
-        print(submissions[0].dt_submit)
         submissions[0].dt_submit = time.strftime('%d/%m/%Y %I:%M %p', time.localtime(submissions[0].dt_submit))
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
     submitted_path = request.args.get("path")
