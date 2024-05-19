@@ -23,24 +23,48 @@ def checkArticlesExists(pathList):
 	return articleInfo
 
 def checkValidPath(pathList):
-	pathInfo = {}
-	for index in range(len(pathList) - 1):
-		pathInfo[pathList[index]] = checkArticleLink(pathList[index], pathList[index+1])
-	return pathInfo
+	fromList = ""
+	toList = ""
+	for index in range(len(pathList)-1):
+		toList += pathList[index+1] + "|"
+		fromList += pathList[index] + "|"
+	fromList += pathList[len(pathList)-1]
+	toList = toList.strip("|")
+	normalized = {}
+	for path in pathList:
+		normalized[path] = path
+	pathInfo = checkArticleLink(fromList, toList)
+	pathReport = {}
+	if "query" in pathInfo:
+		if "normalized" in pathInfo["query"]:
+			for num in pathInfo["query"]["normalized"]:
+				normalized[num["from"]] = num["to"]
+		for path in range(len(pathList)-1):
+			currentId  = 0
+			for pageId in pathInfo["query"]["pages"]:
+				if pathInfo["query"]["pages"][pageId]["title"]==normalized[pathList[path]]:
+					currentId = pageId
+					break
+			hasNext = False
+			if "links" in pathInfo["query"]["pages"][currentId]:
+				for link in pathInfo["query"]["pages"][currentId]["links"]:
+					if link["title"] == normalized[pathList[path+1]]:
+						hasNext = True
+						break
+			pathReport[pathList[path]] = hasNext
+			print(pathList[path] + " to " + pathList[path+1], hasNext)
+	pathReport[pathList[len(pathList)-1]] = True
+	return pathReport
 
 def checkArticleLink(from_article, to_article):
-	session = requests.Session()
 	url = "https://en.wikipedia.org/w/api.php"
-	params = {
-		"action": "query",
-		"format": "json",
-		"titles": from_article,
-		"prop": "links",
-		"pltitles": to_article
-	}
-	
-	response = session.get(url=url, params=params)
-	data = response.json()
-	if "links" in data["query"]["pages"].popitem()[1].keys():
-		return True
+	url += "?action=query"
+	url += "&format=json"
+	url += "&titles="+from_article
+	url += "&prop=links"
+	url += "&pltitles="+to_article
+	url += "&pllimit=max"
+	query = requests.get(url)
+	print(url)
+	return json.loads(query.text)
 	return False
