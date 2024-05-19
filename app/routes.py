@@ -5,20 +5,33 @@ from .database import *
 from .forms import *
 import time
 from datetime import datetime
+from app.wikipedia import *
 
 #Home page
+
 @main.route('/', methods=['GET'])
 @main.route('/index', methods=['GET'])
-def index():
+def index(search_string=None):
     checkChallengesCompleted()
-    #Challenges
+    form = LoginForm()
+    search_form = SearchForm()
+    active_nav = "play"
     challengeList = []
-    challenges = Challenge.query.all()
+    search_string = request.args.get("search")
+    if search_string is None:
+        challenges = Challenge.query.all()
+    else:
+        challenges = getChallengesByTitleOrCreator(search_string)
+        if challenges == []:
+            flash("Your search did not return any results.")
     for challenge in challenges:
         challengeList.append(challenge.toDict())
-    form = LoginForm()
-    active_nav = "play"
-    return render_template('index.html', challenges=challengeList, form=form, nav=active_nav)
+    return render_template('index.html', challenges=challengeList, form=form, search_form=search_form, nav=active_nav)
+
+@main.route('/search', methods=['POST'])
+def search():
+    search_form = SearchForm()
+    return redirect(url_for('main.index', search=search_form.search.data))
 
 #Create challenge page
 @main.route('/create', methods=['GET', 'POST'])
@@ -32,6 +45,10 @@ def create():
             errors.append("Login before creating a challenge!")
         if (create_form.start.data == create_form.destination.data):
             errors.append("The starting article cannot be the same as the destination article!")
+        articlesInfo = checkArticlesExists([create_form.start.data, create_form.destination.data])
+        for article in articlesInfo:
+            if not articlesInfo[article]:
+                errors.append(article + " is not a valid article")
         path = create_form.start.data + "|" + create_form.destination.data
         try:
             datetime_object = int(datetime.fromisoformat(str(create_form.time.data)).timestamp())
@@ -54,8 +71,9 @@ def submit():
     form = LoginForm()
     challenge = getChallenge(int(submitForm.challenge_id.data)).toDict()
     if challenge["finished"]:
-        # There has to be a better way to communicate that the time has run out other than reloading the page
         return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
+    #if validation errored, this means there is a path failure
+    #Include the submitted path in the return URL, so form stays populated
     pathString = ""
     pathString = challenge["startArticle"] + "|"
     for i in submitForm.path.data:
@@ -65,7 +83,8 @@ def submit():
     if submitForm.validate_on_submit():
         createNewSubmission(current_user.id, challenge["id"], pathString, int(time.time()))
         return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
-    return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, errors=submitForm.errors["path"][0], path=pathString)
+    #submitform["path][0] has been raised as ["article errors", "path errors"]
+    return redirect(url_for('main.view', id=int(submitForm.challenge_id.data), article_errors=submitForm.errors["path"][0][0], path=pathString, path_errors=submitForm.errors["path"][0][1]))
 
 #Challenge view
 #View should always include an id parameter
@@ -73,7 +92,10 @@ def submit():
 def view():
     checkChallengesCompleted()
     form = LoginForm()
+    submitForm = SubmitForm()
     challenge_id = int(request.args.get("id", default=-1, type=int))
+    if(getChallenge(challenge_id) is None ):
+        return redirect(url_for('main.index'))
     challenge = getChallenge(challenge_id).toDict()
     isFinished = getChallenge(challenge_id).finished
     if current_user.is_anonymous:
@@ -86,12 +108,20 @@ def view():
     isFinished = getChallenge(challenge_id).finished
     
     if isCreator or isFinished:
-        submissions = getSubmissionsByChallenge(challenge_id)
+        submissions = getSubmissionsByChallenge(challenge_id).copy()
+        for s in submissions:
+            s.dt_submit = time.strftime('%d/%m/%Y %I:%M %p', time.localtime(s.dt_submit))
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
     elif isSubmitted:
         submissions = [getSubmissionByChallengeAndCreator(getChallenge(challenge_id).id, current_user.id)]
+        submissions[0].dt_submit = time.strftime('%d/%m/%Y %I:%M %p', time.localtime(submissions[0].dt_submit))
         return render_template('view.html', form=form, submitted=True, challenge=challenge, submissions=submissions)
-    submitForm = SubmitForm()
+    submitted_path = request.args.get("path")
+    article_errors = request.args.get("article_errors")
+    path_errors = request.args.get("path_errors")
+    if(submitted_path is not None):
+        return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge, article_errors=article_errors, path=submitted_path, path_errors=path_errors)
+    
     return render_template('view.html', form=form, submitForm=submitForm, submitted=False, challenge=challenge)
 
 #create account

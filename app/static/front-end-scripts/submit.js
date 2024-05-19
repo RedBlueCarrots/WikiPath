@@ -43,7 +43,11 @@ function addError(error, id) {
     const errorTemplate = $("#errorTemplate").clone();
     errorTemplate.find("div").html(error);
     const errorElem = errorTemplate.html();
-    $("#" + id).parent().parent().after(errorElem);
+    if(id == "pathStart") {
+        $("#" + id).after(errorElem);
+    }else {
+        $("#" + id).parent().parent().append(errorElem);
+    }
 }
 
 function addPreviousPaths(articleList) {
@@ -60,11 +64,19 @@ function addPreviousPaths(articleList) {
 
 }
 
-function addPathErrors(errorList) {
+function addArticleErrors(errorList) {
     //For every non-empty path entry, if its value is in the list of error articles, 
     //add an error message below
     $(".path-entry[value!='']").each(function (index) {
         errorList.includes($(this).attr("value")) && addError($(this).attr("value") + " is not a valid article", $(this).attr("id"));
+    })
+}
+
+function addPathErrors(errorList, otherErrorList) {
+    let path_entries = $("#pathStart").add($(".path-entry[value!='']")).add($("#pathEnd"));
+
+    path_entries.each(function (index) {
+        errorList.includes($(this).attr("value")) && addError($(this).attr("value") + " does not link to " + path_entries.eq(index + 1).attr("value"), $(this).attr("id"));
     })
 }
 
@@ -73,6 +85,8 @@ $("document").ready(function () {
     $("#removePathFormSmall").on("click", removePath);
     let articleList = $("#submitForm").data("path").split("|");
     addPreviousPaths(articleList);
-    const errorList = $("#submitForm").data("errors").split("|");
-    addPathErrors(errorList);
+    const articleErrorList = $("#submitForm").data("article-errors").split("|");
+    const pathErrorList = $("#submitForm").data("path-errors").split("|");
+    addArticleErrors(articleErrorList);
+    addPathErrors(pathErrorList, articleErrorList);
 })

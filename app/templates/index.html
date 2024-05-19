@@ -3,9 +3,10 @@
 
 <div class="mx-5 my-2">
 	<div class="row my-3">
-		<form class="d-flex">
-			<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-			<button class="btn btn-secondary" type="submit">Search</button>
+		<form class="form d-flex" action="{{ url_for('main.search') }}" method="POST">
+			{{ search_form.hidden_tag() }}
+			{{ search_form.search(class="form-control me-2") }}
+			{{ search_form.submit(class="btn btn-secondary") }}
 		</form>
 	</div>
 	<div class="row lead text-center d-none d-md-flex mb-4" id="tableHeader">
@@ -16,7 +17,19 @@
 		<span class="col-md-2">Creator</span>
 		<span class="col-md-2">Time Left</span>
 	</div>
+
+	<div>
+	{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    	{% for message in messages %}
+		<p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+	</div>
 	{% for challenge in challenges %}
+	
+
 	<div class="row cursor-pointer table-row text-center  my-3 py-3"
 		onclick="location.href='{{ url_for('main.view') +'?id='+challenge.id|string}}'">
 		<span class="d-block d-md-none col-md-0 col-6 lead">Challenge Title: </span>
