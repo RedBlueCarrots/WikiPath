@@ -58,7 +58,6 @@ def checkValidPath(pathList):
 				normalized[fromVal] = redir["to"]
 
 		fromList = ""
-		print(normalized)
 		for art in normalized:
 			fromList += normalized[art] + "|"
 		fromList = fromList.strip("|")
@@ -90,7 +89,6 @@ def checkValidPath(pathList):
 				pathReport[pathList[path]] = state
 			#can safely assume the end article is valid, include in the dictionary so nothing breaks later
 			pathReport[pathList[len(pathList)-1]] = VALID
-			print(pathReport)
 	return pathReport
 
 def getNormalized(articles):
@@ -100,7 +98,6 @@ def getNormalized(articles):
 	url += "&titles="+articles
 	url += "&redirects"
 	query = requests.get(url)
-	print(url)
 	return json.loads(query.text)
 
 def checkArticleLink(from_articles):
@@ -114,5 +111,4 @@ def checkArticleLink(from_articles):
 	url += "&pllimit=max"
 	url += "&redirects"
 	query = requests.get(url)
-	print(url)
 	return json.loads(query.text)
