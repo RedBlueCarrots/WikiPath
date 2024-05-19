@@ -73,19 +73,22 @@ def submit():
     if challenge["finished"]:
         # There has to be a better way to communicate that the time has run out other than reloading the page
         return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
+    if submitForm.validate_on_submit():
+        return redirect(url_for('main.view', id=int(submitForm.challenge_id.data), article_errors="", path_errors=""))
     pathString = ""
     pathString = challenge["startArticle"] + "|"
     for i in submitForm.path.data:
         if i.strip() != "":
             pathString += i + "|"
     pathString += challenge["endArticle"]
-    if submitForm.validate_on_submit():
-        path_errors = pathValid(pathString.split("|"))
-        if path_errors == "":
-            createNewSubmission(current_user.id, challenge["id"], pathString, int(time.time()))
-            return redirect(url_for('main.view', id=int(submitForm.challenge_id.data)))
-        return redirect(url_for('main.view', id=int(submitForm.challenge_id.data), article_errors="", path=pathString, path_errors=path_errors))
-    return redirect(url_for('main.view', id=int(submitForm.challenge_id.data), article_errors=submitForm.errors["path"][0], path=pathString, path_errors=""))
+    article_errors=""
+    path_errors=""
+    for errs in submitForm.errors["path"]:
+        if errs.startswith("#"):
+            path_errors=errs.strip("#")
+        else:
+            article_errors=errs
+    return redirect(url_for('main.view', id=int(submitForm.challenge_id.data), article_errors=article_errors, path=pathString, path_errors=path_errors))
 
 #Challenge view
 #View should always include an id parameter
