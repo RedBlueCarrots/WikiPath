@@ -54,7 +54,7 @@ Create a secret key:
 - WINDOWS :
 
   ```
-  setx FLASK_SECRET_KEY='insert_secret_key_here'
+  setx FLASK_SECRET_KEY 'insert_secret_key_here'
   ```
 
 - UNIX :
