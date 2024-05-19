@@ -27,6 +27,10 @@ def getChallenge(post_id):
     challenge = db.session.query(Challenge).filter_by(id=post_id).first()
     return challenge
 
+def getTotalChallengePages():
+    scores = [chal.id for chal in db.session.execute(db.select(Challenge)).scalars()]
+    return math.ceil(len(scores)/10.0)
+
 def getChallengesByPage(pageNum):
     if pageNum < 1:
         pageNum = 1

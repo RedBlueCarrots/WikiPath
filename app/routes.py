@@ -22,7 +22,10 @@ def index(search_string=None):
     if page_num is None:
         page_num = 1
     page_num = int(page_num)
+    total_pages = 1
     if search_string is None:
+        total_pages = getTotalChallengePages()
+        print(total_pages)
         challenges = getChallengesByPage(page_num)
     else:
         challenges = getChallengesByTitleOrCreator(search_string)
@@ -30,7 +33,7 @@ def index(search_string=None):
             flash("Your search did not return any results.")
     for challenge in challenges:
         challengeList.append(challenge.toDict())
-    return render_template('index.html', challenges=challengeList, form=form, search_form=search_form, nav=active_nav)
+    return render_template('index.html', challenges=challengeList, form=form, search_form=search_form, nav=active_nav, current_page=page_num, total_pages=total_pages)
 
 @main.route('/search', methods=['POST'])
 def search():
