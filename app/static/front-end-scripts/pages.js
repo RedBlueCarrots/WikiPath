@@ -4,8 +4,8 @@ $("document").ready(function () {
 	for (let i = 3; i > totalPage; i--) {
 		$(".page-item-"+i).addClass("d-none");
 	}
-	URLvars = location.search.split("?");
-	newPath = "/?"
+	URLvars =  location.search.split("?");
+	newPath = location.pathname+"?"
 	if (URLvars.length === 2) {
 		URLvars = URLvars[1].split("&");
 		for (let i = 0; i < URLvars.length; i++) {

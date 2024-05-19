@@ -10,19 +10,19 @@
 				{{ search_form.submit(class="btn btn-secondary") }}
 			</form>
 		</span>
-		<nav class="col-auto" aria-label="Page navigation example">
+		<nav class="col-auto">
 		  <ul id="pagination" class="pagination justify-content-end" data-page={{current_page}} data-totalpages={{total_pages}}>
 		    <li class="page-item">
-		      <a class="page-link page-link-start" href="#" aria-label="Previous">
-		        <span aria-hidden="true">&laquo;</span>
+		      <a class="page-link page-link-start" href="#">
+		        <span aria-hidden="true">&#8676;</span>
 		      </a>
 		    </li>
 		    <li class="page-item page-item-1"><a class="page-link" href="#">1</a></li>
 		    <li class="page-item page-item-2"><a class="page-link" href="#">2</a></li>
 		    <li class="page-item page-item-3"><a class="page-link" href="#">3</a></li>
 		    <li class="page-item">
-		      <a class="page-link page-link-end" href="#" aria-label="Next">
-		        <span aria-hidden="true">&raquo;</span>
+		      <a class="page-link page-link-end" href="#">
+		        <span aria-hidden="true">&#8677;</span>
 		      </a>
 		    </li>
 		  </ul>
@@ -74,5 +74,5 @@
 
 </div>
 
-<script src="{{ url_for('static',filename='front-end-scripts/index.js') }}"></script>
+<script src="{{ url_for('static',filename='front-end-scripts/pages.js') }}"></script>
 {% endblock %}
