@@ -54,13 +54,15 @@ Create a secret key:
 - WINDOWS :
 
   ```
-  setx FLASK_SECRET_KEY='insert_secret_key_here'
+  setx FLASK_SECRET_KEY 'insert_secret_key_here'
   ```
 
 - UNIX :
   ```
   export FLASK_SECRET_KEY='insert_secret_key_here'
   ```
+
+Refer to the Database section if you don't have a database.
 
 Run the flask app :
 
@@ -78,6 +80,30 @@ flask run -p port_number
 
 Now you can just open the virtual environment and run flask if you want to use the server again.
 
+## Database
+
+Included in the release/main branch is an empty app.db, i.e. an empty database. You can make a new one if you currently don't have a database.
+
+To do so, in the WikiPath directory, enter the flask shell by:
+
+```
+flask shell
+```
+
+Then run:
+
+```
+db.create_all()
+```
+
+Then exit:
+
+```
+exit()
+```
+
+See [here](https://github.com/RedBlueCarrots/WikiPath/pull/64#issuecomment-2101833081) for creating and doing a database migration if you wish to upgrade the database with new models.
+
 ## Testing
 
 Make sure you're in the WikiPath directory and run:
@@ -87,7 +113,8 @@ python3 -m unittest tests/unit.py
 ```
 
 To run selenium tests, make sure webdrivers are installed/downloaded before hand. <br>
-More information on how we got it to run with Firefox on WSL [here](https://github.com/RedBlueCarrots/WikiPath/pull/84).<br>
+More information on how we got it to run with Firefox on WSL [here](https://github.com/RedBlueCarrots/WikiPath/pull/84).
+
 Once installed/downloaded, run:
 
 ```
