@@ -18,8 +18,12 @@ def index(search_string=None):
     active_nav = "play"
     challengeList = []
     search_string = request.args.get("search")
+    page_num = request.args.get("page")
+    if page_num is None:
+        page_num = 1
+    page_num = int(page_num)
     if search_string is None:
-        challenges = Challenge.query.all()
+        challenges = getChallengesByPage(page_num)
     else:
         challenges = getChallengesByTitleOrCreator(search_string)
         if challenges == []:

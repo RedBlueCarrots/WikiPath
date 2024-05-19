@@ -3,6 +3,8 @@ from .utilities import *
 from app import login
 import random
 import string
+from sqlalchemy import func
+import math
 
 @login.user_loader
 def load_user(id):
@@ -24,6 +26,17 @@ def createUser(username, password):
 def getChallenge(post_id):
     challenge = db.session.query(Challenge).filter_by(id=post_id).first()
     return challenge
+
+def getChallengesByPage(pageNum):
+    if pageNum < 1:
+        pageNum = 1
+    scores = [chal.id for chal in db.session.execute(db.select(Challenge)).scalars()]
+    if pageNum > math.ceil(len(scores)/10.0):
+        pageNum = math.ceil(len(scores)/10.0)
+    scores.sort(reverse=False)
+    scores = scores[(pageNum-1)*10:pageNum*10]
+    query = db.session.query(Challenge).filter(Challenge.id.in_(scores))
+    return query.all()
 
 
 def getChallengesByTitleOrCreator(search):
