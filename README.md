@@ -54,7 +54,7 @@ Create a secret key:
 - WINDOWS :
 
   ```
-  setx export FLASK_SECRET_KEY='insert_secret_key_here'
+  setx FLASK_SECRET_KEY='insert_secret_key_here'
   ```
 
 - UNIX :
@@ -86,10 +86,12 @@ Make sure you're in the WikiPath directory and run:
 python3 -m unittest tests/unit.py
 ```
 
-To run selenium tests, run:
+To run selenium tests, make sure webdrivers are installed/downloaded before hand. <br>
+More information on how we got it to run with Firefox on WSL [here](https://github.com/RedBlueCarrots/WikiPath/pull/84).<br>
+Once installed/downloaded, run:
 
 ```
-python3 -m unittest selenium/unit.py
+python -m unittest tests/selenium.py
 ```
 
-Note that selenium tests will not work in windows.
+Note that we could not get the selenium tests to work on Windows.
