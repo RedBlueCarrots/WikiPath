@@ -96,6 +96,10 @@ class SeleniumTests(TestCase):
 		submit = self.driver.find_element(by=By.ID, value="submit")
 		submit.click()
 
+	def view_challenge(self):
+		view_challenge_button = self.driver.find_element(by=By.ID, value="title")
+		view_challenge_button.click()
+
 
 	def create_and_login(self):
 		# self.driver.implicitly_wait(10)
@@ -111,6 +115,21 @@ class SeleniumTests(TestCase):
 
 	def create_and_view_challenge(self):
 		self.create_challenge()
+		title = self.driver.find_element(by=By.ID, value="title")
+		self.assertEqual(title.text, "Test Title")
+		start = self.driver.find_element(by=By.ID, value="start")
+		self.assertEqual(start.text, "Left")
+		end = self.driver.find_element(by=By.ID, value="end")
+		self.assertEqual(end.text, "Right")
+		guesses = self.driver.find_element(by=By.ID, value="guesses")
+		self.assertEqual(guesses.text, "0")
+		creator = self.driver.find_element(by=By.ID, value="creator")
+		self.assertEqual(creator.text, "TestingUsername")
+		# really difficult to check the time remaining as it's constantly changing
+		time = self.driver.find_element(by=By.ID, value="time")
+		self.assertNotEqual(time.text, "Finished")
+		# self.view_challenge()
+
 
 	def test_overall_functionality(self):
 		self.create_and_login()
