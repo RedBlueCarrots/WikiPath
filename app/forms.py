@@ -8,13 +8,19 @@ MISSING = 1
 INVALID = 2
 
 def pathValid(form, field):
+    #Add the start and end articles to the list, because needed for path verification
     challenge = getChallenge(int(form.challenge_id.data)).toDict()
     data = field.data.copy()
     data.insert(0, challenge["startArticle"])
     data.append(challenge["endArticle"])
+    #Will return a dictionary, with pathIndo["article"] = VALID or MISSING or INVALID
     pathInfo = checkValidPath(data)
+    if pathInfo == {}:
+        raise ValidationError("WIKI API CALL FAILED")
+    # [article errors, path errors]
     errorsStrings = ["", ""]
     for article in pathInfo:
+        #if path is not VALID, append to respective error string
         if pathInfo[article] != VALID:
             errorsStrings[pathInfo[article]-1] += article + "|"
     errorsStrings[0] = errorsStrings[0].strip("|")

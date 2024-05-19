@@ -76,7 +76,7 @@ function addPathErrors(errorList, otherErrorList) {
     let path_entries = $("#pathStart").add($(".path-entry[value!='']")).add($("#pathEnd"));
 
     path_entries.each(function (index) {
-        errorList.includes($(this).attr("value")) && !otherErrorList.includes($(this).attr("value")) && addError($(this).attr("value") + " does not link to " + path_entries.eq(index + 1).attr("value"), $(this).attr("id"));
+        errorList.includes($(this).attr("value")) && addError($(this).attr("value") + " does not link to " + path_entries.eq(index + 1).attr("value"), $(this).attr("id"));
     })
 }
 
