@@ -27,7 +27,7 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password + self.password_salt)
     
     def __repr__(self):
-        return f'User({self.id}, "{self.username}", {self.points}, "{self.password_hash}")'
+        return f'User({self.id}, "{self.username}", {self.WikiAura}, "{self.password_hash}")'
 
 class Challenge(db.Model):
     id = db.Column(db.Integer, primary_key=True)

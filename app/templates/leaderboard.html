@@ -27,11 +27,11 @@
 		<span class="col-md-3">WikiAura</span>
 	</div>
 	{% for user in users %}
-	<div class="row cursor-pointer table-row text-center  my-3 py-3">
+	<div class="row user-table-row {% if user.username == current_username %} active {% endif %} text-center  my-3 py-3">
 		<span class="d-block d-md-none col-md-0 col-6 lead">Rank: </span>
 		<span class="col-md-3 col-6">{{user.rank}}</span>
 		<span class="d-block d-md-none col-md-0 col-6 lead">Username: </span>
-		<span class="col-md-6 col-6">{{user.username}}</span>
+		<span class="username-col col-md-6 col-6">{{user.username}}</span>
 		<span class="d-block d-md-none col-md-0 col-6 lead">WikiAura: </span>
 		<span class="col-md-3 col-6">{{user.WikiAura}}</span>
 	</div>
