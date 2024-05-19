@@ -53,7 +53,6 @@ def getChallengesByTitleOrCreator(search, pageNum):
     challenges = list(dict.fromkeys(challenges))
     if pageNum > math.ceil(len(challenges)/10.0):
         pageNum = math.ceil(len(challenges)/10.0)
-    print(len(challenges))
     return [challenges[(pageNum-1)*10:pageNum*10], math.ceil(len(challenges)/10.0)]
 
 def getSubmission(submission_id):

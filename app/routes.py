@@ -182,13 +182,19 @@ def logout():
 def leaderboard():
     form = LoginForm()
     userList = []
-    users = db.session.execute(db.select(User).order_by(User.WikiAura)).scalars()
+    users = [usr for usr in db.session.execute(db.select(User).order_by(User.WikiAura.desc())).scalars()]
     scores = [usr.WikiAura for usr in db.session.execute(db.select(User)).scalars()]
     scores.sort(reverse=True)
+    page_num = request.args.get("page")
+    if page_num is None:
+        page_num = 1
+    page_num = int(page_num)
+    total_pages = math.ceil(len(users)/10.0);
+    users = users[(page_num-1)*10:page_num*10]
     for user in users:
         userList.append({})
         userList[-1]["rank"] = scores.index(user.WikiAura) + 1
         userList[-1]["username"] = user.username
         userList[-1]["WikiAura"] = user.WikiAura
     active_nav = "leaderboard"
-    return render_template('leaderboard.html', users=userList, form=form, nav=active_nav)
+    return render_template('leaderboard.html', users=userList, form=form, nav=active_nav, current_page = page_num, total_pages=total_pages)
