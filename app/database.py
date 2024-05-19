@@ -43,13 +43,18 @@ def getChallengesByPage(pageNum):
     return query.all()
 
 
-def getChallengesByTitleOrCreator(search):
+def getChallengesByTitleOrCreator(search, pageNum):
+    if pageNum < 1:
+        pageNum = 1
     users = db.session.query(User).filter(User.username.icontains(search)).all()
     ids = [user.id for user in users]
     challenges = db.session.query(Challenge).filter(Challenge.title.icontains(search)).all()
     challenges = challenges + db.session.query(Challenge).filter(Challenge.creator_id.in_(ids)).all()
     challenges = list(dict.fromkeys(challenges))
-    return challenges
+    if pageNum > math.ceil(len(challenges)/10.0):
+        pageNum = math.ceil(len(challenges)/10.0)
+    print(len(challenges))
+    return [challenges[(pageNum-1)*10:pageNum*10], math.ceil(len(challenges)/10.0)]
 
 def getSubmission(submission_id):
     submission = db.session.query(Submission).filter_by(id=submission_id).first()

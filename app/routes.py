@@ -25,10 +25,11 @@ def index(search_string=None):
     total_pages = 1
     if search_string is None:
         total_pages = getTotalChallengePages()
-        print(total_pages)
         challenges = getChallengesByPage(page_num)
     else:
-        challenges = getChallengesByTitleOrCreator(search_string)
+        challenges = getChallengesByTitleOrCreator(search_string, page_num)
+        total_pages = challenges[1]
+        challenges = challenges[0]
         if challenges == []:
             flash("Your search did not return any results.")
     for challenge in challenges:
