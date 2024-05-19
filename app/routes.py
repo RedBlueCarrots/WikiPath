@@ -197,4 +197,7 @@ def leaderboard():
         userList[-1]["username"] = user.username
         userList[-1]["WikiAura"] = user.WikiAura
     active_nav = "leaderboard"
-    return render_template('leaderboard.html', users=userList, form=form, nav=active_nav, current_page = page_num, total_pages=total_pages)
+    cur_usr = ""
+    if not current_user.is_anonymous:
+        cur_usr = current_user.username
+    return render_template('leaderboard.html', users=userList, form=form, nav=active_nav, current_page = page_num, total_pages=total_pages, current_username=cur_usr)

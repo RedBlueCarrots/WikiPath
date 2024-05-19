@@ -53,6 +53,19 @@ body {
   }
 }
 
+.user-table-row {
+  background-color: transparent;
+  border-radius: 10px;
+  border: solid 1px var(--primary);
+}
+
+.user-table-row.active{
+  background-color: var(--primary);
+  border-radius: 10px;
+  border: solid 1px var(--primary);
+}
+
+
 #pagination, .page-link  {
   transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
   background-color: transparent;
