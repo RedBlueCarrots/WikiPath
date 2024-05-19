@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, FieldList, HiddenField, DateTimeLocalField
 from wtforms.validators import DataRequired, ValidationError
 from .wikipedia import *
+from .database import *
 
 def articlesExist(form, field):
     errorsString = ""
@@ -14,14 +15,20 @@ def articlesExist(form, field):
     if errorsString != "":
         raise ValidationError(errorsString)
     
-def pathValid(full_path):
-    pathInfo = checkValidPath(full_path)
-    errorsString = ""
+def pathValid(form, field):
+    challenge = getChallenge(int(form.challenge_id.data)).toDict()
+    data = field.data.copy()
+    data.insert(0, challenge["startArticle"])
+    data.append(challenge["endArticle"])
+    pathInfo = checkValidPath(data)
+    errorsString = "#"
     for article in pathInfo:
+        print(article, pathInfo[article])
         if not pathInfo[article]:
             errorsString += article + "|"
     errorsString = errorsString.strip("|")
-    return errorsString
+    if errorsString != "#":
+        raise ValidationError(errorsString)
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -31,7 +38,7 @@ class LoginForm(FlaskForm):
     create_account = SubmitField('Create Account')
     
 class SubmitForm(FlaskForm):
-    path = FieldList(StringField('Path'), min_entries=1, max_entries=50, validators=[articlesExist])
+    path = FieldList(StringField('Path'), min_entries=1, max_entries=50, validators=[articlesExist, pathValid])
     challenge_id = HiddenField()
     
 
