@@ -3,6 +3,8 @@ from .utilities import *
 from app import login
 import random
 import string
+from sqlalchemy import func
+import math
 
 @login.user_loader
 def load_user(id):
@@ -25,14 +27,33 @@ def getChallenge(post_id):
     challenge = db.session.query(Challenge).filter_by(id=post_id).first()
     return challenge
 
+def getTotalChallengePages():
+    scores = [chal.id for chal in db.session.execute(db.select(Challenge)).scalars()]
+    return math.ceil(len(scores)/10.0)
 
-def getChallengesByTitleOrCreator(search):
+def getChallengesByPage(pageNum):
+    if pageNum < 1:
+        pageNum = 1
+    scores = [chal.id for chal in db.session.execute(db.select(Challenge)).scalars()]
+    if pageNum > math.ceil(len(scores)/10.0):
+        pageNum = math.ceil(len(scores)/10.0)
+    scores.sort(reverse=False)
+    scores = scores[(pageNum-1)*10:pageNum*10]
+    query = db.session.query(Challenge).filter(Challenge.id.in_(scores))
+    return query.all()
+
+
+def getChallengesByTitleOrCreator(search, pageNum):
+    if pageNum < 1:
+        pageNum = 1
     users = db.session.query(User).filter(User.username.icontains(search)).all()
     ids = [user.id for user in users]
     challenges = db.session.query(Challenge).filter(Challenge.title.icontains(search)).all()
     challenges = challenges + db.session.query(Challenge).filter(Challenge.creator_id.in_(ids)).all()
     challenges = list(dict.fromkeys(challenges))
-    return challenges
+    if pageNum > math.ceil(len(challenges)/10.0):
+        pageNum = math.ceil(len(challenges)/10.0)
+    return [challenges[(pageNum-1)*10:pageNum*10], math.ceil(len(challenges)/10.0)]
 
 def getSubmission(submission_id):
     submission = db.session.query(Submission).filter_by(id=submission_id).first()

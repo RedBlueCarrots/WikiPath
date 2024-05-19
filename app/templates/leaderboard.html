@@ -2,11 +2,24 @@
 {% block content %}
 
 <div class="mx-5 my-2">
-	<div class="row my-3">
-		<form class="d-flex">
-			<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-			<button class="btn btn-secondary" type="submit">Search</button>
-		</form>
+	<div class="row my-3 justify-content-end">
+		<nav class="col-auto">
+		  <ul id="pagination" class="pagination justify-content-end" data-page={{current_page}} data-totalpages={{total_pages}}>
+		    <li class="page-item">
+		      <a class="page-link page-link-start" href="#">
+		        <span aria-hidden="true">&#8676;</span>
+		      </a>
+		    </li>
+		    <li class="page-item page-item-1"><a class="page-link" href="#">1</a></li>
+		    <li class="page-item page-item-2"><a class="page-link" href="#">2</a></li>
+		    <li class="page-item page-item-3"><a class="page-link" href="#">3</a></li>
+		    <li class="page-item">
+		      <a class="page-link page-link-end" href="#">
+		        <span aria-hidden="true">&#8677;</span>
+		      </a>
+		    </li>
+		  </ul>
+		</nav>
 	</div>
 	<div class="row lead text-center d-none d-md-flex mb-4" id="tableHeader">
 		<span class="col-md-3">Rank</span>
@@ -24,4 +37,6 @@
 	</div>
 	{% endfor %}
 </div>
+
+<script src="{{ url_for('static',filename='front-end-scripts/pages.js') }}"></script>
 {% endblock %}
